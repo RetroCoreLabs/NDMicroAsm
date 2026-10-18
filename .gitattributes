@@ -3,3 +3,6 @@
 *.CODE binary
 *.png binary
 *.ico binary
+# PROM dumps in the prom.hex text format are compared byte for byte against what the assembler
+# writes (LF line ends), so they must never be converted on checkout.
+*.hex -text
