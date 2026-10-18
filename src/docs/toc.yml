@@ -1,0 +1,6 @@
+# The Guides section of the DocFX site (src/docfx). Every hand-written document in this folder,
+# plus the README of the NORD-10 reference PROM dumps, which lives next to the dumps.
+- name: The assemblers in detail
+  href: ND500-ND5000-Assemblers.md
+- name: NORD-10 reference PROM dumps
+  href: ../NDMicroAsm/microcode/NORD-10/REFERENCE/README.md

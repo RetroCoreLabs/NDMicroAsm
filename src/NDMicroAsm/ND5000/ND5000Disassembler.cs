@@ -85,9 +85,9 @@ namespace NDMicroAsm.ND5000
 
             // --- Operands ---------------------------------------------------
             EmitField(m, word, "OR_ENABLE");
-            EmitField(m, word, "A_OP");         // A,LARG/A,SARG/A,MARG come out as plain tokens;
-                                                // their argument bits are covered by the raw
-                                                // ABS_ADDR/AA/AB/SCAL/ORCON emission below
+            // A,LARG/A,SARG/A,MARG come out as plain tokens; their argument bits are covered by
+            // the raw ABS_ADDR/AA/AB/SCAL/ORCON emission below
+            EmitField(m, word, "A_OP");
             EmitField(m, word, "B_OP");
             EmitField(m, word, "DEST");         // 24 = D,NOOP token (nonzero default)
 

@@ -24,7 +24,7 @@
     "content": [
       { "files": [ "api/**.yml", "api/index.md" ] },
       { "files": [ "*.md", "toc.yml" ] },
-      { "files": [ "docs/**.md", "docs/**/toc.yml" ] }
+      { "files": [ "docs/**.md", "docs/toc.yml", "NDMicroAsm/microcode/NORD-10/REFERENCE/README.md" ], "src": ".." }
     ],
     "resource": [ { "files": [ "images/**" ] } ],
     "output": "_site",

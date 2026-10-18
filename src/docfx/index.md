@@ -12,6 +12,14 @@ command-line tool, `ndmicroasm`:
 - **ND-5000**: 128-bit micro words in eight 16-bit parts. All 13 preserved micro code images
   round-trip bit for bit.
 
+Start here:
+
+- [The assemblers in detail](../docs/ND500-ND5000-Assemblers.md) - the source dialect, the
+  output formats and the round-trip proof of each assembler.
+- [NORD-10 reference PROM dumps](../NDMicroAsm/microcode/NORD-10/REFERENCE/README.md) - the two
+  real ROM dumps the NORD-10 assembler must reproduce, and where they come from.
+- [API reference](api/index.md) - every namespace, class and member.
+
 Every assembler writes its outputs next to the source: the control store image (`.CODE`, plus
 `.hex` for the NORD-10), a listing, a symbol file and a details file.
 
