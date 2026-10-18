@@ -1,0 +1,11 @@
+Labels, sorted by address
+=========================
+
+000001=START
+002000=SUB1
+
+Labels, sorted by name
+======================
+
+START=000001
+SUB1=002000

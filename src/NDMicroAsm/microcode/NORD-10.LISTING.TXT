@@ -1,0 +1,1225 @@
+    1                  %   NORD-10 MICROPROGRAM  -  standard 1k x 32 bit ROM
+    2                  %
+    3                  %   This is the micro program listed in ND-06.010.01 "NORD-10/S MICROPROGRAM",
+    4                  %   section 3.4, in the form the listing prints it: address column, label,
+    5                  %   MICMAC mnemonics, comment. The labels, the comment text and the order of
+    6                  %   the mnemonics on each line were read from the listing pages of that
+    7                  %   manual. The bits are the truth of the PROM dump NORD-10-REFERENCE/NORD-10-1K-prom.hex:
+    8                  %   every line assembles to exactly the word the dump holds
+    9                  %   (TestND110/TestND10RoundTrip.cs checks that), and where the page could
+   10                  %   not be read with certainty the line carries the disassembler's mnemonics
+   11                  %   for the dump word instead, which name the same bits.
+   12                  %
+   13                  %   Two words of the dump are not what the listing prints:
+   14                  %     1064  the dump has bit 28 set (written here as the octal constant
+   15                  %           2000000000); the listing and the 4k ROM read IARM PLUS
+   16                  %     1774  the listing labels this word MCLS, a name the listing also gives
+   17                  %           to 0331 (the one the code jumps to); it stays a comment here
+   18                  %
+   19                  %   Notation: "->" stands for the arrow of the listing, "ΔH" is the
+   20                  %   sign-extended low byte of H. A bare octal number ORs into the word.
+   21                  %
+   22  0000  80000302  0000          JMP 1402                          %STOP
+   23  0001  80000301  0001          JMP 1401                          %MASTER CLEAR
+   24                  
+   25                  0002  %ROUTINE TO CONVERT FROM FLOATING NUMBER IN T,A,D-REG,
+   26                  0002  %TO INTEGER NUMBER IN A-REG
+   27                  0002  %D-REG AND T-REG IS SET TO ZERO
+   28  0002  03000569  0002  DNZC,   ARM PLUS A,DH B,T D,A             %T + ΔH -> A
+   29  0003  03004FA5  0003          ARM PLUS D,SS B,B4 A,A            %A + 20 -> SS
+   30  0004  3D00E0AF  0004          LOGM AND B,B16 A,SS               %TEST BIT 16 IN SS-REG
+   31  0005  80008177  0005          CJMP ZERO ZTAD                    %JMP IF OVERFLOW
+   32  0006  3D00E1A5  0006          LOGM AND D,D B,B16 A,A            %TEST BIT 16 IN A-REG
+   33  0007  8000C0E3  0007          CJMP NZERO FETCZ                  %JMP IF OVERFLOW
+   34  0010  35000B05  0010          LOGM ADIR A,A D,SC                %SET SHIFTCOUNT
+   35  0011  C000C000  0011          LOOP SHR SHZE TSC0                %SHIFT RIGHT TO SC = 0
+   36  0012  3F000590  0012          LOGM BDIR B,SH D,A                %SH -> A
+   37  0013  3F000060  0013          LOGM BDIR B,T                     %TEST SIGN
+   38  0014  1D00D505  0014          CARM SNEG BMINA A,A B,Z D,A       %INVERT IF SIGN NEG
+   39  0015  35600600  0015          LOGM CFC ADIR A,Z D,T             %0 -> T, FETCH
+   40  0016  01400270  0016  SRB,    ARM BM1 B,X D,P CPTR              %STORE BLOCK, X -1 -> CP
+   41  0017  3500020E  0017          LOGM ADIR D,P A,SP                %UNSAVE CP
+   42  0020  7503800E  0020          ILOGM ADIR ORIN2 A,SP             %READ SP SPES, LEV
+   43  0021  2180000E  0021          LOGM CWR1 A,SP                    %STORE SP
+   44  0022  75038007  0022          ILOGM ADIR ORIN2 A,X              %READ X
+   45  0023  0180000E  0023          ARM CWR1 A,SP
+   46  0024  75038006  0024          ILOGM ADIR ORIN2 A,T              %READ T
+   47  0025  0180000E  0025          ARM CWR1 A,SP
+   48  0026  75038005  0026          ILOGM ADIR ORIN2 A,A              %READ A
+   49  0027  0180000E  0027          ARM CWR1 A,SP
+   50  0030  75038001  0030          ILOGM ADIR A,D ORIN2              %READ D
+   51  0031  0180000E  0031          ARM CWR1 A,SP
+   52  0032  75038004  0032          ILOGM ADIR ORIN2 A,L              %READ L
+   53  0033  0180000E  0033          ARM CWR1 A,SP
+   54  0034  75038008  0034          ILOGM ADIR ORIN2 A,S              %READ STATUS
+   55  0035  0180000E  0035          ARM CWR1 A,SP
+   56  0036  75038003  0036          ILOGM ADIR ORIN2 A,B              %READ B
+   57  0037  2180000E  0037          LOGM CWR1 A,SP
+   58  0040  01600000  0040          ARM BM1 CFC                       %FETCH
+   59  0041  3500020D  0041  MINC,   LOGM ADIR A,R D,P                 %R -> CP
+   60  0042  01000220  0042          ARM BM1 B,P D,P                   %CP -1 -> CP
+   61  0043  1B400C0B  0043          ARM CPTR PLUS ADD1 A,H B,Z D,SCR  %CP -> R  H + 1 -> SCR
+   62  0044  3E80029C  0044          LOGL CWR1 BDIR A,SCR B,SH D,P     %SCR -> (R + 1), SH(L) -> CP
+   63  0045  1B608202  0045          CARM ZERO CFC PLUS ADD1 A,P B,Z D,P %CP + 1 -> CP
+   64  0046  2B070000  0046  SWPCC,  LOGM ADIRC ORSW3                  %ZERO:CP + 1 -> CP
+   65  0047  35040E00  0047  SWPC,   LOGM ADIR ORSKP D,SP              %REG -> REG (ONE'COMPL)
+   66  0050  07070000  0050          ARM ORSW3 BDI
+   67  0051  3566F00E  0051          LOGM CFC ORSW2 COND CO17 ADIR A,SP
+   68                  
+   69                  0052  %ROUTINE TO CONVERT FROM INTEGER TO FLOATING NUMBER
+   70                  0052  %INTEGER IN A-REG, FLOATING IN T, A, D-REG
+   71  0052  35000905  0052  NLZC,   LOGM ADIR A,A D,SH                %A -> SH
+   72  0053  80008177  0053          CJMP ZERO ZTAD                    %RESULT ZERO IF A = 0
+   73  0054  0200E6A9  0054          ARL B,B16 PLUS A,DH D,T           %40000 + H (0-7) -> T, T -> AC(L)
+   74  0055  8000A030  0055          CJMP POS *3
+   75  0056  0200F6A6  0056          ARL B,B17 PLUS A,T D,T            %SET SIGN BIT, T -> AC(L)
+   76  0057  1D000905  0057          ARM B,Z BMINA A,A D,SH            %-A -> SH IF A < 0
+   77  0060  1F004BA0  0060          ARM BDIR B,B4 D,SC                %20 -> SC
+   78  0061  C00040B8  0061          LOOP B,AC BM1 SHZE TSH31          %SHIFT LEFT TO SH31 = 1
+   79  0062  3E0006B0  0062          LOGL BDIR B,AC D,T                %AC -> T
+   80  0063  3F600590  0063          LOGM BDIR B,SH D,A CFC            %SH -> A, FETCH
+   81  0064  35000007  0064  LDBC,   LOGM ADIR A,X                     %X -> AC
+   82  0065  010009C0  0065          ARM BM1 B,HAC D,SH                %1/2*AC -1 -> SH
+   83  0066  03400296  0066          ARM CPTR PLUS A,T B,SH D,P        %T + SH -> CP, CP -> R
+   84  0067  35C0020E  0067          LOGM CRR1 ADIR A,SP D,P           %(R + 1) -> H, SP -> CP
+   85  0070  3D0000A7  0070          LOGM AND A,X B,B0                 %TEST LEFT RIGHT
+   86  0071  8000803C  0071          CJMP ZERO LEFT
+   87  0072  010089A0  0072          ARM B,B10 D,SH                    %377 -> SH
+   88  0073  3D60059B  0073          LOGM CFC AND A,H B,SH D,A         %BYTE -> A-REG, FETCH
+   89  0074  01003BA0  0074  LEFT,   ARM BM1 D,SC B,B3                 %7 -> SC
+   90  0075  0300000B  0075          ARM PLUS A,H                      %H -> AC
+   91  0076  C630C0C0  0076          LOOP BDI BDIA SHR SHZE B,HAC TSC0
+   92  0077  3F6005C0  0077          LOGM BDIR CFC D,A B,HAC           %BYTE -> A-REG, FETCH
+   93  0100  01A00000  0100          ARM CW A,Z                        %STZ, ZERO -> EFFECTIVE ADDRESS
+   94  0101  01600000  0101  FETCH,  ARM CFC                           %FETCH REQUEST
+   95  0102  01A00005  0102          ARM CW A,A                        %STA, A-REG -> EA
+   96  0103  01600000  0103          ARM CFC                           %FETCH
+   97  0104  01A00006  0104          ARM CW A,T                        %STT, T-REG, -> EA
+   98  0105  01600000  0105          ARM CFC                           %FETCH
+   99  0106  01A00007  0106          ARM CW A,X                        %STX, X-REG -> EA
+  100  0107  01600000  0107          ARM CFC                           %FETCH
+  101  0110  01A00005  0110          ARM CW A,A                        %STD, A-REG -> EA
+  102  0111  80000076  0111          JMP STDC
+  103  0112  01E00000  0112          ARM CR                            %LDD, (EA) -> H
+  104  0113  800000DE  0113          JMP LDDC
+  105  0114  01A00006  0114          ARM CW A,T                        %STF, T-REG -> EA
+  106  0115  80000075  0115          JMP STFC                          %JUMP TO CONTINUE STF
+  107  0116  01E00000  0116          ARM CR                            %LDF, READ REQUEST
+  108  0117  800000DD  0117          JMP LDFC
+  109  0120  34E00902  0120          LOGL CR ADIR A,P D,SH             %MIN, CP -> SH          READ MEMORY
+  110  0121  80000021  0121          JMP MINC
+  111  0122  01E00000  0122          ARM CR                            %LDA, (EA) -> H
+  112  0123  3560050B  0123          LOGM CFC ADIR A,H D,A             %H -> A, FETCH REQUEST
+  113  0124  01E00000  0124          ARM CR                            %LDT, (EA) -> H
+  114  0125  3560060B  0125          LOGM CFC ADIR A,H D,T             %H -> T, FETCH REQUEST
+  115  0126  01E00000  0126          ARM CR                            %LDX, (EA) -> H
+  116  0127  3560070B  0127          LOGM CFC ADIR A,H D,X             %H -> X, FETCH REQUEST
+  117  0130  01E00000  0130          ARM CR                            %ADD, (EA) -> H
+  118  0131  0368055B  0131          ARM CFC PLUS SACO A,H B,A D,A     %H + A -> A, FETCH
+  119  0132  01E00000  0132          ARM CR                            %SUB, (EA) -> H
+  120  0133  1D68055B  0133          ARM CFC BMINA SACO A,H B,A D,A    %A - H -> A, FETCH
+  121  0134  01E00000  0134          ARM CR                            %AND, (EA) -> H
+  122  0135  3D60055B  0135          LOGM CFC AND A,H B,A D,A          %A · H -> A, FETCH
+  123  0136  01E00000  0136          ARM CR                            %ORA, (EA) -> H
+  124  0137  3760055B  0137          LOGM CFC OR A,H B,A D,A           %A + H -> A, FETCH
+  125  0140  310018A8  0140  FAD,    LOGM ANDCB B,B1 A,S D,S           %STARTADD. FAD, RESET "TG"
+  126  0141  8000012C  0141          JMP FADC
+  127  0142  310018A8  0142  FSB,    LOGM ANDCB B,B1 A,S D,S           %START FSB, RESET "TG"
+  128  0143  80000129  0143          JMP FSBC
+  129  0144  310018A8  0144  FMU,    LOGM ANDCB B,B1 A,S D,S           %START FMU, RESET "TG"
+  130  0145  8000017A  0145          JMP FMUC
+  131  0146  310018A8  0146  FDV,    LOGM ANDCB B,B1 A,S D,S           %START FDV, RESET "TG"
+  132  0147  80000191  0147          JMP FDVC
+  133  0150  3F004BA0  0150  MPY,    LOGM BDIR B,B4 D,SC               %START MPY, SET SHIFTCOUNTER
+  134  0151  800001EB  0151          JMP MPYC
+  135  0152  01200000  0152          ARM CEATR                         %JMP, EA -> R
+  136  0153  3560020D  0153          LOGM CFC ADIR A,R D,P             %R -> CP, (R) -> H, IR
+  137  0154  310300A0  0154  KONE2,  LOGM ANDCB B,BM ORBW              %0 -> SPECIFIED BIT
+  138  0155  376028A8  0155          LOGM CFC OR B,B2 A,S D,S          %1 -> K, FETCH
+  139  0156  35200402  0156          LOGM CEATR ADIR A,P D,L           %JPL, EA -> R, CP -> L
+  140  0157  3560020D  0157          LOGM CFC ADIR A,R D,P             %R -> CP, (R) -> H, IR
+  141  0160  35040E00  0160  EXEC,   LOGM ADIR ORSKP D,SP              %REG -> SP
+  142  0161  33000FBB  0161          LOGM EXOR A,H B,AC D,SS           %TEST EXEC. INSTR IN REG
+  143  0162  3100009F  0162          LOGM ANDCB A,SS B,SH
+  144  0163  800080E3  0163          CJMP ZERO FETCZ                   %JMP IF EXECUT INSTR IN REG
+  145  0164  01000ACE  0164          ARM A,SP B,IR D,IO                %INSTRUC. -> IR
+  146  0165  01800005  0165  STFC,   ARM BM1 CWR1 A,A                  %A -> (R + 1)
+  147  0166  01800001  0166  STDC,   ARM CWR1 A,D                      %D -> (R + 1)
+  148  0167  01600000  0167          ARM CFC
+  149  0170  90000102  0170  IOT,    JMP PRIV IOTC                     %JMP IOT CONTINUE
+  150  0171  3E600190  0171  FETC1,  LOGL CFC BDIR B,SH D,D            %SH(L) -> D, FETCH
+  151  0172  35000AE5  0172  IOX,    LOGM ADIR A,A BIO D,IO            %A-REG -> IO-BUS
+  152  0173  210000EA  0173          LOGM A,IO BIO                     %IO-BUS -> H-REG
+  153  0174  3560050B  0174          LOGM CFC ADIR A,H D,A             %H-REG -> A-REG FETCH
+  154  0175  C0041400  0175  SADC,   LOOP ORSHT SH32 TSC0              %SHIFT, TERM:SC = 0
+  155  0176  3F000590  0176          LOGM BDIR B,SH D,A                %SH -> A
+  156  0177  3E600190  0177          LOGL CFC BDIR B,SH D,D            %SH(L) -> D, FETCH
+  157  0200  1D040000  0200          ARM BMINA ORSKP                   %SKP
+  158  0201  1B648220  0201          CARM ORSKP PLUS ADD1 CFC A,Z B,P D,P %TRUE CP + 1 -> CP, FETCH
+  159  0202  3E6001D0  0202          LOGL BDIR CFC D,D B,2AC           %2AC(L) -> D
+  160  0203  010069A0  0203          ARM BM1 D,SH B,B6                 %EXECUTE, GENERATE MASK
+  161  0204  80000070  0204          JMP EXEC
+  162  0205  35040E00  0205  RMPY,   LOGM ADIR ORSKP D,SP              %FIRST OPERAND -> SP , REGISTER MULTIPLY
+  163  0206  800001B1  0206          JMP MPYDC
+  164  0207  3F004BA0  0207  RDIV,   LOGM BDIR B,B4 D,SC               %20 - SC, REGISTER DIVIDE
+  165  0210  800001BF  0210          JMP RDIVC
+  166  0211  35000E02  0211  LDB,    LOGM ADIR A,P D,SP                %LOAD BYTE, CP -> SP
+  167  0212  80000034  0212          JMP LDBC
+  168  0213  35000E02  0213  STB,    LOGM ADIR A,P D,SP                %STORE BYTE, SAVE CP REG
+  169  0214  80000114  0214          JMP STBC
+  170  0215  00000C50  0215  MPX3,   ARL BM1 B,A D,SCR                 %INSTR:(A-1) * 3 -> SCRA -> AC
+  171  0216  026007DC  0216          ARL CFC PLUS A,SCR B,2AC D,X      %2 · AC + SCR -> SCR
+  172  0217  8000007A  0217          JMP IOX                           %IDENT
+  173  0220  80000027  0220          JMP SWPC                          %SWAP
+  174  0221  80000026  0221          JMP SWPCC                         %SWAP CM1
+  175  0222  3D650000  0222          LOGM CFC AND ORROP                %RAND, D · S -> D
+  176  0223  3B650000  0223          LOGM CFC ANDCA ORROP              %RAND CM1, D · S' -> D
+  177  0224  33650000  0224          LOGM CFC EXOR ORROP               %REXO, DVS -> D
+  178  0225  2D650000  0225          LOGM CFC EXORC ORROP              %REXO CM1, DVS' -> D
+  179  0226  37650000  0226          LOGM CFC OR ORROP                 %RORA, D + S -> D
+  180  0227  2F650000  0227          LOGM CFC ORCA ORROP               %OR CM1, D + S' -> D
+  181  0230  036D0000  0230          ARM CFC PLUS ORROP SACO           %RADD, COPY, EXIT, RCLR, D + S -> D
+  182  0231  056D0000  0231          ARM CFC BMAM1 ORROP SACO          %RADD CM1, D - S - 1 -> D, RDCR
+  183  0232  1B6D0000  0232          ARM CFC PLUS ADD1 ORROP SACO      %RADD AD1, D + S + 1 -> D, RINC
+  184  0233  1D6D0000  0233          ARM CFC BMINA ORROP SACO          %RADD AD1 CM1, D - S -> D  RSUB
+  185  0234  0B6D0000  0234          ARM PLUS ADDC CFC SACO ORROP      %RADD ADC, D + S + C -> D
+  186  0235  0D6D0000  0235          ARM CFC BMAM1 ADDC ORROP SACO     %RADD ADC CM1, D - S - 1 + C -> D
+  187  0236  1B6D0000  0236          ARM CFC PLUS ADD1 ORROP SACO      %RADD AD1 ADC, D + S + 1 -> D
+  188  0237  1D6D0000  0237          ARM CFC BMINA ORROP SACO          %RADD AD1 ADC CM1, D - S -> D
+  189  0240  3D0060AB  0240  MISS,   LOGM AND A,H B,B6                 %MST, MCL, TRA, TRR, TEST BIT 6
+  190  0241  900000D0  0241          JMP PRIV TTMMC
+  191  0242  90000221  0242  IIPP,   JMP PRIV CIIPP                    %IOF, ION, PON, POF
+  192  0243  00000000  0243          0
+  193  0244  0100006A  0244  WAIT,   ARM A,IO B,PID                    %READ PID
+  194  0245  900001FA  0245          JMP PRIV WAITC
+  195  0246  3F000100  0246  NLZ,    LOGM BDIR B,Z D,D                 %START NLZ, 0 -> D
+  196  0247  8000002A  0247          JMP NLZC
+  197  0250  35000905  0250  DNZ,    LOGM ADIR D,SH A,A                %START DNZ, A -> SH
+  198  0251  80000002  0251          JMP DNZC
+  199  0252  35000E02  0252          LOGM ADIR A,P D,SP                %LOAD/STORE REGISTER BLOCK, CP -> SP
+  200  0253  900001D7  0253          JMP PRIV SLRB
+  201  0254  3F004CA0  0254  MON,    LOGM BDIR B,B4 D,SCR              %MONITOR CALL, 4 -> SCR
+  202  0255  800001AC  0255          JMP MONC
+  203  0256  3D0070AB  0256  PUTG,   LOGM AND A,H B,B7                 %TEST IRR, IRW
+  204  0257  900001AF  0257          JMP PRIV PUTGC
+  205  0260  35000B0B  0260          LOGM ADIR A,H D,SC                %SHT, H(0 - 5) -> SC
+  206  0261  35000906  0261          LOGM ADIR A,T D,SH                %T -> SH
+  207  0262  C0040400  0262          LOOP ORSHT TSC0                   %SHIFT TO SC = 0
+  208  0263  3F600690  0263          LOGM CFC BDIR B,SH D,T            %SH -> T, (R) -> H, IR
+  209  0264  35000B0B  0264          LOGM ADIR A,H D,SC                %SHD, H (0 - 5) -> SC
+  210  0265  35000901  0265          LOGM ADIR A,D D,SH                %D -> SH
+  211  0266  C0040400  0266          LOOP ORSHT TSC0                   %SHIFT TO SC = 0
+  212  0267  3F600190  0267          LOGM CFC BDIR B,SH D,D            %SH -> D
+  213  0270  35000B0B  0270          LOGM ADIR A,H D,SC                %SHA, H (0 - 5) -> SC
+  214  0271  35000905  0271          LOGM ADIR A,A D,SH                %A -> SH
+  215  0272  C0040400  0272          LOOP ORSHT TSC0                   %SHIFT, TERMINATION:SC = 0
+  216  0273  3F600590  0273          LOGM CFC BDIR B,SH D,A            %SH -> A, (R) -> H, IR
+  217  0274  35000B0B  0274          LOGM ADIR A,H D,SC                %SAD, H (0-5) -> SC
+  218  0275  35000905  0275          LOGM ADIR A,A D,SH                %A -> SH
+  219  0276  34000901  0276          LOGL ADIR A,D D,SH                %D -> SH (LEAST SIGNIFICANT)
+  220  0277  8000007D  0277          JMP SADC
+  221  0300  35200005  0300          LOGM CEATR ADIR A,A               %JAP, EA -> R, TEST A
+  222  0301  3560A20D  0301          CLOGM CFC POS ADIR A,R D,P        %(A > 0):R -> CP, (R) -> H, IR
+  223  0302  35200005  0302          LOGM CEATR ADIR A,A               %JAN, EA -> R TEST A
+  224  0303  3560E20D  0303          CLOGM CFC NEG ADIR A,R D,P        %(A < 0):R -> CP, (R) -> H, IR
+  225  0304  35200005  0304          LOGM CEATR ADIR A,A               %JAZ, EA -> R, TEST A
+  226  0305  3560820D  0305          CLOGM CFC ZERO ADIR A,R D,P       %A = 0:R -> CP, (R) -> H, IR
+  227  0306  35200005  0306          LOGM CEATR ADIR A,A               %JAF, EA -> R, TEST A
+  228  0307  3560C20D  0307          CLOGM CFC NZERO ADIR A,R D,P      %(A # 0):R -> CP, (R) -> H, IR
+  229  0310  1F200770  0310          ARM CEATR BDI ADD1 B,X D,X        %JPC, X + 1 -> X, EA -> R
+  230  0311  3560920D  0311          CLOGM CFC SPOS ADIR A,R D,P       %(X > 0):R -> CP, (R) -> H, IR
+  231  0312  1F200770  0312          ARM CEATR BDI ADD1 B,X D,X        %JNC, X + 1 -> X, EA -> R
+  232  0313  3560D20D  0313          CLOGM CFC SNEG ADIR A,R D,P       %(X < 0):R -> CP, (R) -> H, IR
+  233  0314  35200007  0314          LOGM CEATR ADIR A,X               %JXZ, EA -> R, TEST X
+  234  0315  3560820D  0315          CLOGM CFC ZERO ADIR A,R D,P       %(X = 0):R -> CP
+  235  0316  35200007  0316          LOGM CEATR ADIR A,X               %JXN, EA -> R, TEST X
+  236  0317  3560E20D  0317          CLOGM CFC NEG ADIR A,R D,P        %(X < 0):R -> CP, (R) -> H, IR
+  237  0320  80008108  0320  TTMMC,  CJMP ZERO ZIR6                    %JMP IF BIT 6 = 0
+  238  0321  3D0070AB  0321          LOGM AND A,H B,B7                 %TEST BIT 7
+  239  0322  800080D7  0322          CJMP ZERO TRRS                    %JMP IF BIT 7 = 0
+  240  0323  010000FA  0323  MSTS,   ARM A,IO BIR3                     %MST, REG -> H
+  241  0324  37000E5B  0324          LOGM OR A,H B,A D,SP              %H + A -> SP
+  242  0325  35000AFE  0325          LOGM ADIR A,SP BIR3 D,IO          %SP -> REG
+  243  0326  80000041  0326          JMP FETCH
+  244  0327  35000AF5  0327  TRRS,   LOGM A,A BIR3 D,IO ADIR           %TRR, A -> REG
+  245  0330  80000041  0330          JMP FETCH
+  246  0331  010000FA  0331  MCLS,   ARM A,IO BIR3                     %MCL, REG -> H
+  247  0332  31000E5B  0332          LOGM ANDCB A,H B,A D,SP           %N(A), H -> SP
+  248  0333  35000AFE  0333          LOGM A,SP BIR3 D,IO ADIR          %SP -> REG
+  249  0334  80000041  0334          JMP FETCH
+  250  0335  35C0060B  0335  LDFC,   LOGM CRR1 ADIR A,H D,T            %H -> T, (R + 1) -> H
+  251  0336  35C0050B  0336  LDDC,   LOGM CRR1 ADIR A,H D,A            %H -> A, (R + 1) -> H
+  252  0337  3560010B  0337          LOGM CFC ADIR A,H D,D             %H -> D, (R) -> H, IR
+  253  0340  35600309  0340          LOGM CFC ADIR A,DH D,B            %H (0 - 7) -> B, FETCH
+  254  0341  3E6001B0  0341  FETC5,  LOGL BDIR B,AC D,D CFC            %AC (L) -> D
+  255  0342  35600509  0342          LOGM CFC ADIR A,DH D,A            %SAA, H (0 - 7) -> A, (R) -> H, IR
+  256  0343  376038A8  0343  FETCZ,  LOGM CFC OR A,S B,B3 D,S          %1 -> Z, FETCH
+  257  0344  35600609  0344          LOGM CFC ADIR A,DH D,T            %SAT, H(0-7) -> T, (R) -> H, IR
+  258  0345  800000E5  0345          JMP *
+  259  0346  35600709  0346          LOGM CFC ADIR A,DH D,X            %SAX, H(0-7) -> X, (R) -> H, IR
+  260  0347  01600660  0347  FETC3,  ARM CFC BM1 B,T D,T               %DECR, EXPONENT, FETCH
+  261  0350  03680339  0350          ARM CFC PLUS SACO A,DH B,B D,B    %AAB, H(0-7) + B -> B (R) -> H, IR
+  262  0351  00000000  0351          0
+  263  0352  03680559  0352          ARM CFC PLUS SACO A,DH B,A D,A    %AAA, H (0-7) + A -> A, (R) -> H, IR
+  264  0353  75610500  0353  GETR,   ILOGM CFC ADIR ORBWO D,A          %REG -> A, FETCH, IRR
+  265  0354  03680669  0354          ARM CFC PLUS SACO A,DH B,T D,T    %AAT, H(0-7) + T -> T, (R) -> H, IR
+  266  0355  376058A8  0355  OVERF,  LOGM OR B,B5 A,S D,S CFC          %SET STATIC OVERF, FETCH
+  267  0356  03680779  0356          ARM CFC PLUS SACO A,DH B,X D,X    %AAX, H(0-7) + X -> X, (R) -> H, IR
+  268  0357  3E6001D0  0357  FETC4,  LOGL CFC BDIR B,2AC D,D           %2 · AC(L) -> D, FETCH
+  269  0360  316300A0  0360          LOGM ANDCB B,BM ORBW CFC          %BSET ZERO.
+  270  0361  376300A0  0361  BSBSH,  LOGM OR B,BM ORBW CFC             %BSET ONE
+  271  0362  336300A0  0362          LOGM EXOR B,BM ORBW CFC           %BSET BCM
+  272  0363  80000202  0363          JMP BSBAC                         %JMP TO BSET BAC
+  273  0364  80000112  0364          JMP BSZC                          %JMP TO BSKP ZERO
+  274  0365  8000010E  0365          JMP BSOC                          %JMP TO BSKP ONE
+  275  0366  8000010C  0366          JMP BSKCC                         %JMP BSKP K0
+  276  0367  80000110  0367          JMP BSKC                          %JMP BSKP K
+  277  0370  80000205  0370          JMP BSTCC                         %JMP BSTC
+  278  0371  80000209  0371          JMP BSTAC                         %JMP BSTA
+  279  0372  8000020D  0372          JMP BLDCC                         %JMP BLDC
+  280  0373  80000210  0373          JMP BLDAC                         %JMP BLDA
+  281  0374  80000216  0374          JMP BANCC                         %JMP BANC
+  282  0375  80000213  0375          JMP BANDC                         %JMP BAND
+  283  0376  8000021C  0376          JMP BORCC                         %JMP BORC
+  284  0377  80000219  0377          JMP BORAC                         %JMP BORA
+  285  0400  35100E02  0400          LOGM CHLEV ADIR A,P D,SP          %INTERRUPT, SAVE CP-REG
+  286  0401  3560020E  0401          LOGM CFC ADIR A,SP D,P            %SAVE CP AND FETCH ON NEW LEVEL
+  287  0402  35000AE5  0402  IOTC,   LOGM ADIR A,A BIO D,IO            %A-REG -> IO-BUS
+  288  0403  210000EA  0403          LOGM A,IO BIO                     %IO-BUS -> H-REG
+  289  0404  3500050B  0404          LOGM ADIR A,H D,A                 %H -> A-REG
+  290  0405  210000BA  0405          LOGM A,IO B,PES                   %PES -> H-REG
+  291  0406  3500000B  0406          LOGM ADIR A,H                     %TEST BIT 15 PES  (N-1 SKIP)
+  292  0407  1F60D220  0407          CARM CFC SNEG BDI ADD1 B,P D,P    %IF MPC 15 = 1 THEN P + 1 -> P
+  293  0410  3D0070AB  0410  ZIR6,   LOGM AND A,H B,B7                 %TEST BIT 7
+  294  0411  8000C0D9  0411          CJMP NZERO MCLS                   %JMP IF BIT 7 = 1
+  295  0412  010000FA  0412          ARM A,IO BIR3                     %TRA, REG -> H
+  296  0413  3560050B  0413          LOGM CFC ADIR A,H D,A             %H -> A, (R) -> H, IR
+  297  0414  3D0020A8  0414  BSKCC,  LOGM AND A,S B,B2                 %TEST K
+  298  0415  8000C112  0415          CJMP NZERO BSZC                   %JMP IF K = 1
+  299  0416  3D0100A0  0416  BSOC,   LOGM AND ORBWO B,BM               %TEST BIT
+  300  0417  1F60C220  0417          CARM CFC NZERO BDI ADD1 B,P D,P   %IF SPECIFIED BIT = 1:CP + 1 -> CP, FETCH
+  301  0420  3D0020A8  0420  BSKC,   LOGM AND A,S B,B2                 %TEST K
+  302  0421  8000C10E  0421          CJMP NZERO BSOC                   %JMP IF K = 1
+  303  0422  3D0100A0  0422  BSZC,   LOGM AND ORBWO B,BM               %TEST BIT
+  304  0423  1F608220  0423          CARM CFC ZERO BDI ADD1 B,P D,P    %IF SPECIFIED BIT = 0:CP + 1 -> CP
+  305  0424  07000070  0424  STBC,   ARM BDI B,X                       %X -> AC
+  306  0425  010009C0  0425          ARM BM1 B,HAC D,SH                %1/2*AC - 1 -> SH
+  307  0426  03400296  0426          ARM CPTR PLUS A,T B,SH D,P        %T + SH -> CP, CP -> R
+  308  0427  03C0020E  0427          ARM PLUS A,SP B,Z D,P CRR1        %(R + 1) -> H
+  309  0430  03400296  0430          ARM CPTR PLUS A,T B,SH D,P
+  310  0431  01008CA0  0431          ARM BM1 B,B10 D,SCR               %377 -> SH
+  311  0432  3D0000A7  0432          LOGM AND B,B0 A,X                 %TEST LEFT RIGHT
+  312  0433  8000811F  0433          CJMP ZERO LEFTB
+  313  0434  3D000F5C  0434          LOGM AND A,SCR B,A D,SS           %MASK OUT RIGHT PART
+  314  0435  2B00090C  0435          LOGM ADIRC A,SCR D,SH
+  315  0436  80000124  0436          JMP STORB
+  316  0437  01003BA0  0437  LEFTB,  ARM BM1 B,B3 D,SC                 %7 -> SC
+  317  0440  3E000050  0440          LOGL BDIR B,A
+  318  0441  C63000D0  0441          LOOP BDI BDIA B,2AC               %SHIFT TO LEFT BYTE
+  319  0442  3E000FD0  0442          LOGL BDIR B,2AC D,SS
+  320  0443  3500090C  0443          LOGM ADIR A,SCR D,SH
+  321  0444  3D00099B  0444  STORB,  LOGM AND A,H B,SH D,SH
+  322  0445  3500020E  0445          LOGM ADIR A,SP D,P                %SP -> CP
+  323  0446  37000F9F  0446          LOGM OR A,SS B,SH D,SS            %NEW BYTE + OLD BYTE -> SS-REG
+  324  0447  2180000F  0447          LOGM CWR1 A,SS                    %STORE BYTE
+  325  0450  21600000  0450          LOGM CFC                          %FETCH
+  326  0451  01E05FA0  0451  FSBC,   ARM CR BM1 B,B5 D,SS              %37 -> SS
+  327  0452  3300FCAB  0452          LOGM EXOR B,B17 A,H D,SCR         %EXPONENT -> SCR, INVERT BIT 17
+  328  0453  8000012E  0453          JMP FAFSC
+  329  0454  01E05FA0  0454  FADC,   ARM CR BM1 B,B5 D,SS              %37 -> SS
+  330  0455  35000C0B  0455          LOGM ADIR A,H D,SCR               %H -> SCR
+  331  0456  3100F9A6  0456  FAFSC,  LOGM ANDCB B,B17 A,T D,SH         %RESET SIGN BIT
+  332  0457  3100FEAC  0457          LOGM ANDCB B,B17 A,SCR D,SP       %RESET SIGN BIT
+  333  0460  1DC00B9E  0460          ARM CRR1 BMINA B,SH A,SP D,SC     %SP - SH -> SC
+  334  0461  8000D145  0461          CJMP SNEG NED1                    %JMP IF NUMB. IN MEMORY GREATEST
+  335  0462  8000815E  0462          CJMP ZERO EQUAL                   %JMP EXPONENTS EQUAL
+  336  0463  3B0000BF  0463          LOGM ANDCA B,AC A,SS              %TEST AC <40
+  337  0464  8000C041  0464          CJMP NZERO FETCH                  %NO MANTISS OVERLAP IF NOT ZERO
+  338  0465  35C0090B  0465          LOGM CRR1 ADIR A,H D,SH           %H -> SH
+  339  0466  3400090B  0466          LOGL ADIR A,H D,SH                %H -> SH(L)
+  340  0467  C000D100  0467          LOOP SHR SH32 TGSH0 SHZE          %SHIFT RIGHT TERM:SC = 0
+  341  0470  3300006C  0470          LOGM EXOR A,SCR B,T               %TEST EQUAL SIGNS
+  342  0471  8000D155  0471          CJMP SNEG SUBF                    %JMP IF DIFFERENT SIGN
+  343  0472  3E000C90  0472  ADDF,   LOGL BDIR B,SH D,SCR              %SH(L) -> SCR
+  344  0473  0308011C  0473          ARM PLUS A,SCR B,D D,D SACO       %ADD. OF LEAST MANT.
+  345  0474  0B080595  0474          ARM PLUS ADDC A,A B,SH D,A SACO   %ADD. OF MOST. MANT.
+  346  0475  8000B141  0475          CJMP GREM CRY1                    %JMP IF CRY
+  347  0476  3D0010A8  0476  NOCRY,  LOGM AND B,B1 A,S                 %TEST TG      * CFC is added in N12/42
+  348  0477  80008041  0477          CJMP ZERO FETCH                   %ZERO:FINISHED
+  349  0500  376001A1  0500          LOGM CFC OR A,D B,B0 D,D
+  350  0501  34000001  0501  CRY1,   LOGL A,D ADIR                     %D -> AC(L)
+  351  0502  3E0001C0  0502          LOGL BDIR B,HAC D,D               %1/2 AC(L) -> D
+  352  0503  3F0005C0  0503          LOGM BDIR B,HAC D,A               %1/2 AC -> A  CRY -> AA
+  353  0504  036006A6  0504          ARM PLUS B,B0 A,T D,T CFC         %T + 1 -> T, FETCH
+  354  0505  290000BF  0505  NED1,   LOGM ORC A,SS B,AC                %TEST:AC > -40
+  355  0506  8000C151  0506          CJMP NZERO NORMA2                 %NO MANTISSE OVERLAP IF NOT ZERO
+  356  0507  34000901  0507          LOGL ADIR A,D D,SH
+  357  0510  35000905  0510          LOGM ADIR A,A D,SH                %READ MOST SIGNIF:MANT
+  358  0511  35C00E0B  0511          LOGM CRR1 ADIR A,H D,SP
+  359  0512  3500010B  0512          LOGM ADIR A,H D,D
+  360  0513  3500050E  0513          LOGM ADIR A,SP D,A
+  361  0514  C000D100  0514          LOOP SHR SH32 TGSH0 SHZE TSC0     %SHIFT RIGHT. TERMIN; SC = 0
+  362  0515  3300006C  0515          LOGM EXOR A,SCR B,T               %TEST FOR EQUAL SIGN
+  363  0516  8000D154  0516          CJMP SNEG SUBF2                   %JMP TO SUBTRACTION IF UNEQUAL
+  364  0517  3500060C  0517          LOGM ADIR A,SCR D,T
+  365  0520  8000013A  0520          JMP ADDF
+  366  0521  35C0050B  0521  NORMA2, LOGM CRR1 ADIR A,H D,A            %H -> A READ LEAST SIGNIF MANT.
+  367  0522  3500010B  0522          LOGM ADIR A,H D,D
+  368  0523  3560060C  0523          LOGM CFC ADIR A,SCR D,T           %EXPONENT -> T-REG, FETCH
+  369  0524  3500060C  0524  SUBF2,  LOGM ADIR A,SCR D,T
+  370  0525  3E000C90  0525  SUBF,   LOGL BDIR B,SH D,SCR              %LEAST NUMB -> REG. ON A-BUS
+  371  0526  3F000E90  0526          LOGM BDIR B,SH D,SP
+  372  0527  1D08011C  0527          ARM BMINA B,D A,SCR D,D SACO      %D - SCR -> SCR
+  373  0530  0D00095E  0530          ARM BMAM1 ADDC B,A A,SP D,SH      %A - SP -> SH
+  374  0531  3D0010A8  0531          LOGM AND B,B1 A,S                 %TEST TG
+  375  0532  8000815C  0532          CJMP ZERO *2
+  376  0533  360001A1  0533          LOGL OR B,B0 A,D D,D              %SET D0 -> 1
+  377  0534  34000901  0534          LOGL ADIR A,D D,SH
+  378  0535  8000016F  0535          JMP 0557
+  379  0536  3300006C  0536  EQUAL,  LOGM EXOR A,SCR B,T               %TEST EQUAL SIGNS
+  380  0537  8000D163  0537          CJMP SNEG SUBF3                   %UNEQUAL JMP TO SUB
+  381  0540  35C0090B  0540          LOGM ADIR A,H D,SH CRR1           %H -> SH, READ LEASTS. MANT
+  382  0541  35000C0B  0541          LOGM ADIR A,H D,SCR               %LEAST SIGN. MANT -> SCR
+  383  0542  8000013B  0542          JMP ADDF+1
+  384  0543  2BC00E0B  0543  SUBF3,  LOGM ADIRC A,H D,SP CRR1          %H -> SCR READ LEASTS. MANT
+  385  0544  2B000C0B  0544          LOGM ADIRC A,H D,SCR              %H -> SP, ONE'S COMPL
+  386  0545  03080C1C  0545          ARM PLUS A,SCR B,D D,SCR SACO     %D + SCR -> SCR
+  387  0546  0B08095E  0546          ARM PLUS ADDC A,SP B,A D,SH SACO  %A + SP -> SP
+  388  0547  8000F16B  0547          CJMP NEGM INV                     %INVERT IF CARRY = 0
+  389  0550  1B080C0C  0550          ARM PLUS ADD1 A,SCR D,SCR SACO    %SCR + 1 -> SCR
+  390  0551  0B000990  0551          ARM PLUS ADDC B,SH D,SH           %SH + CARRY -> SH
+  391  0552  8000016E  0552          JMP NOINV
+  392  0553  3200F6A6  0553  INV,    LOGL EXOR B,B17 A,T D,T           %INVERT SIGN
+  393  0554  2A000C0C  0554          LOGL ADIRC A,SCR D,SCR            %ONE'S COMPL. OF SCR -> SCR
+  394  0555  21000990  0555          LOGM BDIRC B,SH D,SH              %ONE'S COMP. OF SH -> SH
+  395  0556  3400090C  0556  NOINV,  LOGL ADIR A,SCR D,SH              %SCR -> SH
+  396  0557  3F005BA0  0557          LOGM BDIR B,B5 D,SC               %40 -> SC
+  397  0560  3E000060  0560          LOGL BDIR B,T                     %T -> AC(L)
+  398  0561  C00010B8  0561          LOOP BM1 BM1A TSH31 SH32 B,AC     %SHIFT LEFT TO SH31 = CRY
+  399  0562  3E0006B0  0562          LOGL BDIR B,AC D,T                %EXPONENT -> T-REG
+  400  0563  3F000590  0563          LOGM BDIR B,SH D,A                %SH -> A
+  401  0564  80009177  0564          CJMP SPOS ZTAD                    %RESULT ZERO
+  402  0565  3E600190  0565          LOGL CFC BDIR B,SH D,D            %SH(L) -> D, FETCH
+  403  0566  370038A8  0566  FDVO,   LOGM OR B,B3 A,S D,S              %1 -> Z
+  404  0567  35000600  0567  ZTAD,   LOGM ADIR A,Z D,T                 %0 -> T
+  405  0570  35000500  0570          LOGM ADIR A,Z D,A                 %0 -> A
+  406  0571  35600100  0571          LOGM CFC ADIR A,Z D,D             %0 -> D, FETCH
+  407  0572  3FE05BA0  0572  FMUC,   LOGM CR BDIR B,B5 D,SC            %40 -> SC, READ EXPO.
+  408  0573  03000E6B  0573          ARM PLUS A,H B,T D,SP             %H + T -> SP
+  409  0574  3100FEAE  0574          LOGM ANDCB B,B17 A,SP D,SP        %RESET BIT 17 IN SP
+  410  0575  33C0006B  0575          LOGM CRR1 EXOR B,T A,H            %TEST SIGN
+  411  0576  80009180  0576          CJMP SPOS *2
+  412  0577  3700FEAE  0577          LOGM OR B,B17 A,SP D,SP           %SET BIT 17 IF NEG. RESULT
+  413  0600  35C0090B  0600          LOGM CRR1 ADIR A,H D,SH           %H -> SH, READ LEAST S. M.
+  414  0601  3300E6AE  0601          LOGM EXOR B,B16 A,SP D,T          %INVERT BIAS BIT
+  415  0602  3400090B  0602          LOGL ADIR A,H D,SH
+  416  0603  3E000001  0603          LOGL BDIR A,D B,Z                 %D -> A-LATCH, 0 -> AC(L)
+  417  0604  3F000005  0604          LOGM BDIR A,A B,Z
+  418  0605  C61892C1  0605          LOOP BDI PLUSA B,HAC SH32 ASH0 SHR TGAC0 SACO %MULTIPLY LOOP
+  419  0606  8000B18E  0606          CJMP GREM MCRY1                   %JMP IF CARRY
+  420  0607  80008177  0607          CJMP ZERO ZTAD                    %JMP IF ZERO
+  421  0610  3E0001B0  0610          LOGL BDIR B,AC D,D                %AC(L) -> D
+  422  0611  3F0005B0  0611          LOGM BDIR B,AC D,A                %AC -> A
+  423  0612  01000660  0612          ARM BM1 B,T D,T                   %T - 1 -> T
+  424  0613  3D0010A8  0613  TTGN,   LOGM AND B,B1 A,S                 %TEST TG      * CFC is added in N12/42
+  425  0614  80008041  0614          CJMP ZERO FETCH                   %JMP IF TG = 0
+  426  0615  376001A1  0615          LOGM CFC OR B,B0 A,D D,D          %SET BIT 0 -> 1
+  427  0616  3E0001C0  0616  MCRY1,  LOGL BDIR B,HAC D,D               %1/2 AC(L) -> D
+  428  0617  3F0005C0  0617          LOGM BDIR B,HAC D,A               %1/2 AC -> A
+  429  0620  8000018B  0620          JMP TTGN
+  430  0621  3FE05BA0  0621  FDVC,   LOGM CR BDIR B,B5 D,SC            %40 -> SC, READ EXPO.
+  431  0622  3E0009A0  0622          LOGL BDIR B,B0 D,SH               %SET SH(L) -> 1, DIV ALGOR.
+  432  0623  1D000E6B  0623          ARM BMINA B,T A,H D,SP            %T - H -> SP
+  433  0624  3100FEAE  0624          LOGM ANDCB B,B17 A,SP D,SP        %RESET BIT 17 IN SP
+  434  0625  33C0006B  0625          LOGM CRR1 EXOR A,H B,T            %TEST SIGN, READ MOST S.M.
+  435  0626  80009198  0626          CJMP SPOS *2
+  436  0627  3700FEAE  0627          LOGM OR B,B17 A,SP D,SP           %SET BIT 17 -> 1, NEGATIVE
+  437  0630  35C00C0B  0630          LOGM CRR1 ADIR A,H D,SCR          %H -> SCR, READ LEAST S.M.
+  438  0631  80009176  0631          CJMP SPOS FDVO                    %OVERF. IF ZERO
+  439  0632  3300E6AE  0632          LOGM EXOR B,B16 A,SP D,T          %INVERT BIAS BIT
+  440  0633  3E000010  0633          LOGL BDIR B,D                     %D -> AC(L)
+  441  0634  07000050  0634          ARM BDI B,A                       %A -> AC
+  442  0635  80009177  0635          CJMP SPOS ZTAD
+  443  0636  3E0000CB  0636          LOGL BDIR B,HAC A,H               %1/2 AC(L) -> AC(L), H -> A-LATCH
+  444  0637  3F0000CC  0637          LOGM BDIR B,HAC A,SCR
+  445  0640  C2E813D3  0640  FDVLO,  LOOP PLUS BMAA B,2AC SACO SH32 ASH0 ENDID TGS0 %FDV LOOP
+  446  0641  3F000590  0641          LOGM BDIR B,SH D,A                %SH -> A
+  447  0642  800091A8  0642          CJMP SPOS POSDV                   %JMP TO SHIFT
+  448  0643  1F000660  0643          ARM BDI ADD1 B,T D,T              %T + 1 -> T
+  449  0644  3E000190  0644          LOGL BDIR B,SH D,D
+  450  0645  3D0010A8  0645  TGTN2,  LOGM AND B,B1 A,S                 %TEST TG      * CFC is added in N12/42
+  451  0646  8000C041  0646          CJMP NZERO FETCH
+  452  0647  376001A1  0647          LOGM CFC OR B,B0 A,D D,D          %SET BIT 0 -> 1
+  453  0650  3E000190  0650  POSDV,  LOGL BDIR B,SH D,D                %SH(L) -> D
+  454  0651  3F0005D0  0651          LOGM BDIR B,2AC D,A               %2 · AC -> A
+  455  0652  3E0001D0  0652          LOGL BDIR B,2AC D,D               %2 · AC(L) -> D
+  456  0653  800001A5  0653          JMP TGTN2
+  457                  
+  458                  0654  % MONITOR CALL CONTINUES
+  459  0654  01000A4C  0654  MONC,   ARM A,SCR BMISC D,IO              %SCR -> MISC, BIT 4 MISC -> 1
+  460  0655  01000A40  0655          ARM A,Z BMISC D,IO                %0 -> MISC
+  461  0656  7570E609  0656          ILOGM ADIR CFC A,DH D,T LE16 DSPL %ΔH -> T, LEV14, FETCH
+  462  0657  8000C0EB  0657  PUTGC,  CJMP NZERO GETR                   %JMP IF IRR
+  463  0660  7F730050  0660          ILOGM CFC BDIR ORBW B,A DSPL      %A -> REG
+  464                  
+  465                  0661  %DOUBLE PRESISON MULTIPLY
+  466                  0661  %OPERANDS IN TWO GENERAL-REGISTERS
+  467                  0661  %RETURN WITH ANSWER IN A (MOST SIGN.) AND -D-REG
+  468  0661  3F040500  0661  MPYDC,  LOGM BDIR ORSKP D,A               %SECOND OPERAND -> A
+  469  0662  32000F5E  0662          LOGL EXOR A,SP B,A D,SS           %SIGN -> SS
+  470  0663  1D00E505  0663          CARM NEG BMINA A,A B,Z D,A        %INVERT A-REG
+  471  0664  3500090E  0664          LOGM ADIR A,SP D,SH
+  472  0665  1D00E90E  0665          CARM NEG BMINA B,Z A,SP D,SH      %INVERT IF NEG
+  473  0666  3F004BA0  0666          LOGM BDIR B,B4 D,SC               %16 -> SC
+  474  0667  3E000005  0667          LOGL BDIR A,A B,Z
+  475  0670  C61000D0  0670          LOOP BDI PLUSA B,2AC ASH31        %MOST SIGN. PART -> A-REG
+  476  0671  3F0005B0  0671          LOGM BDIR B,AC D,A                %TEST SIGN
+  477  0672  3500000F  0672          LOGM ADIR A,SS
+  478  0673  800090E1  0673          CJMP SPOS FETC5
+  479  0674  3E0001B0  0674          LOGL BDIR B,AC D,D                %AC(L) -> D
+  480  0675  1D080101  0675          ARM BMINA SACO B,Z A,D D,D        %-D -> D
+  481  0676  0D600505  0676          ARM CFC BMAM1 ADDC B,Z A,A D,A    %-A -> A
+  482                  
+  483                  0677  %INTEGER DIVISON
+  484                  0677  %DIVIDEND IN A-D-REGISTER, DIVISOR IN SPESYFIED REGISTER
+  485                  0677  %RESULT IN A-REGISTER, REST IN D-REGISTER
+  486  0677  35040C00  0677  RDIVC,  LOGM ORSKP ADIR D,SCR             %DIVISOR -> SCR
+  487  0700  1C00EC0C  0700          CARL NEG BMINA A,SCR B,Z D,SCR    %INVERT SCR
+  488  0701  33000FB5  0701          LOGM EXOR A,A B,AC D,SS           %SIGN -> SS17
+  489  0702  3F000E50  0702          LOGM BDIR B,A D,SP                %A -> SP
+  490  0703  8000A1C6  0703          CJMP POS *3
+  491  0704  1D080101  0704          ARM B,Z BMINA A,D D,D SACO        %INVERT D-REG
+  492  0705  0D000505  0705          ARM B,Z BMAM1 A,A D,A ADDC        %INVERT A-REG
+  493  0706  1D00095C  0706          ARM BMINA B,A A,SCR D,SH          %A - SCR -> SH
+  494  0707  8000B0E3  0707          CJMP POSM FETCZ
+  495  0710  3E000900  0710          LOGL B,Z BDIR D,SH                %0 -> SH(L)
+  496  0711  3E000010  0711          LOGL B,D BDIR A,Z                 %D -> AC, 0 -> A (LATCH)
+  497  0712  3F00009C  0712          LOGM BDIR B,SH A,SCR              %SH -> AC, SCR -> A (LATCH)
+  498  0713  C2E010D3  0713          LOOP B,2AC PLUS BMAA SH32 ASH0 ENDID TSC0
+  499  0714  3F0001B0  0714          LOGM B,AC BDIR D,D                %AC -> D, REST
+  500  0715  3E000590  0715          LOGL BDIR B,SH D,A                %RESULT -> A
+  501  0716  3D0000A5  0716          LOGM B,B0 AND A,A
+  502  0717  0300811C  0717          CARM PLUS B,D A,SCR D,D ZERO      %SCR + D -> D IF A (0) = 0
+  503  0720  3500000E  0720          LOGM A,SP ADIR                    %TEST SIGN OF DIVIDEND
+  504  0721  1D00E101  0721          CARM BMINA A,D B,Z D,D NEG        %INVERT D IF NEG
+  505  0722  3500000F  0722          LOGM A,SS ADIR                    %SIGN TEST
+  506  0723  1D00E505  0723          CARM NEG BMINA A,A B,Z D,A        %COMPL. IF NEG
+  507  0724  3300005F  0724          LOGM EXOR B,A A,SS                %OVERFLOW TEST
+  508  0725  8000D0E3  0725          CJMP SNEG FETCZ
+  509  0726  01600000  0726          ARM CFC
+  510  0727  3D0070AB  0727  SLRB,   LOGM AND B,B7 A,H                 %TEST LOAD, STORE BLOCK
+  511  0730  8000800E  0730          CJMP ZERO SRB
+  512  0731  01400270  0731  LRB,    ARM CPTR BM1 B,X D,P              %X - 1 -> CP, CP -> R
+  513  0732  35C0020E  0732          LOGM CRR1 ADIR A,SP D,P           %SP -> CP
+  514  0733  3500090B  0733          LOGM ADIR A,H D,SH                %CP -> SH
+  515  0734  7FD18E90  0734          ILOGM BDIR B,SH D,SP ORIN DSPL CRR1 %LOAD SP
+  516  0735  3500090B  0735          LOGM ADIR A,H D,SH                %X -> SH
+  517  0736  7FD18790  0736          ILOGM BDIR B,SH D,X ORIN DSPL CRR1 %LOAD X
+  518  0737  3500090B  0737          LOGM ADIR A,H D,SH                %T -> SH
+  519  0740  7FD18690  0740          ILOGM BDIR B,SH D,T ORIN DSPL CRR1 %LOAD T
+  520  0741  3500090B  0741          LOGM ADIR A,H D,SH                %A -> SH
+  521  0742  7FD18590  0742          ILOGM BDIR B,SH D,A ORIN DSPL CRR1 %LOAD A
+  522  0743  3500090B  0743          LOGM ADIR A,H D,SH                %D -> SH
+  523  0744  7FD18190  0744          ILOGM BDIR B,SH D,D ORIN DSPL CRR1 %LOAD D
+  524  0745  3500090B  0745          LOGM ADIR A,H D,SH                %L -> SH
+  525  0746  7FD18490  0746          ILOGM BDIR B,SH D,L ORIN DSPL CRR1 %LOAD L
+  526  0747  3500090B  0747          LOGM ADIR A,H D,SH                %S -> SH
+  527  0750  7FD18890  0750          ILOGM BDIR B,SH D,S ORIN DSPL CRR1 %LOAD S
+  528  0751  3500090B  0751          LOGM ADIR A,H D,SH                %B -> SH
+  529  0752  7F718390  0752          ILOGM BDIR B,SH D,B ORIN DSPL CFC %LOAD B, FETCH
+  530                  
+  531                  0753  %MULTIPLY CONTINUED
+  532                  0753  %ONE OPERAND IN A-REG
+  533                  0753  %SECOND OPERAND, CONTENT OF EFFECTIVE ADDRESS
+  534  0753  35E00C05  0753  MPYC,   LOGM ADIR A,A D,SCR CR            %A -> SCR, READ SEC. OPE.
+  535  0754  1D00EC05  0754          CARM NEG BMINA A,A B,Z D,SCR      %INVERT IF NEG
+  536  0755  310048A8  0755          LOGM ANDCB B,B4 A,S D,S           %RESET DYNAMIC OVERFL.
+  537  0756  3500090B  0756          LOGM ADIR A,H D,SH                %SECOND OPER. -> SH
+  538  0757  1D00E90B  0757          CARM NEG BMINA B,Z A,H D,SH       %INVERT IF NEG
+  539  0760  3F000000  0760          LOGM BDIR A,Z B,Z                 %ZERO -> AC AND A-LATCH
+  540  0761  3E00000C  0761          LOGL BDIR A,SCR B,Z               %ZERO -> AC(L) AND A -> A-LATCH
+  541  0762  C61000D0  0762          LOOP BDI PLUSA B,2AC ASH31        %MULTIPLY LOOP
+  542  0763  3F0000D0  0763          LOGM BDIR B,2AC                   %TEST OVERF
+  543  0764  800081F7  0764          CJMP ZERO *3                      %JMP IF NOT OVERFL.
+  544  0765  370048A8  0765          LOGM OR B,B4 A,S D,S              %SET STATIC OVERFL
+  545  0766  370058A8  0766          LOGM OR B,B5 A,S D,S              %SET DYNAMIC OVERFL
+  546  0767  3300005B  0767          LOGM EXOR A,H B,A                 %TEST SIGN
+  547  0770  3E0005B0  0770          LOGL BDIR B,AC D,A                %RESULT -> A
+  548  0771  1D60E505  0771          CARM NEG CFC BMINA A,A B,Z D,A    %INVERT IF NEG.
+  549  0772  3500090B  0772  WAITC,  LOGM ADIR A,H D,SH                %PID -> SH
+  550  0773  0100009A  0773          ARM A,IO B,PIM                    %DECODED PIL -> H
+  551  0774  3B000C9B  0774          LOGM ANDCA A,H B,SH D,SCR         %CLEAR BIT IN PID
+  552  0775  01000A6C  0775          ARM A,SCR B,PID D,IO              %SET PID
+  553  0776  80000041  0776          JMP FETCH
+  554  0777  00000000  0777          0
+  555                  
+  556                  1000  %ENTRY PANEL INTERRUPT
+  557  1000  35000E02  1000  PANIN,  LOGM ADIR A,P D,SP
+  558  1001  80000296  1001          JMP PANINC
+  559  1002  3D0020A8  1002  BSBAC,  LOGM AND A,S B,B2                 %TEST K
+  560  1003  8000C0F1  1003          CJMP NZERO BSBSH
+  561  1004  316300A0  1004          LOGM CFC ANDCB B,BM ORBW          %0 -> BIT, FETCH
+  562  1005  3D0020A8  1005  BSTCC,  LOGM AND A,S B,B2                 %TEST K
+  563  1006  8000C06C  1006          CJMP NZERO KONE2                  %JMP IF K = 1
+  564  1007  370300A0  1007          LOGM OR B,BM ORBW                 %1 -> SPECIFIED BIT
+  565  1010  376028A8  1010          LOGM CFC OR B,B2 A,S D,S          %1 -> K, FETCH
+  566  1011  3D0020A8  1011  BSTAC,  LOGM AND A,S B,B2                 %TEST K
+  567  1012  8000C21F  1012          CJMP NZERO KONE3                  %JMP IF K = 1
+  568  1013  310300A0  1013          LOGM ANDCB B,BM ORBW              %0 -> SPECIFIED BIT
+  569  1014  316028A8  1014          LOGM CFC ANDCB B,B2 A,S D,S       %0 -> K, FETCH
+  570  1015  3D0100A0  1015  BLDCC,  LOGM AND ORBWO B,BM               %TEST BIT
+  571  1016  8000C212  1016          CJMP NZERO BONE1                  %JMP IF BIT = 1
+  572  1017  376028A8  1017          LOGM CFC OR B,B2 A,S D,S          %1 -> K, FETCH
+  573  1020  3D0100A0  1020  BLDAC,  LOGM AND ORBWO B,BM               %TEST BIT
+  574  1021  8000C20F  1021          CJMP NZERO BLDCC+2                %JMP IF B = 1
+  575  1022  316028A8  1022  BONE1,  LOGM CFC ANDCB B,B2 A,S D,S       %0 -> K, FETCH
+  576  1023  3D0100A0  1023  BANDC,  LOGM AND ORBWO B,BM               %TEST BIT
+  577  1024  8000C041  1024          CJMP NZERO FETCH
+  578  1025  316028A8  1025          LOGM CFC ANDCB B,B2 A,S D,S       %0 -> K, FETCH
+  579  1026  3D0100A0  1026  BANCC,  LOGM AND ORBWO B,BM               %TEST BIT
+  580  1027  8000C215  1027          CJMP NZERO BANDC+2                %JMP IF BIT = 1
+  581  1030  21600000  1030          LOGM CFC                          %K -> K, FETCH
+  582  1031  3D0100A0  1031  BORAC,  LOGM AND ORBWO B,BM               %TEST BIT
+  583  1032  8000C21E  1032          CJMP NZERO BORCC+2                %JMP IF BIT = 1
+  584  1033  21600000  1033          LOGM CFC                          %K -> K, FETCH
+  585  1034  3D0100A0  1034  BORCC,  LOGM AND ORBWO B,BM               %TEST BIT
+  586  1035  8000C21B  1035          CJMP NZERO BORAC+2                %JMP IF BIT = 1
+  587  1036  376028A8  1036          LOGM CFC OR B,B2 A,S D,S          %1 -> K, FETCH
+  588  1037  370300A0  1037  KONE3,  LOGM OR B,BM ORBW                 %1 -> SPECIFIED BIT
+  589  1040  316028A8  1040          LOGM CFC ANDCB B,B2 A,S D,S       %0 -> K, FETCH
+  590  1041  01000A4B  1041  CIIPP,  ARM A,H B,MIS D,IO                %ION, IOF, PON, POF
+  591  1042  01600000  1042          ARM CFC
+  592                  
+  593                  1043  % MOPC
+  594                  1043  % OPERATORS COMMUNICATION FOR NORD-10
+  595  1043  01000A70  1043  MOPCM,  ARM A,Z B,PIE D,IO                %MASTER CLEAR, RESET PIE
+  596  1044  01100000  1044          ARM CHLEV                         %CHANGE LEVEL
+  597  1045  37002CA0  1045          LOGM OR A,Z B,B2 D,SCR            %SET BIT 2 IN SCR -> 1
+  598  1046  01000A3C  1046          ARM A,SCR B,PCR D,IO              %SET BANKNUMBER -> 0
+  599  1047  1F002CA0  1047          ARM BDI ADD1 B,B2 D,SCR           %5 -> SCR
+  600  1050  01000A4C  1050          ARM A,SCR B,MIS D,IO              %RESET PAGING AND INTERRUPT
+  601  1051  3F0052A0  1051          LOGM BDIR B,B5 D,P                %BIT5 -> CP
+  602  1052  01000A42  1052          ARM A,P B,MIS D,IO                %SET MOPC-BIT, BIT 5 MISC
+  603  1053  80000230  1053          JMP MOPCR
+  604  1054  35000E02  1054  MOPC,   LOGM ADIR A,P D,SP                %CP -> SP
+  605  1055  3F0052A0  1055          LOGM BDIR B,B5 D,P                %BIT5 -> CP
+  606  1056  01000A42  1056          ARM A,P B,MIS D,IO                %BIT-5 -> MISC
+  607  1057  75109F05  1057          ILOGM ADIR A,A D,SS LE11 DSPL     %SAVE A-REG
+  608  1060  3F00DCA0  1060  MOPCR,  LOGM BDIR B,B15 D,SCR             %BIT TO RESET LOAD LIGHT
+  609  1061  21000A0C  1061          LOGM A,SCR B,PAC D,IO
+  610  1062  3F005CA0  1062          LOGM BDIR B,B5 D,SCR
+  611  1063  3F0049A0  1063          LOGM BDIR B,B4 D,SH
+  612  1064  53108C9C  1064          IARM PLUS 2000000000 A,SCR B,SH D,SCR LE10 DSPL %60 -> SCR LEV10      (bit 28, the 2000000000, is set in the 1k PROM dump only; the listing and the 4k ROM read IARM PLUS)
+  613  1065  3F003CA0  1065          LOGM BDIR B,B3 D,SCR
+  614  1066  030019AC  1066          ARM PLUS A,SCR B,B1 D,SH          %12 -> SCR LEV 6
+  615  1067  7F106C90  1067          ILOGM BDIR B,SH D,SCR LE6 DSPL
+  616  1070  35000F00  1070          LOGM ADIR A,Z D,SS                %MOPC STATUS, 0 -> (SS LEV0)
+  617  1071  7510AF00  1071          ILOGM ADIR A,Z D,SS LE12 DSPL     %CLEAR EXAMINE ADDRESS
+  618  1072  3F006CA0  1072          LOGM BDIR D,SCR B,B6              %100 -> SCR
+  619  1073  03007CAC  1073          ARM PLUS B,B7 A,SCR D,SCR         %SET BIT 7
+  620  1074  7510FF0C  1074          ILOGM ADIR A,SCR D,SS LE17 DSPL   %300 -> (SS LEV17) CONSOLE DEV NR.
+  621  1075  010000CA  1075  NYFAF,  ARM A,IO B,MPC                    %SAVE RETUR ADD.
+  622  1076  800003EE  1076          JMP ACT
+  623  1077  010000CA  1077  REAC,   ARM A,IO B,MPC                    %SAVE MPC
+  624  1100  8000027E  1100          JMP ASS8
+  625                  
+  626                  1101  %TEST TERMINATING CHARACTER IN A-REG
+  627                  1101  %OCTAL NUMBER IN SH IF BIT14 SS IS ONE
+  628  1101  35000005  1101          LOGM ADIR A,A
+  629  1102  8000823F  1102          CJMP ZERO REAC                    %IGNORE BLANK’S
+  630  1103  3F006CA0  1103          LOGM BDIR B,B6 D,SCR              %100 -> SCR
+  631  1104  1D00055C  1104          ARM BMINA A,SCR B,A D,A           %100-A -> A
+  632  1105  80008223  1105          CJMP ZERO MOPCM                   %CHARACTER ”100” READ
+  633  1106  3F003CA0  1106          LOGM BDIR B,B3 D,SCR
+  634  1107  0500005C  1107          ARM BMAM1 B,A A,SCR
+  635  1110  8000831E  1110          CJMP ZERO IEX                     %111, CHARACTER 1”
+  636  1111  05000CBC  1111          ARM BMAM1 B,AC A,SCR D,SCR        %111, CHARACTER "I"
+  637  1112  80008323  1112          CJMP ZERO REX                     %122, CHARACTER ”R”
+  638  1113  030040AC  1113          ARM PLUS B,B4 A,SCR               %122, CHARACTER "R"
+  639  1114  800082FB  1114          CJMP ZERO BANK                    %102, B
+  640  1115  1B0045A5  1115          ARM PLUS A,A B,B4 D,A ADD1        %A + 20 + 1 -> A
+  641  1116  800082BB  1116          CJMP ZERO EXAM                    %CHARACTER "/"
+  642  1117  1B0025A5  1117          ARM PLUS A,A B,B2 ADD1 D,A        %TEST, 52*
+  643  1120  80008321  1120          CJMP ZERO CLC
+  644  1121  030025A5  1121          ARM PLUS A,A B,B2 D,A             %A + 10 -> A
+  645  1122  80008344  1122          CJMP ZERO ETSGN                   %CHAR. "&"
+  646  1123  030015A5  1123          ARM PLUS A,A B,B1 D,A             %A + 2 -> A
+  647  1124  80008341  1124          CJMP ZERO DOLL                    %CHAR. "$"
+  648  1125  1B0015A5  1125          ARM PLUS A,A B,B1 ADD1 D,A        %A + 3 -> A
+  649  1126  800082C8  1126          CJMP ZERO STPR                    %CHAR. "!"
+  650  1127  1F000550  1127          ARM BDI ADD1 D,A B,A
+  651  1130  8000823F  1130          CJMP ZERO REAC                    %SPACE
+  652  1131  030045A5  1131          ARM PLUS A,A B,B4 D,A             %A + 20 -> A
+  653  1132  1B0010A5  1132          ARM PLUS A,A B,B1 ADD1            %A + 3 -> A
+  654  1133  800082E3  1133          CJMP ZERO CHCR                    %CARRIAGE RET.
+  655  1134  3F006CA0  1134  QUM,    LOGM BDIR D,SCR B,B6
+  656  1135  03007CAC  1135          ARM PLUS B,B7 A,SCR D,SCR         %300 -> SCR
+  657  1136  7510FF0C  1136          ILOGM ADIR A,SCR D,SS LE17 DSPL   %300 -> SS(LEV17) CONSOLE DEVICE
+  658  1137  010065A0  1137          ARM BM1 B,B6 D,A                  %77 -> A
+  659  1140  3100FFA0  1140          LOGM ANDCB B,B17 D,SS             %RESET LOAD BIT
+  660  1141  010000CA  1141          ARM A,IO B,MPC                    %SAVE MPC
+  661  1142  800003DD  1142          JMP OUTCH                         %PRINT "?"
+  662  1143  3F00CCA0  1143          LOGM BDIR B,B14 D,SCR             %SET BIT 14
+  663  1144  01000A0C  1144          ARM A,SCR B,PAC D,IO              %SET ERROR INDICATOR
+  664  1145  80000230  1145          JMP MOPCR                         %READ NEXT CHAR.
+  665                  
+  666                  1146  %ROUTINE TO PRINT OCTAL NUMBERS
+  667                  1146  %PRINTS ON OPCOMDEV
+  668                  1146  %NUMBER IN SH-MOST SIGN.
+  669  1146  5B10EC0B  1146  OUT8,   IARM PLUS ADD1 A,H LE16 D,SCR DSPL %SAVE RETUR
+  670  1147  3F000BA0  1147          LOGM BDIR B,B0 D,SC
+  671  1150  C0002000  1150          LOOP SHRO TSC0                    %SHIFT LEFT SHRO 16
+  672  1151  3F000590  1151          LOGM BDIR B,SH D,A
+  673  1152  3D0005A5  1152          LOGM AND B,B0 A,A D,A             %FIRST OCTAL NUMB -> A-REG
+  674  1153  430085BC  1153          IARM PLUS A,SCR B,AC D,A LE10     %ADD 60
+  675  1154  010000CA  1154          ARM A,IO B,MPC                    %SAVE MPC
+  676  1155  800003DD  1155          JMP OUTCH                         %PRINT FIRST DIGIT
+  677  1156  1B002CA0  1156          ARM PLUS A,Z ADD1 B,B2 D,SCR      %5 -> SCR
+  678  1157  5D10AC0C  1157          IARM BMINA D,SCR B,Z A,SCR LE12 DSPL %-SCR -> SCR (LEV12)
+  679  1160  01002BA0  1160  NECHP,  ARM BM1 B,B2 D,SC                 %3 -> SC
+  680  1161  C0002000  1161          LOOP SHRO TSC0                    %SHIFT 3 SHRO LEFT
+  681  1162  01003CA0  1162          ARM BM1 B,B3 D,SCR                %7 -> SCR
+  682  1163  3D00009C  1163          LOGM AND B,SH A,SCR               %SH · 7 -> AC
+  683  1164  430085BC  1164          IARM PLUS A,SCR B,AC D,A LE10     %AC + 60 -> AC
+  684  1165  010000CA  1165          ARM A,IO B,MPC                    %SAVE MPC
+  685  1166  800003DD  1166          JMP OUTCH                         %PRINT ONE DIGIT
+  686  1167  7500AC0C  1167          ILOGM ADIR D,SCR A,SCR LE12
+  687  1170  5B10AC0C  1170          IARM PLUS ADD1 D,SCR B,Z A,SCR LE12 DSPL %COUNT
+  688  1171  8000C270  1171          CJMP NZERO NECHP
+  689  1172  3F0055A0  1172          LOGM BDIR D,A B,B5                %40 -> A
+  690  1173  350000CA  1173          LOGM ADIR B,MPC A,IO
+  691  1174  800003DD  1174          CALL OUTCH                        %PRINT SPACE
+  692  1175  80000293  1175          JMP RETU1
+  693                  
+  694                  1176  %THIS ROUTINE READS AN OCTAL NUMBER
+  695                  1176  %RETURN :OCTAL NUMBER IN SH(MOSTS)
+  696                  1176  %TERMINATING CHARACTER IN A-REG
+  697  1176  5B10EC0B  1176  ASS8,   IARM PLUS ADD1 A,H B,Z D,SCR LE16 DSPL %SAVE RETUR.
+  698  1177  35000900  1177          LOGM ADIR A,Z D,SH                %0 -> SH
+  699  1200  3100CFAF  1200          LOGM ANDCB B,B14 A,SS D,SS        %RESET OCTAL FLAG
+  700  1201  010000CA  1201  RLOOP,  ARM A,IO B,MPC                    %SAVE RETUR.
+  701  1202  800003CE  1202          JMP INCH                          %READ ONE CHARACTER
+  702  1203  310072A5  1203          LOGM ANDCB D,P B,B7 A,A           %RESET PARITY
+  703  1204  5D0085BC  1204          IARM BMINA D,A B,AC A,SCR LE10    %AC - 60 -> A
+  704  1205  8000D290  1205          CJMP SNEG EASS8                   %JMP IF NOT OCT. DIGIT
+  705  1206  3F003CA0  1206          LOGM BDIR B,B3 D,SCR              %10 -> SCR
+  706  1207  1D00055C  1207          ARM BMINA B,A A,SCR D,A           %A-10 -> A
+  707  1210  80009290  1210          CJMP SPOS EASS8                   %JMP IF NOT OCT. DIGIT
+  708  1211  010035A0  1211          ARM BM1 B,B3 D,A                  %7 -> A
+  709  1212  3D000C52  1212          LOGM AND A,P B,A D,SCR            %CP · A -> SCR
+  710  1213  01002BA0  1213          ARM BM1 B,B2 D,SC                 %3 -> SC
+  711  1214  C0000000  1214          LOOP TSC0                         %SHIFT 3 LEFT
+  712  1215  3700099C  1215          LOGM OR A,SCR B,SH D,SH           %NEW OCTAL DIGIT -> SH
+  713  1216  3700CFAF  1216          LOGM OR A,SS B,B14 D,SS           %SET OCTAL FLAG
+  714  1217  80000281  1217          JMP RLOOP                         %READ NEXT CHAR.
+  715  1220  35000502  1220  EASS8,  LOGM ADIR D,A A,P                 %TERMINATION CHAR. FROM P
+  716  1221  5D0060BC  1221          IARM BMINA B,AC A,SCR LE6         %TEST FOR LF
+  717  1222  80008281  1222          CJMP ZERO RLOOP                   %LINE FEED IGNORE
+  718  1223  7500E20C  1223  RETU1,  ILOGM ADIR A,SCR D,P LE16         %RETUR ADD. TO SCR
+  719  1224  21000AB2  1224  RETU,   LOGM A,P B,CAR D,IO               %SCR -> CAR
+  720  1225  A0000000  1225          JMP,CAR
+  721  1226  3F0052A0  1226  PANINC, LOGM BDIR B,B5 D,P                %BIT 5 SET IN CP
+  722  1227  01000A42  1227          ARM A,P B,MIS D,IO                %SET MOPC-BIT 5 IN MISC
+  723  1230  0100002A  1230          ARM A,IO B,OPR                    %READ OPR
+  724  1231  7510AF0B  1231          ILOGM ADIR D,SS A,H LE12 DSPL     %SAVE OPR
+  725  1232  0100000A  1232          ARM A,IO B,PAS                    %READ PANEL STATUS
+  726  1233  3500020B  1233          LOGM ADIR A,H D,P
+  727  1234  3F006FA0  1234          LOGM BDIR B,B6 D,SS               %SET STATUS FOR PANEL INTERRUPT
+  728  1235  800002AF  1235          JMP PANT2
+  729                  
+  730                  1236  %THIS ROUTINE TESTS PANEL BUTTONS  AND
+  731  1236  3D00F0AF  1236  PANTT,  LOGM AND B,B17 A,SS               %TEST LOAD
+  732  1237  8000C3CF  1237          CJMP NZERO RPANT                  %JMP TO INCH
+  733  1240  7F102F90  1240          ILOGM BDIR LE2 B,SH D,SS DSPL     %SAVE SH-REG
+  734  1241  0100000A  1241          ARM A,IO B,PAS                    %PANEL STATUS -> H
+  735  1242  3500020B  1242          LOGM ADIR A,H D,P                 %SAVE PAS
+  736  1243  7500950F  1243          ILOGM ADIR A,SS D,A LE11          %UNSAVE A
+  737  1244  3D00C0AB  1244          LOGM AND B,B14 A,H                %TEST SET ADDRESS
+  738  1245  8000C326  1245          CJMP NZERO SETAD
+  739  1246  3D00A0AB  1246          LOGM AND B,B12 A,H                %TEST RESTART
+  740  1247  8000C2C4  1247          CJMP NZERO RESTA                  %JMP TO RESTART
+  741  1250  3D00B0AB  1250          LOGM AND B,B13 A,H                %TEST DEPOSIT
+  742  1251  8000C337  1251          CJMP NZERO DEPP                   %DEPOSIT, ADDR. IN SS LE12
+  743  1252  3D0090AB  1252          LOGM AND B,B11 A,H                %TEST CONTINUE
+  744  1253  8000C2C7  1253          CJMP NZERO STFP                   %START PROG. IN MAIN MEM.
+  745  1254  3D0080AB  1254          LOGM AND B,B10 A,H                %TEST LOAD
+  746  1255  8000C343  1255          CJMP NZERO LOAD                   %LOAD FROM LOAD DEV.
+  747  1256  7F102F90  1256  PANT1,  ILOGM BDIR B,SH D,SS LE2 DSPL     %SAVE SH
+  748  1257  3D00D0A2  1257  PANT2,  LOGM AND B,B15 A,P                %TEST NOOP
+  749  1260  8000C332  1260          CJMP NZERO RETPA
+  750  1261  010079A0  1261          ARM BM1 B,B7 D,SH
+  751  1262  3D000C92  1262          LOGM AND B,SH A,P D,SCR           %RESET BIT IN PAS
+  752  1263  01000A0C  1263          ARM A,SCR B,PAC D,IO              %SET PAC
+  753  1264  3D0070A2  1264          LOGM AND B,B7 A,P                 %TEST REG. OR MEM. EXAM.
+  754  1265  8000C32E  1265          CJMP NZERO MEXM
+  755  1266  01000AB2  1266          ARM A,P B,CAR D,IO                %SET CAR
+  756  1267  01000000  1267          ARM
+  757  1270  75010C00  1270          ILOGM ADIR ORBWO D,SCR            %READ REG
+  758  1271  01000A2C  1271          ARM A,SCR B,LMP D,IO              %SET LAMP DISP.
+  759  1272  80000332  1272          JMP RETPA
+  760                  
+  761                  1273  %JMP TO THIS ROUTINE WHEN "/" IS TYPED
+  762  1273  37008FAF  1273  EXAM,   LOGM OR B,B10 A,SS D,SS           %SET EXAM BIT
+  763  1274  3D0070AF  1274          LOGM AND B,B7 A,SS                %TEST REGISTER EXAM
+  764  1275  8000C2D1  1275          CJMP NZERO REXAM                  %JMP REG EXAM IF NOT ZERO
+  765  1276  3100EFAF  1276          LOGM ANDCB B,B16 A,SS D,SS        %RESET REG DEP
+  766  1277  7F10AF90  1277          ILOGM BDIR B,SH D,SS LE12 DSPL    %SAVE ADDRESS
+  767  1300  7500A20F  1300  EXRO,   ILOGM ADIR A,SS D,P LE12          %ADDRESS -> CP
+  768  1301  01400220  1301          ARM CPTR BM1 B,P D,P              %CP - 1 -> CP
+  769  1302  01C00000  1302          ARM CRR1
+  770  1303  80000314  1303          JMP IEXA1
+  771                  
+  772                  1304  %START, <OCTALN.>!
+  773                  1304  %START ADDRESS IN SH IF OCTALNUMBER WRITTEN ELSE IN
+  774                  1304  %SP (CONTINUE)
+  775  1304  3F004EA0  1304  RESTA,  LOGM BDIR B,B4 D,SP               %SET RESTART ADDRESS
+  776  1305  01000A70  1305  STSP,   ARM A,Z B,PIE D,IO                %RESET PIE
+  777  1306  01100000  1306          ARM CHLEV                         %CHANGE LEVEL
+  778  1307  35000F00  1307  STFP,   LOGM ADIR A,Z D,SS                %0 -> SS, 0 -> OCTAL FLAG
+  779  1310  3D00CFAF  1310  STPR,   LOGM AND B,B14 A,SS D,SS          %PREPARE OCTAL TEST
+  780  1311  7500950F  1311          ILOGM ADIR A,SS D,A LE11          %UNSAVE A-REG
+  781  1312  01000A40  1312          ARM A,Z B,MIS D,IO                %0 -> MISC
+  782  1313  7500000F  1313          ILOGM ADIR A,SS LE0               %TEST OCTAL FLAG
+  783  1314  3F00CE90  1314          CLOGM NZERO BDIR B,SH D,SP        %START ADDRESS -> SP
+  784  1315  3F00DCA0  1315          LOGM BDIR B,B15 D,SCR             %SET BIT FOR RESET LOAD
+  785  1316  37009CAC  1316          LOGM OR B,B11 A,SCR D,SCR         %SET CONTINUE BIT
+  786  1317  01000A0C  1317          ARM A,SCR B,PAC D,IO              %SET BITS TO PANEL CONT.
+  787  1320  3560020E  1320          LOGM ADIR A,SP D,P CFC            %START ADDRESS -> CP, START
+  788                  
+  789                  1321  %REGISTER EXAMIN. JMP FROM EXAM
+  790                  1321  %TESTS ON BIT 15 IN STATUS(SS) AND JUMPS
+  791                  1321  %TO IEXAM IF "INTERNAL REG"
+  792  1321  31007FAF  1321  REXAM,  LOGM ANDCB B,B7 A,SS D,SS         %RESET REG EXAM
+  793  1322  3700EFAF  1322          LOGM OR B,B16 A,SS D,SS           %SET REG DEP
+  794  1323  7F107F90  1323          ILOGM BDIR B,SH D,SS LE7 DSPL     %SAVE REG NUMBER
+  795  1324  3D00D0AF  1324          LOGM AND A,SS B,B15               %TEST INTERNAL REG
+  796  1325  8000C311  1325          CJMP NZERO IEXAM                  %"INTERNAL REG" IF NOT ZERO
+  797  1326  7500790F  1326  ERDP,   ILOGM ADIR A,SS D,SH LE7          %UNSAVE REG NUMB.
+  798  1327  01003CA0  1327          ARM BM1 B,B3 D,SCR                %7 -> SCR
+  799  1330  3D000C9C  1330          LOGM AND A,SCR B,SH D,SCR         %MASK REG NUMB
+  800  1331  7500C90F  1331          ILOGM ADIR A,SS D,SH LE14         %READ LEVEL
+  801  1332  01002BA0  1332          ARM BM1 B,B2 D,SC                 %3 -> SC
+  802  1333  C0000000  1333          LOOP TSC0                         %SHIFT REG NUMB
+  803  1334  37000C9C  1334          LOGM OR A,SCR B,SH D,SCR          %GENERATE REG AND LEVEL
+  804  1335  01000ABC  1335          ARM A,SCR B,CAR D,IO
+  805  1336  7500950F  1336          ILOGM ADIR A,SS D,A LE11          %UNSAVE A
+  806  1337  3D0090AF  1337          LOGM AND B,B11 A,SS               %TEST DEPOSIT
+  807  1340  8000C303  1340          CJMP NZERO REDEP                  %RETUR TO DEPOSIT
+  808  1341  75010900  1341          ILOGM ADIR ORBWO D,SH             %READ REGISTER
+  809  1342  80000315  1342          JMP IEXA
+  810                  
+  811                  1343  %DEPOSIT ROUTINE,  ENTERED AFTER CARRIAGE RETURN
+  812  1343  010000CA  1343  CHCR,   ARM A,IO B,MPC                    %SAVE RETUR
+  813  1344  80000318  1344          JMP PRLF                          %PRINT LF
+  814  1345  31007FAF  1345          LOGM ANDCB B,B7 A,SS D,SS         %RESET BIT FOR RI (INT-REG)
+  815  1346  3D00E0AF  1346          LOGM AND B,B16 A,SS               %TEST REG DEPOSIT
+  816  1347  8000C30A  1347          CJMP NZERO REGDP                  %JMP TO REG DEPOSIT IF NOT ZERO
+  817  1350  3D00C0AF  1350          LOGM AND B,B14 A,SS               %TEST OCTAL NUMB. WRITTEN
+  818  1351  800082F0  1351          CJMP ZERO NDEP
+  819  1352  3D0080AF  1352          LOGM AND B,B10 A,SS               %/ FLAG NOT SET
+  820  1353  8000825C  1353          CJMP ZERO QUM
+  821  1354  7500A20F  1354  DEPM,   ILOGM ADIR A,SS D,P LE12          %READ ADDRESS
+  822  1355  01400220  1355          ARM CPTR BM1 B,P D,P              %CP - 1 -> CP, CP -> R
+  823  1356  3F000C90  1356          LOGM BDIR B,SH D,SCR              %DATA TO A-BUS REG.
+  824  1357  0180000C  1357          ARM CWR1 A,SCR                    %WRITE SCR
+  825  1360  3D0080AF  1360  NDEP,   LOGM AND B,B10 A,SS               %TEST EXAM BIT
+  826  1361  8000823F  1361          CJMP ZERO REAC                    %NO DEPOSIT
+  827  1362  7500A20F  1362          ILOGM ADIR D,P A,SS LE12
+  828  1363  5F10AF20  1363          IARM BDI ADD1 D,SS B,P LE12 DSPL  %INCREMENT ADDRESS
+  829  1364  800002C0  1364          JMP EXRO
+  830                  
+  831                  1365  %INTERNAL REGISTER DEPOSIT
+  832  1365  75007C0F  1365  IRD,    ILOGM ADIR A,SS D,SCR LE7         %READ REG NUMB.
+  833  1366  01000ABC  1366          ARM A,SCR B,CAR D,IO              %SET REG. NUMBER IN CAR
+  834  1367  3F000C90  1367          LOGM BDIR B,SH D,SCR              %NUMBER WRITTEN IN SCR
+  835  1370  15000AFC  1370          ARM ADIR A,SCR B,IR3 D,IO         %DEPOSIT IN SPESY. REG
+  836  1371  3100DFAF  1371          LOGM ANDCB A,SS B,B15 D,SS        %RESET INTERNAL REG BIT
+  837  1372  80000306  1372          JMP NRDP
+  838  1373  3F000C90  1373  BANK,   LOGM BDIR B,SH D,SCR
+  839  1374  37002CAC  1374          LOGM OR B,B2 A,SCR D,SCR          %SET BIT 2 IN SCR -> 1
+  840  1375  01000A3C  1375          ARM A,SCR B,PCR D,IO              %SET BANKNUMBER IN PCR
+  841  1376  31007FAF  1376          LOGM ANDCB B,B7 A,SS D,SS         %RESET BIT FOR R-I
+  842  1377  80000308  1377          JMP NRDP1
+  843                  
+  844                  1400  %*=*=*=*
+  845  1400  80000100  1400          JMP 400                           %INTERRUPT AND PANEL INT
+  846  1401  80000223  1401          JMP MOPCM                         %MASTER CLEAR
+  847  1402  8000022C  1402          JMP MOPC                          %STOP
+  848                  
+  849                  1403  %*=*=*=*
+  850  1403  7500190C  1403  REDEP,  ILOGM ADIR A,SCR D,SH LE1         %READ NUMBER
+  851  1404  7F130090  1404  RPDEP,  ILOGM BDIR ORBW DSPL B,SH         %DEPOSIT IN REG
+  852  1405  75109F05  1405          ILOGM ADIR A,A D,SS LE11 DSPL     %SAVE A-REG
+  853  1406  31009FAF  1406  NRDP,   LOGM ANDCB B,B11 A,SS D,SS        %RESET DEPOSIT BIT
+  854  1407  3100EFAF  1407          LOGM ANDCB A,SS B,B16 D,SS        %RESTORE REGEX BIT
+  855  1410  31008FAF  1410  NRDP1,  LOGM ANDCB A,SS B,B10 D,SS        %RESET / BIT
+  856  1411  8000023F  1411          JMP REAC
+  857                  
+  858                  1412  %ROUTINE FOR REGISTER DEPOSIT
+  859  1412  3D00C0AF  1412  REGDP,  LOGM AND B,B14 A,SS               %TEST OCTAL NUMBER WRITTEN
+  860  1413  80008306  1413          CJMP ZERO NRDP                    %NO DEPOSIT
+  861  1414  3D00D0AF  1414          LOGM AND B,B15 A,SS               %TEST "INTERNAL REG"
+  862  1415  8000C2F5  1415          CJMP NZERO IRD                    %INTERNAL REGISTER DEPOSIT
+  863  1416  7F101C90  1416          ILOGM BDIR B,SH D,SCR LE1 DSPL    %SAVE NUMBER
+  864  1417  37009FAF  1417          LOGM OR B,B11 A,SS D,SS           %SET BIT FOR DEPOSIT
+  865  1420  800002D6  1420          JMP ERDP                          %JMP TO GEN, REGNR. AND LEVEL
+  866                  
+  867                  1421  %"INTERNAL REG"  EXAMIN
+  868  1421  3F000C90  1421  IEXAM,  LOGM BDIR B,SH D,SCR              %REG. NUMBER -> SCR
+  869  1422  01000ABC  1422          ARM A,SCR B,CAR D,IO              %SET REG. NUMBER -> CAR
+  870  1423  010000FA  1423          ARM A,IO B,IR3                    %READ REG CONTENT
+  871  1424  3500090B  1424  IEXA1,  LOGM ADIR A,H D,SH
+  872  1425  010000CA  1425  IEXA,   ARM A,IO B,MPC                    %SAVE RETUR
+  873  1426  80000266  1426          JMP OUT8                          %PRINT NUMBER
+  874  1427  8000023F  1427          JMP REAC                          %READ NEXT INP
+  875  1430  5B105C0B  1430  PRLF,   IARM PLUS A,H B,Z ADD1 D,SCR LE5 DSPL %SAVE RETUR
+  876  1431  7500650C  1431          ILOGM ADIR A,SCR LE6 D,A          %12 -> A
+  877  1432  010000CA  1432          ARM A,IO B,MPC                    %SAVE RETUR
+  878  1433  800003DD  1433          JMP OUTCH                         %PRINT LF
+  879  1434  7500520C  1434  RETU5,  ILOGM ADIR A,SCR D,P LE5          %RETUR ADR -> CP
+  880  1435  80000294  1435          JMP RETU
+  881                  
+  882                  1436  %CHARACTER "I" WRITTEN
+  883  1436  3700DFAF  1436  IEX,    LOGM OR B,B15 A,SS D,SS           %SET FLAG FOR I
+  884  1437  37007FAF  1437          LOGM OR B,B7 A,SS D,SS            %SET FLAG FOR R + I
+  885  1440  80000308  1440          JMP NRDP1
+  886  1441  7500A90F  1441  CLC,    ILOGM ADIR A,SS D,SH LE12         %READ CURRENT LOC. COUNTER
+  887  1442  80000315  1442          JMP IEXA
+  888                  
+  889                  1443  %CHARACTER "R" WRITTEN
+  890  1443  7F10CF90  1443  REX,    ILOGM BDIR B,SH D,SS LE14 DSPL    %SAVE LEVEL
+  891  1444  3100DFAF  1444          LOGM ANDCB B,B15 A,SS D,SS        %RESET BIT FOR I
+  892  1445  8000031F  1445          JMP IEX+1
+  893  1446  0100002A  1446  SETAD,  ARM A,IO B,OPR                    %READ SWITCH REGISTER
+  894  1447  7510AF0B  1447          ILOGM ADIR A,H D,SS LE12 DSPL     %SAVE ADDRESS
+  895  1450  370009A2  1450          LOGM OR B,B0 A,P D,SH             %SET BIT 0 (BIT 2 PCR)
+  896  1451  3F001BA0  1451          LOGM BDIR B,B1 D,SC               %SET SHIFT COUNTER
+  897  1452  C0002000  1452          LOOP SHRO TSC0                    %SHIFT BANK NUMBER
+  898  1453  3F000C90  1453          LOGM BDIR B,SH D,SCR
+  899  1454  01000A3C  1454          ARM A,SCR B,PCR D,IO              %SET BANKNUMBER
+  900  1455  8000023F  1455          JMP REAC
+  901  1456  7500A20F  1456  MEXM,   ILOGM ADIR A,SS D,P LE12          %READ ADDRESS
+  902  1457  01400220  1457          ARM BM1 B,P D,P CPTR
+  903  1460  01C00000  1460          ARM CRR1
+  904  1461  01000A2B  1461          ARM A,H B,LMP D,IO                %SET DATA
+  905  1462  7500290F  1462  RETPA,  ILOGM ADIR A,SS D,SH LE2          %UNSAVE SH
+  906  1463  3D0060AF  1463          LOGM AND B,B6 A,SS                %TEST PANEL INTERRUPT
+  907  1464  800083CF  1464          CJMP ZERO RPANT                   %RETUR TO INCH
+  908  1465  01000A40  1465          ARM A,Z B,MIS D,IO                %RESET MOPC BIT
+  909  1466  3560020E  1466          LOGM CFC ADIR A,SP D,P            %SP -> CP, FETCH
+  910  1467  0100002A  1467  DEPP,   ARM A,IO B,OPR                    %READ OPR
+  911  1470  3D0070A2  1470          LOGM AND B,B7 A,P                 %TEST REG. OR MEM. DEPOSITE
+  912  1471  8000833E  1471          CJMP ZERO RDEP
+  913  1472  7500A20F  1472          ILOGM ADIR A,SS D,P LE12          %READ ADDRESS
+  914  1473  01400220  1473          ARM BM1 B,P D,P CPTR
+  915  1474  0180000B  1474          ARM CWR1 A,H                      %DEPOSITE IN MEM.
+  916  1475  8000023F  1475          JMP REAC
+  917  1476  01000AB2  1476  RDEP,   ARM A,P B,CAR D,IO                %SET REG. N. AND LEVEL -> CAR
+  918  1477  3500090B  1477          LOGM ADIR A,H D,SH                %DATA -> SH
+  919  1500  80000304  1500          JMP RPDEP
+  920                  
+  921                  1501  %ENTRY IN MOPC AFTER $, & OR LOAD COMMAND
+  922                  1501  %(SH1)= ALD-NUMBER, SPECIFIED ON CONSOLE DEVICE
+  923                  1501  %IF NO ALD NUMBER IS SPECIFIED, THE DEFAULT NUMBER IS READ FROM ALD
+  924                  1501  %ALD NUMBER FORMAT
+  925                  1501  %BIT 15 : EXTN, EXTENDED LOAD FUNCTION
+  926                  1501  %BIT 14 : RESTART
+  927                  1501  %BIT 13 : MASS STORAGE LOAD
+  928                  1501  %BIT 12 : OTAL LOAD
+  929  1501  3F00C5A0  1501  DOLL,   LOGM BDIR D,A B,B14               %10000 -> A, AFTER $
+  930  1502  80000345  1502          JMP DOLET
+  931  1503  3F00FFA0  1503  LOAD,   LOGM BDIR B,B17 D,SS              %SET LOAD-FLAG, RESET OCTAL READ FLAG
+  932  1504  3F000500  1504  ETSGN,  LOGM BDIR D,A B,Z                 %0 -> A, AFTER & OR LOAD
+  933  1505  3500000A  1505  DOLET,  LOGM ADIR B,PAS A,IO              %READ PANEL
+  934  1506  010082A0  1506          ARM BM1 D,P B,B10                 %377 -> P
+  935  1507  3D00022B  1507          LOGM AND D,P B,P A,H
+  936  1510  370082A2  1510          LOGM OR D,P B,B10 A,P
+  937  1511  35000A02  1511          LOGM ADIR D,IO B,PAC A,P          %SET LOAD BIT IN PANEL CONTROL
+  938  1512  3D00C0AF  1512          LOGM AND B,B14 A,SS               %TEST IF OCTAL NUMBER READ
+  939  1513  8000C34E  1513          CJMP NZERO DE0                    %JMP OCTAL READ
+  940  1514  350000AA  1514          LOGM ADIR B,ALD A,IO              %GET ALD
+  941  1515  3500090B  1515          LOGM ADIR D,SH A,H
+  942  1516  37000595  1516  DE0,    LOGM OR D,A A,A B,SH              %OR IN B14 IF $ WRITTEN
+  943  1517  3D00F0A5  1517          LOGM AND B,B17 A,A
+  944  1520  8000C37C  1520          CJMP NZERO EXTN                   %EXTENDED LOAD FUNCTION
+  945  1521  3D00E0A5  1521          LOGM AND B,B16 A,A                %RESTART FUNCTION?
+  946  1522  8000C37E  1522          CJMP NZERO RSTRT                  %YES
+  947  1523  3D00D0A5  1523          LOGM AND B,B15 A,A
+  948  1524  8000C381  1524          CJMP NZERO MASS                   %MASS STORAGE LOAD
+  949  1525  7510FF05  1525  DE1,    ILOGM ADIR D,SS A,A LE17 DSPL     %DEV. NR. -> SS LEV17
+  950  1526  3F00FFA0  1526          LOGM BDIR D,SS B,B17              %SET LOAD FLAG
+  951  1527  37008FAF  1527          LOGM OR D,SS B,B10 A,SS           %SET EXAMINE BIT IN SS
+  952  1530  3D00C0A5  1530          LOGM AND B,B14 A,A
+  953  1531  8000C23D  1531          CJMP NZERO NYFAF                  %OCTAL LOAD IF A = 010000
+  954                  
+  955                  1532  %BINARY LOAD
+  956                  1532  %WILL PICK UP NECESSZRY PARAMETERS FROM A STANDARD (OCTAL)
+  957                  1532  %BOOTSTRAP AND LOAD THE BINARY INFORMATION INTO CORE
+  958                  1532  %IMMEDIATELY FOLLOWING THE CHECKSUM THERE IS AN ACTION
+  959                  1532  %COMMAND. IF TERMINATING
+  960                  1532  %CHARACTER IS A BLANK, THEN THE LOADED PROGRAM IS STARTED IN
+  961                  1532  %THE START ADDRESS FOUND IN THE BOOTSTRAP.  OTHERWISE THE COMMAND
+  962                  1532  %IS ACTED UPON BY MOPC
+  963  1532  350000CA  1532  BINL,   LOGM ADIR B,MPC A,IO
+  964  1533  800003EE  1533          CALL ACT                          %ACTIVATE DEVICE
+  965  1534  35000900  1534          LOGM ADIR D,SH A,Z                %0 -> SH
+  966  1535  3F000E90  1535  SEEK,   LOGM BDIR D,SP B,SH               %SH -> SP (POSSIBLE START ADDRESS)
+  967  1536  350000CA  1536  SIKI,   LOGM ADIR B,MPC A,IO
+  968  1537  8000027E  1537          CALL ASS8
+  969  1540  3D00C0AF  1540          LOGM AND B,B14 A,SS               %OCTAL NUMBER READ?
+  970  1541  8000835E  1541          CJMP ZERO SIKI                    %NO
+  971  1542  1D0050A5  1542          ARM BMINA B,B5 A,A                %A - 40 -> AC
+  972  1543  1B0000B0  1543          ARM PLUS ADD1 B,AC A,Z            %AC + 1 -> AC
+  973  1544  8000C35D  1544          CJMP NZERO SEEK                   %SEEK FOR '!' AS TERMINATOR
+  974  1545  350000CA  1545          LOGM ADIR B,MPC A,IO
+  975  1546  800003A5  1546          CALL BIN
+  976  1547  01400290  1547          ARM BM1 D,P B,SH CPTR             %SH - 1 -> CP, CP -> R, BLOCK START
+  977  1550  350000CA  1550          LOGM ADIR B,MPC A,IO
+  978  1551  800003A5  1551          CALL BIN
+  979  1552  3F000690  1552          LOGM BDIR D,T B,SH                %SH -> T, WORD COUNT
+  980  1553  35000100  1553          LOGM ADIR D,D A,Z                 %0 -> D
+  981  1554  350000CA  1554  STLP,   LOGM ADIR B,MPC A,IO              %STORE LOOP
+  982  1555  800003A5  1555          CALL BIN
+  983  1556  3F000590  1556          LOGM BDIR D,A B,SH                %SH -> A, BINARY WORD
+  984  1557  03000115  1557          ARM PLUS D,D B,D A,A              %ACCUMULATE CHECKSUM
+  985  1560  01800665  1560          ARM BM1 D,T B,T CWR1 A,A          %T - 1 -> T, STORE A IN (R) + 1
+  986  1561  8000C36C  1561          CJMP NZERO STLP
+  987  1562  350000CA  1562          LOGM ADIR B,MPC A,IO
+  988  1563  800003A5  1563          CALL BIN                          %READ CHECKSUM
+  989  1564  33000091  1564          LOGM EXOR B,SH A,D
+  990  1565  8000C25C  1565          CJMP NZERO QUM                    %CHECKSUM ERROR
+  991  1566  3F00FFA0  1566          LOGM BDIR D,SS B,B17              %SET LOAD BIT
+  992  1567  350000CA  1567          LOGM ADIR B,MPC A,IO
+  993  1570  8000027E  1570          CALL ASS8                         %READ ACTION CODE
+  994  1571  35000005  1571          LOGM ADIR A,A
+  995  1572  800082C5  1572          CJMP ZERO STSP                    %START PROGRAM (TERMINATOR = BLANK)
+  996  1573  80000241  1573          JMP REAC+2
+  997                  
+  998                  1574  %EXTN
+  999                  1574  %EXTENDED LOAD FUNCTION
+ 1000                  1574  %WHEN THE EXTN-BIT (BIT15) IN A IS SET, A MICRO-JUMP TO THE ADDRESS
+ 1001                  1574  %FOUND IN A BIT0-10 IS PERFORMED
+ 1002                  1574  %NO FURTHER DECODING OF ALD TAKES PLACE
+ 1003  1574  35000AB5  1574  EXTN,   LOGM ADIR D,IO B,CAR A,A
+ 1004  1575  A0000000  1575          JMP,CAR
+ 1005                  
+ 1006                  1576  %RSTRT
+ 1007                  1576  %RESTART FUNCTION (NOT TO BE CONFUSED WITH THE RESTART BUTTON)
+ 1008                  1576  %WHEN THE RSTRT-BIT (BIT 14) OF A IS SET, THE CPU IS STARTED
+ 1009                  1576  %IN 4* (THE ADDRESS FOUND IN BIT0-13 IN A ). BIT 0-1 IN THE
+ 1010                  1576  %RESULTING ADDRESS IS 0
+ 1011  1576  03000555  1576  RSTRT,  ARM PLUS D,A B,A A,A              %*2
+ 1012  1577  03000E55  1577          ARM PLUS D,SP B,A A,A             %*4
+ 1013  1600  800002C5  1600          JMP STSP                          %START PROGRAM
+ 1014                  
+ 1015                  1601  %MASS
+ 1016                  1601  %MASS STORAGE LOAD
+ 1017                  1601  %MASS WILL LOAD 1K WORDS FROM MASS STORAGE ADDRESS 0 INTO MEMORY
+ 1018                  1601  %FROM MEMORY ADDRESS0
+ 1019                  1601  %(LOWEST)  MASS STORAGE REGISTER ADDRESS IS FOUND IN BIT 0-10 IN ALD
+ 1020                  1601  %THE ACTUAL MASS STORAGE MUST CONFORM WITH THE DRUM/DISC
+ 1021                  1601  %PROGRAMMING SPECIFICATION.
+ 1022  1601  034002A5  1601  MASS,   ARM PLUS D,P B,B0 A,A CPTR        %DEV NR(DNO) + 1 -> CP, CP -> R
+ 1023  1602  35000500  1602  MAS1,   LOGM ADIR D,A A,Z                 %0 -> A
+ 1024  1603  35000C0D  1603          LOGM ADIR D,SCR A,R               %DNO + 1
+ 1025  1604  350000CA  1604          LOGM ADIR B,MPC A,IO
+ 1026  1605  8000039A  1605          CALL IOXR                         %0 -> CORE ADDRESS
+ 1027  1606  03001CAD  1606          ARM PLUS D,SCR B,B1 A,R           %DNO + 3
+ 1028  1607  350000CA  1607          LOGM ADIR B,MPC A,IO
+ 1029  1610  8000039A  1610          CALL IOXR                         %0 -> BLOCK ADDRESS
+ 1030  1611  3F00A5A0  1611          LOGM BDIR D,A B,B12               %2000 -> A
+ 1031  1612  03002CAC  1612          ARM PLUS D,SCR B,B2 A,SCR         %DNO + 7
+ 1032  1613  350000CA  1613          LOGM ADIR B,MPC A,IO
+ 1033  1614  8000039A  1614          CALL IOXR                         %2000 -> WORD COUNTER
+ 1034  1615  3F0025A0  1615          LOGM BDIR D,A B,B2                %4 -> A
+ 1035  1616  03002CAD  1616          ARM PLUS D,SCR B,B2 A,R           %DNO + 5
+ 1036  1617  350000CA  1617          LOGM ADIR B,MPC A,IO
+ 1037  1620  8000039A  1620          CALL IOXR                         %ACTIVATE DEVICE
+ 1038  1621  1B001CAD  1621          ARM PLUS ADD1 D,SCR B,B1 A,R      %DNO + 4
+ 1039  1622  350000CA  1622  MAS2,   LOGM ADIR B,MPC A,IO
+ 1040  1623  8000039A  1623          CALL IOXR
+ 1041  1624  3D0020A5  1624          LOGM AND B,B2 A,A                 %DEVICE ACTIVE
+ 1042  1625  8000C392  1625          CJMP NZERO MAS2
+ 1043  1626  35000E00  1626          LOGM ADIR D,SP A,Z                %START IN MEMORY ADDRESS 0
+ 1044  1627  3D0040A5  1627          LOGM AND B,B4 A,A                 %ERROR?
+ 1045  1630  800082C5  1630          CJMP ZERO STSP                    %OK
+ 1046  1631  80000382  1631          JMP MAS1                          %ERROR' TRY AGAIN
+ 1047                  
+ 1048                  1632  %IOX
+ 1049                  1632  %IOX EXECUTES A GENERAL IOX OPERATION
+ 1050                  1632  %CALL WITH : IOX_INSTRUCTION OR DEVICE-NUMBER IN SCR0
+ 1051                  1632  %  DATA IN A0
+ 1052                  1632  %RETURN WITH : DATA IN A0  '  IOXR INSTRUCTION IN SCR0
+ 1053                  1632  %
+ 1054  1632  030002AB  1632  IOXR,   ARM PLUS D,P B,B0 A,H             %SAVE RETURN = CALL + 1
+ 1055  1633  0100B0A0  1633          ARM BM1 B,B13                     %3777 -> AC
+ 1056  1634  3D000CBC  1634          LOGM AND D,SCR B,AC A,SCR         %STRIP OFF DEVICE NUMBER
+ 1057  1635  0100B0A0  1635          ARM BM1 B,B13                     %3777 -> AC
+ 1058  1636  25000CBC  1636          LOGM ORCB D,SCR B,AC A,SCR        %17400 + SCR -> SCR
+ 1059  1637  3100CCAC  1637          LOGM ANDCB D,SCR B,B14 A,SCR      %167777 · SCR -> SCR
+ 1060  1640  35000ABC  1640          LOGM ADIR D,IO B,CAR A,SCR        %SET UP CAR
+ 1061  1641  35000AE5  1641          LOGM ADIR D,IO BIO A,A            %OUT -
+ 1062  1642  350000EA  1642          LOGM ADIR BIO A,IO                %- IN -
+ 1063  1643  3500050B  1643          LOGM ADIR D,A A,H                 %- TO A-REG
+ 1064  1644  80000294  1644          JMP RETU                          %STANDARD RETURN
+ 1065                  
+ 1066                  1645  %BIN
+ 1067                  1645  %BIN READS A 16BIT WORD IN TWO BYTES
+ 1068                  1645  %CALL WITH : DEVICE-NO IN SS17
+ 1069                  1645  %RETURNS WITH : DATA IN SH1
+ 1070  1645  5B105C0B  1645  BIN,    IARM PLUS ADD1 D,SCR B,Z A,H LE5 DSPL %SAVE RETURN
+ 1071  1646  350000CA  1646  BIN1,   LOGM ADIR B,MPC A,IO
+ 1072  1647  800003CE  1647          CALL INCH                         %READ 1, BYTE
+ 1073  1650  35000905  1650          LOGM ADIR D,SH A,A
+ 1074  1651  3F003BA0  1651          LOGM BDIR D,SC B,B3               %8 -> SC
+ 1075  1652  C0000000  1652          LOOP                              %SHIFT 8 LEFT
+ 1076  1653  350000CA  1653  BIN2,   LOGM ADIR B,MPC A,IO
+ 1077  1654  800003CE  1654          CALL INCH                         %READ 2, BYTE
+ 1078  1655  37000995  1655          LOGM OR D,SH B,SH A,A             %JOIN
+ 1079  1656  8000031C  1656          JMP RETU5                         %STANDARD RETURN
+ 1080                  
+ 1081                  1657  %MAIN MEMORY CHECK
+ 1082                  1657  %MICRO-PROGRAM, VERSION C
+ 1083                  1657  %NJL 6/6/73
+ 1084                  1657  %
+ 1085                  1657  %TESTS MEMORY FROM ADDRESS SPECIFIED IN B-REG AND UP TO
+ 1086                  1657  %ADDRESS SPECIFIED IN X-REG
+ 1087                  1657  %
+ 1088                  1657  %ERROR INDICATION:
+ 1089                  1657  %    T=FAILING BITS          [OR6 ]
+ 1090                  1657  %    P=FAILING ADDRESS       [OR2 ]
+ 1091                  1657  %    D=ERROR PATTERN         [OR1 ]
+ 1092                  1657  %    L=TEST PATTERN          [OR4 ]
+ 1093                  1657  %    B=START ADDRESS         [OR3 ]
+ 1094                  1657  %    X=STOP ADDRESS          [OR7 ]
+ 1095                  1657  %
+ 1096                  1657  %IF NO ERROR IS FOUND T = 000000
+ 1097                  1657  %
+ 1098                  1657  %PATTERNS USED :
+ 1099                  1657  %
+ 1100                  1657  %    000001
+ 1101                  1657  %    000002
+ 1102                  1657  %    000004
+ 1103                  1657  %    ......
+ 1104                  1657  %    ......
+ 1105                  1657  %    100000
+ 1106                  1657  %
+ 1107                  1657  %    ADDRESS STORED IN ADDRESS (THIS PATTERN IS RUN 16 TIMES)
+ 1108                  1657  %
+ 1109                  1657  %    AND THEIR  COMPLEMENTS
+ 1110                  1657  %
+ 1111                  1657  %USE OF REGISTERS IN THIS PROGRAM :
+ 1112                  1657  %
+ 1113                  1657  %    A = 000000  USE T AS TEST DATA
+ 1114                  1657  %    A = 177777  USE ADDRESS AS TEST DATA
+ 1115                  1657  %
+ 1116                  1657  %    SCR = 000000  WRITE TEST DATA INTO CORE
+ 1117                  1657  %    SCR = 177777  READ TEST DATA FROM CORE
+ 1118                  1657  %
+ 1119                  1657  %    D = 000000 USE TEST DATA AS IS
+ 1120                  1657  %    D = 177777 USE COMPLEMENT OF TEST DATA
+ 1121                  1657  %
+ 1122                  1657  %    L =        TEST DATA
+ 1123                  1657  %
+ 1124  1657  35000500  1657  MMCC,   LOGM ADIR D,A A,Z                 %0 -> SS               INIT PHASE
+ 1125  1660  35000100  1660  MM00,   LOGM ADIR D,D A,Z                 %0 -> D                INIT POLARITY
+ 1126  1661  3F0006A0  1661  MM0,    LOGM BDIR D,T B,B0                %1 -> T                INIT DATA
+ 1127  1662  35000C00  1662  MM1,    LOGM ADIR D,SCR A,Z               %0 -> SCR              INIT STORE
+ 1128  1663  01400230  1663  MM2,    ARM BM1 D,P B,B CPTR              %(B) - 1 -> CP, CP -> R     INIT ADDRESS
+ 1129  1664  1B00040D  1664  MM3,    ARM PLUS ADD1 D,L B,Z A,R         %(R) + 1 -> L          MAKE DATA
+ 1130  1665  35000005  1665          LOGM ADIR A,A
+ 1131  1666  35008406  1666          CLOGM ADIR ZERO D,L A,T           %(T) -> L IF (A) = 0
+ 1132  1667  33000414  1667          LOGM EXOR D,L B,D A,L             %(L) -> L IF (D) = 177777
+ 1133  1670  3500000C  1670          LOGM ADIR A,SCR
+ 1134  1671  8000C3BC  1671          CJMP NZERO MM4                    %LOAD IF (SCR) = 0
+ 1135  1672  01800004  1672          ARM A,L CWR1                      %STORE L IN (R) + 1
+ 1136  1673  800003BF  1673          JMP MM41
+ 1137  1674  01C00000  1674  MM4,    ARM CRR1
+ 1138  1675  3300004B  1675          LOGM EXOR B,L A,H                 %((R) + 1) -> H
+ 1139  1676  8000C3CA  1676          CJMP NZERO ERR                    %ERROR DETECTED
+ 1140  1677  1D00007D  1677  MM41,   ARM BMINA B,X A,R                 %TEST FOR LAST LOCATION
+ 1141  1700  8000C3B4  1700          CJMP NZERO MM3                    %CONTINUE
+ 1142  1701  2B000C0C  1701          LOGM ADIRC D,SCR A,SCR            %SWITCH LOAD/STORE
+ 1143  1702  8000C3B3  1702          CJMP NZERO MM2
+ 1144  1703  03000666  1703          ARM PLUS D,T B,T A,T              %T + T -> T            SWITCH DATA
+ 1145  1704  8000C3B2  1704          CJMP NZERO MM1
+ 1146  1705  2B000101  1705  MM45,   LOGM ADIRC D,D A,D                %                      SWITCH POLARITY
+ 1147  1706  8000C3B1  1706          CJMP NZERO MM0                    %DO COMPLEMENT
+ 1148  1707  2B000505  1707  MM5,    LOGM ADIRC D,A A,A                %                      SWITCH PHASE
+ 1149  1710  8000C3B0  1710          CJMP NZERO MM00                   %CONTINUE WITH ADDRESS IN ADDRESS
+ 1150  1711  8000022C  1711          JMP MOPC                          %END OF TEST
+ 1151  1712  3500010B  1712  ERR,    LOGM ADIR D,D A,H                 %DATA READ
+ 1152  1713  35000E0D  1713          LOGM ADIR D,SP A,R                %FAILING ADDRESS R -> SP
+ 1153  1714  33000641  1714          LOGM EXOR D,T B,L A,D             %FAILING BITS -> T
+ 1154  1715  8000025C  1715          JMP QUM                           %MOPC ERROR ENTRY-POINT
+ 1155                  
+ 1156                  1716  %INCH
+ 1157                  1716  %INPUT CHARACTER (BYTE) FROM DEVICE FOUND IN (SS17)
+ 1158                  1716  %RETURNS CHARACTER IN A0
+ 1159                  1716  %*** SCR0 IS DESTROYED ***
+ 1160                  1716  %IF LOAD-BIT IS SET (BIT17 IN SS0) THEN THERE WILL BE NO ECHOING
+ 1161                  1716  %ON DEVICE-NUMBER (SS17) +4
+ 1162  1716  5B10DC0B  1716  INCH,   IARM PLUS ADD1 D,SCR B,Z A,H LE15 DSPL
+ 1163  1717  7500FC0F  1717  RPANT,  ILOGM ADIR D,SCR A,SS LE17        %(RETURN FROM PANTT) DN0 -> SCR
+ 1164  1720  03001CAC  1720          ARM PLUS D,SCR B,B1 A,SCR         %DN0 + 2 -> SCR
+ 1165  1721  350000CA  1721          LOGM ADIR B,MPC A,IO
+ 1166  1722  8000039A  1722          CALL IOXR                         %READ STATUS
+ 1167  1723  3D0030A5  1723          LOGM AND B,B3 A,A                 %READY FOR TRANSFER ?
+ 1168  1724  8000829E  1724          CJMP ZERO PANTT                   %NO, TEST PANEL
+ 1169  1725  7500FC0F  1725          ILOGM ADIR D,SCR A,SS LE17        %YES, DN0 -> SCR
+ 1170  1726  350000CA  1726          LOGM ADIR B,MPC A,IO
+ 1171  1727  8000039A  1727          CALL IOXR                         %READ CHARACTER
+ 1172  1730  7510BC05  1730          ILOGM ADIR D,SCR A,A DSPL LE13    %SAVE A
+ 1173  1731  350000CA  1731          LOGM ADIR B,MPC A,IO
+ 1174  1732  800003EE  1732          CALL ACT                          %ACTIVATE DEVICE
+ 1175  1733  7500B50C  1733          ILOGM ADIR D,A A,SCR LE13         %UNSAVE A0
+ 1176  1734  800003DE  1734          JMP OUT1                          %FOR ECHO-ING
+ 1177                  
+ 1178                  1735  %OUTCH
+ 1179                  1735  %WRITES A CHARACTER ON DEVICE (SS17) +4
+ 1180                  1735  %*** SCR0 IS DESTROYED ***
+ 1181  1735  5B10DC0B  1735  OUTCH,  IARM PLUS ADD1 D,SCR B,Z A,H LE15 DSPL
+ 1182  1736  3D00F0AF  1736  OUT1,   LOGM AND B,B17 A,SS
+ 1183  1737  8000C3EC  1737          CJMP NZERO OUT3                   %NO OUTPUT IF LOAD MODE
+ 1184  1740  7510BC05  1740          ILOGM ADIR D,SCR A,A LE13 DSPL    %SAVE A0
+ 1185  1741  5B00FC0F  1741          IARM PLUS ADD1 D,SCR B,Z A,SS LE17 %DN0 + 1 -> SCR
+ 1186  1742  1B002CAC  1742          ARM PLUS ADD1 D,SCR B,B2 A,SCR    %DN0 + 6 -> SCR
+ 1187  1743  350000CA  1743  OUT2,   LOGM ADIR B,MPC A,IO
+ 1188  1744  8000039A  1744          CALL IOXR                         %READ STATUS
+ 1189  1745  3D0030A5  1745          LOGM AND B,B3 A,A                 %READY FOR TRANSFER?
+ 1190  1746  800083E3  1746          CJMP ZERO OUT2                    %NO
+ 1191  1747  3500000C  1747          LOGM ADIR A,SCR                   %SCR -> AC
+ 1192  1750  01000CB0  1750          ARM BM1 D,SCR B,AC                %DN0 + 5 -> SCR
+ 1193  1751  7500B50C  1751          ILOGM ADIR D,A A,SCR LE13         %UNSAVE A0
+ 1194  1752  350000CA  1752          LOGM ADIR B,MPC A,IO
+ 1195  1753  8000039A  1753          CALL IOXR                         %WRITE CHARACTER
+ 1196  1754  7500D20C  1754  OUT3,   ILOGM ADIR D,P A,SCR LE15
+ 1197  1755  80000294  1755          JMP RETU                          %STANDARD RETURN
+ 1198                  
+ 1199                  1756  %ACTIVATES DEVICE
+ 1200  1756  5B00FC0F  1756  ACT,    IARM PLUS ADD1 D,SCR B,Z A,SS LE17 %DN0 + 1 -> SCR
+ 1201  1757  03001CAC  1757          ARM PLUS D,SCR B,B1 A,SCR         %DN0 + 3 -> SCR
+ 1202  1760  1B0025A0  1760          ARM PLUS ADD1 A,Z B,B2 D,A        %5 -> A
+ 1203  1761  3D00F0AF  1761          LOGM AND B,B17 A,SS               %LOAD MODE ?
+ 1204  1762  8000C3F6  1762          CJMP NZERO ACT1                   %YES. DO NOT SET PARITY ETC.
+ 1205  1763  0300B5A5  1763          ARM PLUS A,A B,B13 D,A            %4005 -> A
+ 1206  1764  3700F5A5  1764          LOGM OR D,A B,B17 A,A
+ 1207  1765  3700E5A5  1765          LOGM OR D,A B,B16 A,A             %144005 -> A
+ 1208  1766  8000039A  1766  ACT1,   CALL IOXR                         %(RETURN ADDRESS ALREADY IN H-REG)
+ 1209                  
+ 1210                  1767  %THIS PROGRAM STORES THE L-REGISTER IN THE LOCATION CONTAINED
+ 1211                  1767  %IN B-REGISTER.  IT THEN LOADS THE SAME ADDRESS INTO THE D-REGISTER
+ 1212                  1767  %AND FORMS EXCLUSIVE OR OF L- AND D-REGISTER IN THE T-REGISTERS
+ 1213                  1767  %THIS LOOP CAN ONLY BE TERMINATED BY PUSHING MASTER CLEAR.
+ 1214  1767  01400230  1767  MLOOP,  ARM BM1 D,P B,B CPTR              %B - 1 -> CP, CP -> R
+ 1215  1770  35808004  1770  MLP1,   CLOGM ADIR CWR1 ZERO A,L          %STORE L (ACTIVATE CONDITION)
+ 1216  1771  3540010B  1771          LOGM ADIR D,D A,H CPTR            %H -> D, CP -> R
+ 1217  1772  33C00641  1772          LOGM EXOR D,T B,L A,D CRR1        %L V D -> T, LOAD H
+ 1218  1773  800003F7  1773          JMP MLOOP
+ 1219                  
+ 1220                  1774  % MCLS, in the listing - the second word with this label
+ 1221  1774  010000FA  1774          ARM A,IO BIR3                     %MCL, REG -> H
+ 1222  1775  31000E5B  1775          LOGM ANDCB A,H B,A D,SP           %N(A), H -> SP
+ 1223  1776  35000AFE  1776          LOGM A,SP BIR3 D,IO ADIR          %REG -> SP
+ 1224  1777  80000041  1777          JMP FETCH
+ 1225                  

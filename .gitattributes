@@ -1,0 +1,5 @@
+* text=auto
+# Assembled control-store images are binary; the .hex PROM format and every .TXT listing are text.
+*.CODE binary
+*.png binary
+*.ico binary

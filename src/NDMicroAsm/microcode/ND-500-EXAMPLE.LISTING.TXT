@@ -1,0 +1,36 @@
+0001  000000  # ND-500 micro code example - exercises the ND500Compiler feature set.
+0002  000000  # Syntax per ND-05.012.01 ch. 14: mnemonics separated by spaces, ';' ends the
+0003  000000  # instruction, '#' at a whitespace boundary starts a comment ('#' inside a
+0004  000000  # token is a register select, e.g. B,X#0), 'nnnn/' sets the address, all
+0005  000000  # constants are octal.
+0006  000000  # The compiled .CODE file is a PACKED18 8K control store image - open it in
+0007  000000  # the nd500uc web disassembler to inspect the result.
+0008  000000  
+0009  000000  # Word 0: CS0 (bits 15-0) is left free so the assembler stamps the assembly
+0010  000000  # date there (year/month/day), like the original N500 assembler did.
+0011  000000  0/ NEXT ;
+0012  000001  
+0013  000001  # Basic ALU operation: TOS := P + X0
+0014  000001  START:  A,P B,X#0 ALU,A+B D,TOS NEXT ;
+0015  000002  
+0016  000002  # Short argument: A-operand is the sign-extended octal constant 123456
+0017  000002          A,XD,SARG 123456 B,X#0 ALU,A+B D,X#0 NEXT ;
+0018  000003  
+0019  000003  # Long argument: 32-bit constant 000012,034567 to TOS
+0020  000003          A,XD,LARG 12,34567 D,TOS NEXT ;
+0021  000004  
+0022  000004  # Conditional sequence: on zero jump to START, else fall through
+0023  000004          COND,ZRO C,SEQ JMP START F,NEXT ;
+0024  000005  
+0025  000005  # Conditional ALU: A+B when the condition is true, A-B when false
+0026  000005          C,ALU ALU,A+B F,A-B A,P B,DATA D,TOS NEXT ;
+0027  000006  
+0028  000006  # Subroutine call (forward label reference)
+0029  000006          JSR SUB1 ;
+0030  000007  
+0031  000007  # Memory read, one byte, byte data type
+0032  000007          MEM,RD1 TYP,BY NEXT ;
+0033  000010  
+0034  000010  # Subroutine placed at octal address 2000; decrement loop counter and return
+0035  002000  2000/ SUB1: LCDECR POPRET ;
+0036  002001  

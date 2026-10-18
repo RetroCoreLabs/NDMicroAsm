@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!-- The command-line tool is `ndmicroasm` (lowercase, see NAMING.md "Command-line tool"); the root namespace stays NDMicroAsm. -->
+    <AssemblyName>ndmicroasm</AssemblyName>
+    <RootNamespace>NDMicroAsm</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The micro code sources, reference PROM dumps and assembled outputs are data, not compiled content. They are read by path at run time and by the tests, never copied to the output folder. -->
+    <None Remove="microcode\**" />
+  </ItemGroup>
+
+</Project>

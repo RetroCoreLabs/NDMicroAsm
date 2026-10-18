@@ -1,0 +1,27 @@
+# Build and test on every push and pull request.
+#
+# The round-trip tests against the original ND-500 and ND-5000 control-store dumps skip
+# themselves on the runner: those dumps live in the nd500uc and nd5000uc repositories and are
+# reached through ND500UC_MC_DIR / ND5000UC_MC_DIR, which are not set here. The NORD-10 PROM
+# dumps ARE in this repository, so that round trip runs.
+name: build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: src/global.json
+      # No solution filename on purpose: a bare `dotnet <verb>` resolves the one .slnx in the
+      # working directory.
+      - run: dotnet restore
+        working-directory: src
+      - run: dotnet build -c Release --no-restore -warnaserror -nodeReuse:false
+        working-directory: src
+      - run: dotnet test -c Release --no-build -nodeReuse:false
+        working-directory: src

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="NDMicroAsm/NDMicroAsm.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/NDMicroAsm.Tests/NDMicroAsm.Tests.csproj" />
+  </Folder>
+</Solution>
