@@ -111,6 +111,19 @@ It must exit 0. It fails on a relative link that does not resolve, a relative li
 the repository root, a machine-specific absolute path, and a Mermaid diagram that is malformed or
 breaks `MERMAID_COLOR_STANDARDS.md`.
 
+A document added to `src/docs/`, or a README added to a folder under `src/NDMicroAsm/microcode/`,
+goes on the documentation site through the Guides tree, which a script writes from the files git
+tracks. Commit the document first, then:
+
+```powershell
+# from the repository root
+python src\docfx\gen_toc.py
+```
+
+and commit the changed `src/docs/toc.yml`. The docs workflow runs the same script with `--check`
+and fails when the tree is stale. How to build the site locally is in
+[src/docfx/README.md](../src/docfx/README.md).
+
 > [!WARNING]
 > **Never put an absolute path in anything committed here.** A drive letter or a home directory is
 > correct on exactly one machine, and this repository is public. A path inside the repository goes

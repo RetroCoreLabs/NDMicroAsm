@@ -35,6 +35,11 @@ jobs:
         with:
           global-json-file: src/global.json
 
+      # The Guides tree is generated from the files git tracks; a document added without
+      # rerunning the script fails here instead of silently missing from the site.
+      - name: Check the Guides tree
+        run: python3 src/docfx/gen_toc.py --check
+
       - name: Install DocFX
         working-directory: src
         run: dotnet tool restore

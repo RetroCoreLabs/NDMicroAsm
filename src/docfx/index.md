@@ -1,7 +1,10 @@
 # NDMicroAsm
 
 Micro code assemblers and disassemblers for five generations of Norsk Data CPUs, in one
-command-line tool, `ndmicroasm`:
+command-line tool, `ndmicroasm`. The source, the issues and the releases are on
+[GitHub](https://github.com/RetroCoreLabs/NDMicroAsm).
+
+The CPUs it covers:
 
 - **NORD-10** and **NORD-10/CE**: 32-bit micro words, the MICMAC mnemonics of ND-06.010.01.
   Both real PROM dumps round-trip bit for bit.
