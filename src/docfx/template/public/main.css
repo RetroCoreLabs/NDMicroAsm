@@ -1,0 +1,19 @@
+/*
+ * Site styles added on top of DocFX's modern template (docfx.json "template" lists this folder last).
+ *
+ * The header logo. The template gives #logo no size: it relies on the image's own one, and
+ * DocFX's built-in logo.svg says width="38pt". Our icon is an SVG with only a viewBox, which a
+ * browser draws at 150 px, so the logo spilled out of the 59 px header and pushed the site name
+ * over the menu (measured with a headless browser, 18 October 2026: 118 x 118 px, top at -30 px).
+ * Sizing it here works for any icon file, SVG or PNG, whatever size it carries itself.
+ */
+.navbar .navbar-brand #logo {
+  height: 40px;
+  width: auto;
+  margin-right: 0.5rem;
+}
+
+/* Keep the site name from being squeezed into the menu on a narrow window. */
+.navbar .navbar-brand {
+  flex-shrink: 0;
+}
