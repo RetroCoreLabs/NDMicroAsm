@@ -7,7 +7,8 @@
 
 using System.Collections.Generic;
 using System.IO;
-using NDMicroAsm;
+using NDMicroAsm.Core;
+using NDMicroAsm.ND5000;
 using NUnit.Framework;
 
 namespace NDMicroAsm.Tests

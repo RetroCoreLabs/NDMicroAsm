@@ -6,7 +6,7 @@
 //
 
 using System.Collections.Generic;
-using NDMicroAsm;
+using NDMicroAsm.ND10;
 using NUnit.Framework;
 
 namespace NDMicroAsm.Tests

@@ -6,7 +6,11 @@
 //
 
 using System.Text;
-using NDMicroAsm;
+using NDMicroAsm.Core;
+using NDMicroAsm.ND10;
+using NDMicroAsm.ND1X0;
+using NDMicroAsm.ND500;
+using NDMicroAsm.ND5000;
 
 // ndmicroasm - command-line front end of the Norsk Data micro code assemblers.
 //

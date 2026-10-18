@@ -42,7 +42,7 @@ Implemented from ND-05.012.01 "ND-500 Micro Program Guide" chapter 14.
 - **Output**: `.CODE` = full 8K control store image, PACKED18 (18 bytes per word,
   CS8 first, big-endian per part), 147456 bytes. The nd500uc web disassembler
   auto-detects this format — drop the file onto it to inspect the result.
-- **Example**: `ND110Compile/uCode/ND-500-EXAMPLE.uc`.
+- **Example**: `NDMicroAsm/microcode/ND-500/ND-500-EXAMPLE.uc`.
 
 ## ND-5000 (`ND5000Compiler` / `ND5000Disassembler`)
 
@@ -101,23 +101,23 @@ MICROPROGRAM" (1974). Files: `ND10Tokens.cs`, `ND10Fields.cs`,
 - **Output**: `.hex` in the prom.hex format of the dumps (one uppercase
   8-digit hexadecimal word per line, LF, 1024 or 4096 lines) and a
   big-endian binary `.CODE`.
-- **Sources in `uCode/`**: `NORD-10.uc` is the 1k micro program in the
+- **Sources in `NDMicroAsm/microcode/NORD-10/`**: `NORD-10.uc` is the 1k micro program in the
   manual's own layout, with the manual's labels, comments and mnemonic order
   read from the PDF listing pages; `NORD-10-CE.uc` is the 4k NORD-10/CE
   micro program (the same 1k plus the extension, which has no known listing
   and is the disassembly with `L<address>` labels). The dumps they must
-  reproduce are in `uCode/NORD-10-REFERENCE/` with a README on where they
+  reproduce are in `NDMicroAsm/microcode/NORD-10/REFERENCE/` with a README on where they
   come from.
-- **Command line**: `ND110Compile nd10-disasm <prom.hex> <out.uc>` and
-  `ND110Compile nd10-asm <source.uc>`.
-- **Tests**: `TestND110/TestND10Compiler.cs` (token values from the manual,
-  the dialect) and `TestND110/TestND10RoundTrip.cs` (both dumps disassemble
+- **Command line**: `ndmicroasm nd10-disasm <prom.hex> <out.uc>` and
+  `ndmicroasm nd10-asm <source.uc>`.
+- **Tests**: `tests/NDMicroAsm.Tests/TestND10Compiler.cs` (token values from the manual,
+  the dialect) and `tests/NDMicroAsm.Tests/TestND10RoundTrip.cs` (both dumps disassemble
   and reassemble bit for bit; both sources assemble to the dumps byte for
   byte).
 
 ## Round-trip validation
 
-`TestND110/TestND5000Compiler.cs` proves the ND-5000 implementation against real
+`tests/NDMicroAsm.Tests/TestND5000Compiler.cs` proves the ND-5000 implementation against real
 microcode: every word of **all 13 preserved ND-5000 microcode images** in
 the `docs\MC` folder of the nd5000uc repository (MICRO-5200/5500/5700/5800 in all revisions,
 the MIC-*-90-500 variants, and CONTROL-STORE.DATA) is disassembled to tokens and
@@ -131,7 +131,7 @@ This simultaneously validates the token table, the field partition, the
 assembler and the disassembler against ground truth. The test auto-skips
 (NUnit `Assume`) on machines without the microcode images.
 
-`TestND110/TestND500RoundTrip.cs` proves the ND-500 implementation the same way
+`tests/NDMicroAsm.Tests/TestND500RoundTrip.cs` proves the ND-500 implementation the same way
 against the real control store `docs\MC\CONT-STORE-10611.DATA` in the nd500uc project
 (8192 words, the only preserved 144-bit binary): every word disassembles via
 `ND500Disassembler` (lossless: Appendix A mnemonic or raw `FIELD=<octal>`
@@ -141,12 +141,12 @@ and compares the assembled image byte for byte (all 147456 bytes identical).
 The same flow is available on the command line:
 
 ```
-ND110Compile nd500-disasm <controlstore.DATA> <output.uc>
-ND110Compile nd500-asm <output.uc>        (writes <output>.CODE)
+ndmicroasm nd500-disasm <controlstore.DATA> <output.uc>
+ndmicroasm nd500-asm <output.uc>        (writes <output>.CODE)
 ```
 
 The ND-500 token table is additionally validated by unit tests against the
-Appendix A values directly (`TestND110/TestND500Compiler.cs`, 22 tests).
+Appendix A values directly (`tests/NDMicroAsm.Tests/TestND500Compiler.cs`, 22 tests).
 The `FIELDNAME=<octal>` raw field syntax and a `StampDate` switch (turn off
 date stamping for bit-exact round trips) now exist on the ND-500 side too;
 field names live in `ND500Fields.cs`.

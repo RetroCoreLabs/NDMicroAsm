@@ -5,7 +5,7 @@
 // NDMicroAsm — Assembling yesterday's micro code with today's tools
 //
 
-using NDMicroAsm;
+using NDMicroAsm.ND500;
 using NUnit.Framework;
 
 namespace NDMicroAsm.Tests

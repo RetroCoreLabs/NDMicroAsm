@@ -7,7 +7,7 @@
 
 using System.IO;
 using System.Text;
-using NDMicroAsm;
+using NDMicroAsm.ND10;
 using NUnit.Framework;
 
 namespace NDMicroAsm.Tests
@@ -16,7 +16,7 @@ namespace NDMicroAsm.Tests
     /// Round-trip and ground-truth tests for the NORD-10 micro code toolchain.
     ///
     /// Ground truth: the two real PROM dumps in
-    /// NDMicroAsm/microcode/NORD-10-REFERENCE (the 1k standard micro program and
+    /// NDMicroAsm/microcode/NORD-10/REFERENCE (the 1k standard micro program and
     /// the 4k NORD-10/CE micro program, see the README there).
     ///
     ///  1. Every word of both dumps disassembles (ND10Disassembler) and
@@ -42,7 +42,7 @@ namespace NDMicroAsm.Tests
 
         static string UCodeDir()
         {
-            return Path.Combine(RepoRoot(), "NDMicroAsm", "microcode");
+            return Path.Combine(RepoRoot(), "NDMicroAsm", "microcode", "NORD-10");
         }
 
         const string REF_1K = "NORD-10-1K-prom.hex";
@@ -50,7 +50,7 @@ namespace NDMicroAsm.Tests
 
         static uint[] LoadReference(string name)
         {
-            string path = Path.Combine(UCodeDir(), "NORD-10-REFERENCE", name);
+            string path = Path.Combine(UCodeDir(), "REFERENCE", name);
             Assume.That(File.Exists(path), $"reference dump missing: {path}");
             return ND10Compiler.ReadHexFile(path);
         }
@@ -132,7 +132,7 @@ namespace NDMicroAsm.Tests
             {
                 ND10Compiler.WriteHexFile(tmp, built);
                 byte[] written = File.ReadAllBytes(tmp);
-                byte[] reference = File.ReadAllBytes(Path.Combine(UCodeDir(), "NORD-10-REFERENCE", refName));
+                byte[] reference = File.ReadAllBytes(Path.Combine(UCodeDir(), "REFERENCE", refName));
                 Assert.That(written, Is.EqualTo(reference), "written .hex differs from the reference dump");
             }
             finally

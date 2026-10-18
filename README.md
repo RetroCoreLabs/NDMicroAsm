@@ -65,7 +65,7 @@ Test suite: 111 tests, all passing (measured 18 October 2026, with the external 
 ```powershell
 # from the repository root
 .\src\build.ps1
-.\src\publish\win-x64\ndmicroasm.exe nd110-asm src\NDMicroAsm\microcode\ND-110-RASK.uc
+.\src\publish\win-x64\ndmicroasm.exe nd110-asm src\NDMicroAsm\microcode\ND-110\ND-110-RASK.uc
 ```
 
 `ndmicroasm` with no arguments prints every command:
@@ -141,7 +141,7 @@ platform means no release at all.
 
 - [ND-500 and ND-5000 assemblers](src/docs/ND500-ND5000-Assemblers.md) - the source dialects,
   where the token values come from, the output formats and how the round trips are validated
-- [NORD-10 reference PROM dumps](src/NDMicroAsm/microcode/NORD-10-REFERENCE/README.md) - the two
+- [NORD-10 reference PROM dumps](src/NDMicroAsm/microcode/NORD-10/REFERENCE/README.md) - the two
   real images the NORD-10 sources are checked against
 - [DocFX site](src/docfx/README.md) - how the API reference is built
 

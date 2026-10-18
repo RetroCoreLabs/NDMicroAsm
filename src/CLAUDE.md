@@ -14,10 +14,19 @@ working notes.
 The repository root holds only `README.md`, `LICENSE`, `.gitignore`, `.gitattributes` and
 `.github/`. Everything else is under `src/`:
 
-- `src/NDMicroAsm/` - the tool. `Program.cs` is the command line; one assembler per CPU
-  generation (`ND10Compiler`, `Compiler` for ND-110/ND-120, `ND500Compiler`, `ND5000Compiler`),
-  the disassemblers, the token tables and the field tables.
-- `src/NDMicroAsm/microcode/` - the micro code sources and every assembled output, kept in git.
+- `src/NDMicroAsm/` - the tool. `Program.cs` is the command line. One folder per CPU
+  generation, each its own namespace (`NDMicroAsm.<Folder>`), holding that generation's
+  assembler, disassembler, token table and field table:
+  - `Core/` - what every assembler shares: `Labels`, `Instruction`, `Target`, `SourceMap`,
+    `ND110AsmException`.
+  - `ND10/` - NORD-10 (`ND10Compiler`).
+  - `ND1X0/` - ND-110 and ND-120 (`Compiler`, `ND110Tokens`, `ND120Tokens`).
+  - `ND500/` - ND-500 (`ND500Compiler`).
+  - `ND5000/` - ND-5000 (`ND5000Compiler`). Its token table builds on `ND500TokensBase`.
+- `src/NDMicroAsm/microcode/` - the micro code sources and every assembled output, kept in git,
+  one folder per CPU: `NORD-10/` (with the reference PROM dumps in `REFERENCE/`), `ND-110/`,
+  `ND-120/`, `ND-500/`. Each assembler writes its outputs and its `TOKENS*.TXT` dump next to
+  the source.
 - `src/tests/NDMicroAsm.Tests/` - NUnit tests, including the round trips against real dumps.
 - `src/eng/assemble-all.ps1` - regenerates every output in `microcode/`.
 - `src/docs/` - documents that are not the README. `src/docfx/` - the API site.

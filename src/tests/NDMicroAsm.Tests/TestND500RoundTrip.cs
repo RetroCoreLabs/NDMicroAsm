@@ -6,7 +6,8 @@
 //
 
 using System.IO;
-using NDMicroAsm;
+using NDMicroAsm.Core;
+using NDMicroAsm.ND500;
 using NUnit.Framework;
 
 namespace NDMicroAsm.Tests

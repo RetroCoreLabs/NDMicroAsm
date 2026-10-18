@@ -16,7 +16,7 @@ Every assembler writes its outputs next to the source: the control store image (
 `.hex` for the NORD-10), a listing, a symbol file and a details file.
 
 ```powershell
-ndmicroasm nd110-asm microcode\ND-110-RASK.uc
+ndmicroasm nd110-asm microcode\ND-110\ND-110-RASK.uc
 ndmicroasm nd500-disasm CONT-STORE-10611.DATA CONT-STORE-10611.uc
 ```
 

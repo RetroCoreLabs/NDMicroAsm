@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Reassembles every micro code source in NDMicroAsm\microcode with the tool built from this repo.
+  Reassembles every micro code source in NDMicroAsm\microcode (one folder per CPU) with the tool built from this repo.
 
 .DESCRIPTION
   The assembled outputs (.CODE / .hex images, .LISTING.TXT, .SYMBOLS.TXT, .DETAILS.TXT and the
@@ -39,14 +39,14 @@ if (-not (Test-Path $exe)) {
 
 # command, source file, extra arguments
 $sources = @(
-    @('nd10-asm',   'NORD-10.uc'),                       # NORD-10 1k micro program, equals NORD-10-REFERENCE\NORD-10-1K-prom.hex
-    @('nd10-asm',   'NORD-10-CE.uc'),                    # NORD-10/CE 4k micro program, equals NORD-10-REFERENCE\NORD-10-CE-4K-prom4k.hex
-    @('nd110-asm',  'ND-110-RASK.uc'),                   # ND-110 RASK
-    @('nd120-asm',  'ND-120-DELILAH-K.uc', 'K'),         # ND-120 DELILAH version K, from the printed listing
-    @('nd120-asm',  'ND-120-DELILAH-L.uc', 'L'),         # ND-120 DELILAH version L, bit-exact against the L EPROM dump
-    @('nd120-asm',  'ND-120-DELILAH-L-PATCH.uc', 'L'),   # version L plus COMM,LDIRV in IOXG word 2 (see the source header)
-    @('nd500-asm',  'ND-500-EXAMPLE.uc'),                # ND-500 example (word 0 carries the assembly date)
-    @('nd500-asm',  'CONT-STORE-10611.uc')               # the real ND-500 control store, disassembled and reassembled bit-exact
+    @('nd10-asm',   'NORD-10\NORD-10.uc'),                 # NORD-10 1k micro program, equals NORD-10\REFERENCE\NORD-10-1K-prom.hex
+    @('nd10-asm',   'NORD-10\NORD-10-CE.uc'),              # NORD-10/CE 4k micro program, equals NORD-10\REFERENCE\NORD-10-CE-4K-prom4k.hex
+    @('nd110-asm',  'ND-110\ND-110-RASK.uc'),              # ND-110 RASK
+    @('nd120-asm',  'ND-120\ND-120-DELILAH-K.uc', 'K'),    # ND-120 DELILAH version K, from the printed listing
+    @('nd120-asm',  'ND-120\ND-120-DELILAH-L.uc', 'L'),    # ND-120 DELILAH version L, bit-exact against the L EPROM dump
+    @('nd120-asm',  'ND-120\ND-120-DELILAH-L-PATCH.uc', 'L'), # version L plus COMM,LDIRV in IOXG word 2 (see the source header)
+    @('nd500-asm',  'ND-500\ND-500-EXAMPLE.uc'),           # ND-500 example (word 0 carries the assembly date)
+    @('nd500-asm',  'ND-500\CONT-STORE-10611.uc')          # the real ND-500 control store, disassembled and reassembled bit-exact
 )
 # No ND-5000 source is checked in: the 13 real ND-5000 images live in the nd5000uc repository and
 # are round-tripped by the tests (ND5000UC_MC_DIR), not assembled from a source here.
@@ -57,7 +57,7 @@ foreach ($s in $sources) {
     if (-not (Test-Path $file)) { throw "source not found: $file" }
     $toolArgs = @($s[0], $file)
     if ($s.Count -gt 2) { $toolArgs += $s[2] }
-    Write-Host ("  {0,-12} {1,-28} {2}" -f $s[0], $s[1], $(if ($s.Count -gt 2) { $s[2] } else { '' })) -ForegroundColor Cyan
+    Write-Host ("  {0,-12} {1,-36} {2}" -f $s[0], $s[1], $(if ($s.Count -gt 2) { $s[2] } else { '' })) -ForegroundColor Cyan
     & $exe @toolArgs | Out-Null
     if ($LASTEXITCODE -ne 0) { Write-Host "    FAILED (exit $LASTEXITCODE)" -ForegroundColor Red; $failed++ }
 }
