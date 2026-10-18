@@ -26,11 +26,16 @@
       { "files": [ "*.md", "toc.yml" ] },
       { "files": [ "docs/**.md", "docs/toc.yml", "NDMicroAsm/microcode/**/README.md", "CHANGELOG.md" ], "src": ".." }
     ],
-    "resource": [ { "files": [ "images/**" ] } ],
+    "resource": [
+      { "files": [ "images/**" ] },
+      { "files": [ "assets/NDMicroAsm.svg", "assets/NDMicroAsm.ico" ], "src": "..", "dest": "" }
+    ],
     "output": "_site",
     "globalMetadata": {
       "_appName": "NDMicroAsm",
       "_appTitle": "NDMicroAsm",
+      "_appLogoPath": "assets/NDMicroAsm.svg",
+      "_appFaviconPath": "assets/NDMicroAsm.ico",
       "_appFooter": "Copyright (c) 1985-2026 Ronny Hansen - MIT License - RetroCore Labs - <a href=\"https://github.com/RetroCoreLabs/NDMicroAsm\">NDMicroAsm on GitHub</a>",
       "_enableSearch": true,
       "_disableContribution": false,
