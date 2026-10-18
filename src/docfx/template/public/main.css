@@ -17,3 +17,22 @@
 .navbar .navbar-brand {
   flex-shrink: 0;
 }
+
+/*
+ * Menu entries on one line. Between the phone layout and a wide window (800 px measured) the
+ * menu is a flex row that squeezes each entry, and the template puts a <wbr> inside camel-case
+ * words, so "API Reference" and "GitHub" ("Git" / "Hub") were drawn over two lines each.
+ * Chromium breaks at a <wbr> even under white-space: nowrap, so the <wbr> is switched off too.
+ * DocFX's own sites do the same; this is the template, not our menu.
+ */
+.navbar .navbar-nav .nav-item {
+  flex-shrink: 0;
+}
+
+.navbar .navbar-nav .nav-link {
+  white-space: nowrap;
+}
+
+.navbar .navbar-nav .nav-link wbr {
+  display: none;
+}
