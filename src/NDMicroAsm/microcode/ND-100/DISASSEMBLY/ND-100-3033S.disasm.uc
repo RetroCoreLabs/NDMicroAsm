@@ -1,0 +1,5635 @@
+%#MODEL nd100
+% ND-100 3033S micro code, decoded from the PROM chips in reference/roms/ND100/3033S.
+% This is the plain disassembly of the factory PROMs by tools/nd100-prom-to-uc.mjs, in the
+% mnemonics of ND-06.018.01, with no original names or comments. The source with the names
+% and comments of the printed Norsk Data listing is ND-100-<variant>.uc in the folder above.
+% Words: 2048. Assembled with nd100-asm the words come back bit for bit.
+% Labels are the macro instruction entry points from the decode PLA (L<octal address>).
+%
+
+0/
+          A,R7 ALUF,PASSD
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,FETCH F,NEXT F,HOLD;
+          A,R5 ALUF,ORDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          3 CONDENABL;
+          B,P ALUF,B+1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R3 ALUF,ORDQ
+          IDBS,BMG COMM,CLIRQ T,NEXT T,HOLD CYCL,SLOW
+          COND,IRQ F,JMP F,HOLD;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDGPR T,NEXT T,HOLD CYCL,WAIT
+          12 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,STP F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          15 CONDENABL;
+          AB,BPFLG A,R4 B,R3 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          AB,SINGL A,R4 B,R4 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          2401 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2401 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,FETCH F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          15 CONDENABL;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          15;
+          A,A ALUD,NONE
+          IDBS,GPR T,MAPJ T,HOLD CYCL,SLOW
+          16;
+          A,P ALUF,ZERO ALUD,B,YA
+          COMM,RDRQ T,JMP T,PUSH CYCL,SLOW
+          0;
+          ALUD,NONE
+          IDBS,DSABL T,NEXT T,HOLD CYCL,WAIT;
+          B,P ALUF,PASSB ALUD,NONE
+          COMM,RDRQ T,NEXT T,PUSH CYCL,SLOW;
+          A,A B,P ALUF,B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,MAPJ T,HOLD CYCL,WAIT
+          16;
+          A,P B,R1 ALUF,A-B ALUD,NONE
+          COMM,ESRP T,NEXT T,HOLD CYCL,WAIT
+          COND,R=P F,JMP F,HOLD;
+          A,A B,P ALUF,B+1 ALUD,B
+          IDBS,GPR T,NEXT T,NEXT T,MAPJ T,HOLD CYCL,SLOW
+          16 CONDENABL;
+          PIC,LOSTS B,P ALUF,B-1 ALUD,B
+          IDBS,AARG COMM,EPIC T,NEXT T,HOLD CYCL,SLOW
+          10;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          A,A B,P ALUF,B+1 ALUD,B
+          IDBS,GPR T,MAPJ T,HOLD CYCL,SLOW
+          16;
+L0027:
+          A,X ALUD,NONE
+          IDBS,BMG COMM,SMPID T,JMP T,HOLD CYCL,WAIT
+          20;
+L0030:
+          A,R1 ALUD,NONE
+          IDBS,BMG COMM,SMPID T,JMP T,HOLD CYCL,WAIT
+          20;
+L0031:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3700;
+          ALUF,ZERO ALUD,NONE
+          T,JMP T,POP CYCL,WAIT
+          22;
+L0033:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3700;
+          A,A ALUF,PASSA ALUD,NONE
+          T,JMP T,POP CYCL,WAIT
+          22;
+L0035:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3700;
+          A,T ALUF,PASSA ALUD,NONE
+          T,JMP T,POP CYCL,WAIT
+          22;
+L0037:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3700;
+          A,X ALUF,PASSA ALUD,NONE
+          T,JMP T,POP CYCL,WAIT
+          22;
+L0041:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3700;
+          A,A ALUF,PASSA ALUD,NONE
+          T,JMP T,PUSH CYCL,WAIT
+          3676;
+          A,D ALUF,PASSA ALUD,NONE
+          T,JMP T,POP CYCL,WAIT
+          22;
+L0044:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3700;
+          A,T ALUF,PASSA ALUD,NONE
+          T,JMP T,PUSH CYCL,WAIT
+          3676;
+          A,A ALUF,PASSA ALUD,NONE
+          T,JMP T,PUSH CYCL,WAIT
+          3676;
+          A,D ALUF,PASSA ALUD,NONE
+          T,JMP T,POP CYCL,WAIT
+          22;
+L0050:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          B,R2 ALUF,D+1 ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT
+          COND,F=0 F,JMP F,HOLD;
+          B,R1 ALUF,PASSB ALUD,NONE
+          COMM,WRRQ T,NEXT T,NEXT MIS,HOLD T,HOLD CYCL,SLOW
+          COND,COND F,JMP F,POP;
+          A,R2 ALUF,PASSA ALUD,NONE
+          T,NEXT T,POP CYCL,WAIT
+          22 CONDENABL;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+L0055:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          B,A ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,POP CYCL,WAIT
+          26;
+L0057:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          B,T ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,POP CYCL,WAIT
+          26;
+L0061:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          B,X ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,POP CYCL,WAIT
+          26;
+L0063:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          B,A ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3675;
+          B,D ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,POP CYCL,WAIT
+          26;
+L0066:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          B,T ALUF,PASSD ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          B,R1 ALUF,B+1 ALUD,B
+          COMM,RDRQ T,JMP MIS,HOLD T,HOLD CYCL,SLOW
+          64;
+L0071:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          A,A B,A ALUF,D+A ALUD,B STS,EA
+          IDBS,DBR T,JMP T,POP CYCL,WAIT
+          26;
+L0073:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          A,A B,A ALUF,A-D ALUD,B STS,EA
+          IDBS,DBR T,JMP T,POP CYCL,WAIT
+          26;
+L0075:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          A,A B,A ALUF,ANDDA ALUD,B
+          IDBS,DBR T,JMP T,POP CYCL,WAIT
+          26;
+L0077:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          A,A B,A ALUF,ORDA ALUD,B
+          IDBS,DBR T,JMP T,POP CYCL,WAIT
+          26;
+L0101:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          B,R7 ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW;
+          B,STS ALUF,MASKDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          20;
+          A,A B,R2 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          B,R3 ALUF,PASSD ALUD,B
+          IDBS,DBR COMM,LDGPR T,NEXT T,HOLD CYCL,WAIT
+          110 CONDENABL;
+          B,R2 ALUF,-B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,COND F,JMP F,HOLD;
+          B,R6 ALUF,ZERO
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          112 CONDENABL;
+          A,R3 ALUF,-A ALUD,NONE
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          B,R5 ALUF,ZERO ALUD,B
+          T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          A,R2 B,R5 ALUF,A+B ALUD,SRD ALUM,FMU
+          T,NEXT T,NEXT MIS,APT T,POP LCOUNT CYCL,SLOW;
+          B,R5 ALUF,PASSB ALUD,SLD
+          T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,R5 ALUF,PASSB ALUD,SRD
+          T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          B,R4 ALUF,ZERO ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          120 CONDENABL;
+          B,R4 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          60;
+          A,STS B,R4 ALUF,ORAB ALUD,NONE STS,LO
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R3 ALUF,XORAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          B,A ALUF,PASSQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          124 CONDENABL;
+          B,A ALUF,-B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R7 ALUF,PASSA ALUD,NONE
+          COMM,LDGPR T,JMP T,POP CYCL,SLOW
+          26;
+L0125:
+          ALUF,D-1
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3660;
+L0126:
+          A,P B,L ALUF,PASSA ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          L0125;
+L0127:
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,POP CYCL,SLOW
+          COND,F=0 F,RETURN F,HOLD;
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP T,HOLD CYCL,SLOW
+          131 CONDENABL;
+          A,R1 B,P ALUF,A+B ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+L0132:
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,POP CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,RETURN T,HOLD CYCL,SLOW
+          131 CONDENABL;
+L0134:
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,POP CYCL,SLOW
+          COND,F15 F,RETURN F,HOLD;
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP T,HOLD CYCL,SLOW
+          131 CONDENABL;
+L0136:
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,POP CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,RETURN T,HOLD CYCL,SLOW
+          131 CONDENABL;
+L0140:
+          A,X ALUF,PASSA ALUD,NONE
+          T,NEXT T,POP CYCL,SLOW
+          COND,F=0 F,RETURN F,HOLD;
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP T,HOLD CYCL,SLOW
+          131 CONDENABL;
+L0142:
+          B,X ALUF,B+1 ALUD,B
+          T,NEXT T,POP CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,RETURN T,HOLD CYCL,SLOW
+          131 CONDENABL;
+L0144:
+          B,X ALUF,B+1 ALUD,B
+          T,NEXT T,POP CYCL,SLOW
+          COND,F15 F,RETURN F,HOLD;
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP T,HOLD CYCL,SLOW
+          131 CONDENABL;
+L0146:
+          A,X ALUF,PASSA ALUD,NONE
+          T,NEXT T,POP CYCL,SLOW
+          COND,F15 F,RETURN F,HOLD;
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP T,HOLD CYCL,SLOW
+          131 CONDENABL;
+L0150:
+          B,DEST ALUF,PASSB
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,SRCE B,DEST ALUF,PASSA ALUD,B EN_EXT
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,SRCE ALUF,PASSQ ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+L0153:
+          ALUF,PASSB
+          T,JMP T,HOLD CYCL,SLOW
+          151;
+L0154:
+          B,DEST ALUF,PASSB
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,SRCE B,DEST ALUF,INVA ALUD,B EN_EXT
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,SRCE ALUF,PASSQ ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+L0157:
+          ALUF,PASSB
+          T,JMP T,HOLD CYCL,SLOW
+          155;
+L0160:
+          A,SRCE B,DEST ALUF,ANDAB ALUD,B EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0161:
+          B,DEST ALUF,PASSA ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0162:
+          A,SRCE B,DEST ALUF,MASKAB ALUD,B EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0163:
+          A,SRCE B,DEST ALUF,XORAB ALUD,B EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0164:
+          A,SRCE B,DEST ALUF,PASSA ALUD,B EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0165:
+          A,SRCE B,R1 ALUF,INVA ALUD,B EN_EXT
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 B,DEST ALUF,ORAB ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0167:
+          A,SRCE B,DEST ALUF,INVA ALUD,B EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0170:
+          A,SRCE B,DEST ALUF,ORAB ALUD,B EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0171:
+          A,SRCE B,DEST ALUF,A+B ALUD,B STS,EA EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0172:
+          A,SRCE B,DEST ALUF,A ALUD,B STS,EA EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0173:
+          A,SRCE B,DEST ALUF,B-A-1 ALUD,B STS,EA EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0174:
+          A,SRCE B,DEST ALUF,-A-1 ALUD,B STS,EA EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0175:
+          A,SRCE B,DEST ALUF,A+B+1 ALUD,B STS,EA EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0176:
+          A,SRCE B,DEST ALUF,A+1 ALUD,B STS,EA EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0177:
+          A,SRCE B,DEST ALUF,B-A ALUD,B STS,EA EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0200:
+          A,SRCE B,DEST ALUF,-A ALUD,B STS,EA EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0201:
+          A,SRCE B,DEST ALUF,A+B ALUD,B STS,EA CRY,C EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0202:
+          A,SRCE B,DEST ALUF,A ALUD,B STS,EA CRY,C EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0203:
+          A,SRCE B,DEST ALUF,B-A-1 ALUD,B STS,EA CRY,C EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0204:
+          A,SRCE B,DEST ALUF,-A-1 ALUD,B STS,EA CRY,C EN_EXT
+          T,RETURN T,POP CYCL,SLOW
+          21 CONDENABL;
+L0205:
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          21;
+L0206:
+          ALUD,NONE
+          IDBS,GPR COMM,LDLC T,JMP T,LOAD CYCL,SLOW
+          210;
+          B,A ALUF,PASSB ALUD,SRB ALUM,IR
+          T,JMP T,POP LCOUNT CYCL,SLOW
+          21;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,RETURN T,HOLD LCOUNT CYCL,SLOW;
+L0212:
+          ALUD,NONE
+          IDBS,GPR COMM,LDLC T,JMP T,LOAD CYCL,SLOW
+          210;
+          B,T ALUF,PASSB ALUD,SRB ALUM,IR
+          T,JMP T,POP LCOUNT CYCL,SLOW
+          21;
+L0214:
+          ALUD,NONE
+          IDBS,GPR COMM,LDLC T,JMP T,LOAD CYCL,SLOW
+          210;
+          B,D ALUF,PASSB ALUD,SRB ALUM,IR
+          T,JMP T,POP LCOUNT CYCL,SLOW
+          21;
+L0216:
+          A,D ALUF,PASSA
+          IDBS,GPR COMM,LDLC T,JMP T,LOAD CYCL,SLOW
+          210;
+          B,A ALUF,PASSB ALUD,SRD ALUM,IR
+          T,NEXT T,POP LCOUNT CYCL,SLOW;
+          B,D ALUF,PASSQ ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          21;
+L0221:
+          B,A ALUF,PASSD ALUD,B
+          IDBS,GPR,SEXT T,JMP T,POP CYCL,SLOW
+          21;
+L0222:
+          B,T ALUF,PASSD ALUD,B
+          IDBS,GPR,SEXT T,JMP T,POP CYCL,SLOW
+          21;
+L0223:
+          B,X ALUF,PASSD ALUD,B
+          IDBS,GPR,SEXT T,JMP T,POP CYCL,SLOW
+          21;
+L0224:
+          B,B ALUF,PASSD ALUD,B
+          IDBS,GPR,SEXT T,JMP T,POP CYCL,SLOW
+          21;
+L0225:
+          A,A B,A ALUF,D+A ALUD,B STS,EA
+          IDBS,GPR,SEXT T,JMP T,POP CYCL,SLOW
+          21;
+L0226:
+          A,T B,T ALUF,D+A ALUD,B STS,EA
+          IDBS,GPR,SEXT T,JMP T,POP CYCL,SLOW
+          21;
+L0227:
+          A,X B,X ALUF,D+A ALUD,B STS,EA
+          IDBS,GPR,SEXT T,JMP T,POP CYCL,SLOW
+          21;
+L0230:
+          A,B B,B ALUF,D+A ALUD,B STS,EA
+          IDBS,GPR,SEXT T,JMP T,POP CYCL,SLOW
+          21;
+L0231:
+          A,SRCE B,DEST ALUF,B-A ALUD,NONE EN_EXT
+          T,NEXT T,POP CYCL,SLOW
+          COND,F=0 F,RETURN F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          233 CONDENABL;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+L0234:
+          A,SRCE B,DEST ALUF,B-A ALUD,NONE EN_EXT
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,OVF F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0246 CONDENABL;
+L0236:
+          A,SRCE B,DEST ALUF,B-A ALUD,NONE EN_EXT
+          T,NEXT T,POP CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          ALUD,NONE
+          T,RETURN T,HOLD CYCL,SLOW
+          233 CONDENABL;
+L0240:
+          A,SRCE B,DEST ALUF,B-A ALUD,NONE EN_EXT
+          T,NEXT T,POP CYCL,SLOW
+          COND,CRY F,RETURN F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          233 CONDENABL;
+L0242:
+          A,SRCE B,DEST ALUF,B-A ALUD,NONE EN_EXT
+          T,NEXT T,POP CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,RETURN T,HOLD CYCL,SLOW
+          233 CONDENABL;
+L0244:
+          A,SRCE B,DEST ALUF,B-A ALUD,NONE EN_EXT
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,OVF F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0236 CONDENABL;
+L0246:
+          A,SRCE B,DEST ALUF,B-A ALUD,NONE EN_EXT
+          T,NEXT T,POP CYCL,SLOW
+          COND,F15 F,RETURN F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          233 CONDENABL;
+L0250:
+          A,SRCE B,DEST ALUF,B-A ALUD,NONE EN_EXT
+          T,NEXT T,POP CYCL,SLOW
+          COND,CRY F,JMP F,HOLD;
+          ALUD,NONE
+          T,RETURN T,HOLD CYCL,SLOW
+          233 CONDENABL;
+L0252:
+          B,L ALUF,PASSD
+          IDBS,BARG T,JMP T,PUSH CYCL,SLOW
+          256;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          L0261 CONDENABL;
+L0254:
+          A,REG B,R1 ALUF,INVD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          257;
+          A,R1 B,DEST ALUF,ANDAB ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          260 CONDENABL;
+          ALUF,ANDDQ
+          IDBS,STS T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUF,PASSD ALUD,B
+          IDBS,STS T,RETURN T,POP CYCL,SLOW
+          COND,DR=2 F,JMP F,POP;
+          ALUF,PASSA STS,LO
+          T,RETURN T,HOLD CYCL,SLOW;
+L0261:
+          A,REG B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          257;
+          A,R1 B,DEST ALUF,ORAB ALUD,B
+          IDBS,BMG T,RETURN T,POP CYCL,SLOW
+          260 CONDENABL;
+L0263:
+          A,REG B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          257;
+          A,R1 B,DEST ALUF,XORAB ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          260 CONDENABL;
+L0265:
+          B,L ALUF,PASSD
+          IDBS,BARG T,JMP T,LOAD CYCL,SLOW
+          256;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          L0273 CONDENABL;
+L0267:
+          ALUF,PASSD ALUD,B
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW;
+          B,DEST ALUF,INVB
+          T,JMP T,HOLD CYCL,SLOW
+          275;
+L0271:
+          B,L ALUF,PASSD
+          IDBS,BARG T,JMP T,LOAD CYCL,SLOW
+          256;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          L0267 CONDENABL;
+L0273:
+          ALUF,PASSD ALUD,B
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW;
+          B,DEST ALUF,PASSB
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,REG ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,RETURN F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          233 CONDENABL;
+L0277:
+          A,P B,R2 ALUF,INVD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          301;
+          B,R2 ALUF,ANDAB ALUD,NONE STS,LO
+          T,JMP T,HOLD CYCL,WAIT
+          17;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          L0252;
+          B,R2 ALUF,ANDAB ALUD,NONE STS,LO
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+L0303:
+          A,P B,R2 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          305;
+          B,R2 ALUF,ORAB ALUD,NONE STS,LO
+          T,JMP T,HOLD CYCL,WAIT
+          17;
+          A,R2 ALUF,XORDA
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSQ ALUD,NONE STS,LO
+          T,JMP T,PUSH CYCL,SLOW
+          L0252;
+          B,R2 ALUF,ORAB ALUD,NONE STS,LO
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+L0310:
+          B,L ALUF,PASSD
+          IDBS,BARG T,JMP T,LOAD CYCL,SLOW
+          256;
+          ALUD,NONE
+          T,RETURN T,HOLD CYCL,SLOW
+          L0314 CONDENABL;
+L0312:
+          B,L ALUF,PASSD
+          IDBS,BARG T,JMP T,LOAD CYCL,SLOW
+          256;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          21 CONDENABL;
+L0314:
+          A,REG B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          257;
+          A,R1 B,DEST ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,P B,R2 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          327 CONDENABL;
+          A,R2 ALUF,ORAB ALUD,NONE STS,LO
+          T,JMP T,HOLD CYCL,SLOW
+          21;
+L0320:
+          B,L ALUF,PASSD
+          IDBS,BARG T,JMP T,LOAD CYCL,SLOW
+          256;
+          ALUD,NONE
+          T,RETURN T,HOLD CYCL,SLOW
+          L0324 CONDENABL;
+L0322:
+          B,L ALUF,PASSD
+          IDBS,BARG T,JMP T,LOAD CYCL,SLOW
+          256;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          21 CONDENABL;
+L0324:
+          A,REG B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          257;
+          A,R1 B,DEST ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,P B,R2 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          317 CONDENABL;
+          A,R2 ALUF,MASKAB ALUD,NONE STS,LO
+          T,JMP T,HOLD CYCL,SLOW
+          21;
+L0330:
+          ALUF,PASSD ALUD,B
+          IDBS,STS T,JMP T,PUSH CYCL,SLOW
+          347;
+          B,X ALUD,NONE
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          334 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          A,PIL B,LC ALUF,PASSB ALUD,NONE
+          COMM,EWRF T,NEXT T,POP LCOUNT CYCL,SLOW;
+          A,X B,R1 ALUF,PASSA ALUD,B
+          COMM,WRRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          A,REG B,P ALUD,NONE
+          IDBS,REG T,JMP T,PUSH CYCL,WAIT
+          3676;
+          A,REG B,X ALUD,NONE
+          IDBS,REG T,JMP T,PUSH CYCL,WAIT
+          3676;
+          A,REG B,T ALUD,NONE
+          IDBS,REG T,JMP T,PUSH CYCL,WAIT
+          3676;
+          A,REG B,A ALUD,NONE
+          IDBS,REG T,JMP T,PUSH CYCL,WAIT
+          3676;
+          A,REG B,D ALUD,NONE
+          IDBS,REG T,JMP T,PUSH CYCL,WAIT
+          3676;
+          A,REG B,L ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,WAIT;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,WAIT
+          377;
+          A,REG B,Z ALUF,ANDDQ
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          3676;
+          ALUF,PASSQ ALUD,NONE
+          T,JMP T,PUSH CYCL,WAIT
+          3676;
+          A,REG B,B ALUD,NONE
+          IDBS,REG T,JMP T,POP CYCL,WAIT
+          22;
+          ALUF,PASSD
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,DBR COMM,LDGPR T,NEXT T,HOLD CYCL,WAIT;
+          A,PIL ALUF,XORDQ
+          IDBS,AARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUF,ANDDQ
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          L0170;
+L0353:
+          B,X ALUD,NONE
+          IDBS,BARG COMM,LDLC T,JMP T,PUSH CYCL,SLOW
+          347;
+          A,P B,R2 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,X B,R1 ALUF,PASSA ALUD,B
+          COMM,RDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          A,REG B,P ALUD,NONE
+          IDBS,DBR COMM,EWRF T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,REG B,X ALUD,NONE
+          IDBS,DBR COMM,EWRF T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,REG B,T ALUD,NONE
+          IDBS,DBR COMM,EWRF T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,REG B,A ALUD,NONE
+          IDBS,DBR COMM,EWRF T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,REG B,D ALUD,NONE
+          IDBS,DBR COMM,EWRF T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,REG B,L ALUD,NONE
+          IDBS,DBR COMM,EWRF T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,REG B,Z ALUD,NONE
+          IDBS,DBR COMM,EWRF T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,REG B,B ALUF,PASSQ ALUD,NONE
+          IDBS,DBR COMM,EWRF T,NEXT T,HOLD CYCL,WAIT
+          COND,F=0 F,JMP F,POP;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          26 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          A,PIL B,LC ALUF,PASSD ALUD,B
+          IDBS,REG T,NEXT T,POP LCOUNT CYCL,SLOW;
+          A,R2 B,P ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSA ALUD,NONE STS,LO
+          T,JMP T,POP CYCL,SLOW
+          26;
+L0373:
+          ALUF,PASSD ALUD,B
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,GPR T,JMP T,LOAD CYCL,SLOW
+          351;
+          A,REG B,Z ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          400 CONDENABL;
+          ALUF,ANDDA ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          377;
+          B,DEST ALUF,PASSB
+          T,JMP T,HOLD CYCL,SLOW
+          403;
+          ALUF,ANDDQ
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          377;
+          A,REG B,Z ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          A,REG B,DEST ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,PASSQ ALUD,B
+          T,RETURN T,HOLD CYCL,SLOW;
+L0404:
+          A,P B,R2 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,GPR T,JMP T,LOAD CYCL,SLOW
+          351;
+          ALUD,NONE
+          IDBS,DSABL T,NEXT T,HOLD CYCL,SLOW
+          412 CONDENABL;
+          A,A B,DEST ALUF,PASSA ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          416;
+          A,R2 B,P ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          0 CONDENABL;
+          ALUF,PASSA ALUD,NONE STS,LO
+          T,RETURN T,HOLD CYCL,SLOW;
+          A,A ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,REG B,DEST ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,PUSH CYCL,SLOW
+          416;
+          ALUF,ANDDQ
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          377 CONDENABL;
+          A,REG B,Z ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,RETURN T,HOLD CYCL,SLOW;
+          B,DEST ALUF,PASSD ALUD,NONE
+          IDBS,BARG T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,RETURN F,HOLD;
+L0417:
+          A,X B,R1 ALUF,PASSA ALUD,SRB
+          IDBS,DBR COMM,LDGPR T,JMP MIS,APT T,PUSH CYCL,WAIT
+          424;
+          ALUF,PASSD
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          423 CONDENABL;
+          B,A ALUF,ANDDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          377;
+          ALUD,NONE
+          T,JMP T,POP CYCL,SLOW
+          26;
+          ALUF,PASSD
+          IDBS,SWAP T,RETURN T,POP CYCL,SLOW;
+          A,T B,R1 ALUF,A+B ALUD,B
+          COMM,RDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          A,X B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+L0426:
+          B,R3 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          377;
+          A,A B,R3 ALUF,ANDAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,X B,R1 ALUF,PASSA ALUD,SRB
+          IDBS,DBR COMM,LDGPR T,JMP MIS,APT T,PUSH CYCL,WAIT
+          424;
+          ALUF,PASSD
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          435 CONDENABL;
+          AB,IIE A,R7 B,R2 ALUF,ANDDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7400;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,WRRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          AB,UPPNR A,R3 B,R2 ALUF,ORAB ALUD,NONE
+          T,JMP T,POP CYCL,WAIT
+          22;
+          B,R2 ALUF,ANDDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          377;
+          A,R3 ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R3 ALUF,PASSD ALUD,B
+          IDBS,SWAP T,JMP T,HOLD CYCL,SLOW
+          433;
+L0440:
+          A,SRCE B,R1 ALUF,PASSA ALUD,B EN_EXT
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          B,DEST ALUF,PASSB
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          443 CONDENABL;
+          B,R1 ALUF,-B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,COND F,JMP F,HOLD;
+          B,R6 ALUF,ZERO ALUD,B
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          445 CONDENABL;
+          ALUF,-Q ALUD,NONE
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          A,R1 B,R6 ALUF,A+B ALUD,SRD ALUM,FMU
+          T,NEXT T,NEXT MIS,APT T,POP LCOUNT CYCL,SLOW;
+          A,SRCE B,DEST ALUF,XORAB ALUD,NONE EN_EXT
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          B,D ALUF,PASSQ ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          452 CONDENABL;
+          A,R6 B,A ALUF,PASSA ALUD,B
+          T,JMP T,POP CYCL,SLOW
+          21;
+          B,D ALUF,-Q ALUD,B STS,EA
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R6 B,A ALUF,-A-1 ALUD,B CRY,C
+          T,JMP T,POP CYCL,SLOW
+          21;
+L0454:
+          A,SRCE B,R1 ALUF,PASSA ALUD,B EN_EXT
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          A,A B,R5 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          457 CONDENABL;
+          B,R1 ALUF,-B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,COND F,JMP F,HOLD;
+          A,SRCE B,A ALUF,XORAB EN_EXT
+          T,NEXT T,HOLD CYCL,SLOW
+          462 CONDENABL;
+          B,D ALUF,-B ALUD,B STS,EA
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,-B-1 ALUD,B CRY,C
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 B,A ALUF,B-A ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,CRY F,NEXT F,HOLD;
+          B,R7 ALUF,PASSQ ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          505 CONDENABL;
+          B,D ALUF,PASSB
+          IDBS,ARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          16;
+          B,STS ALUF,PASSD ALUD,B
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW;
+          A,X ALUF,PASSD ALUD,NONE STS,LO
+          IDBS,BMG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,PASSB ALUD,SLD STS,ES
+          IDBS,AARG COMM,LDGPR T,NEXT T,NEXT MIS,APT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          A,R1 B,A ALUF,B-A ALUD,SLD STS,ES CRY,C ALUM,FDV
+          T,NEXT T,NEXT MIS,APT T,POP LCOUNT CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,D ALUF,PASSA ALUD,SRB
+          T,NEXT T,NEXT MIS,HOLD T,HOLD CYCL,SLOW;
+          B,D ALUF,ANDDQ ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,STS ALUF,PASSA ALUD,NONE STS,LO
+          T,NEXT T,HOLD CYCL,SLOW
+          476 CONDENABL;
+          A,R1 B,D ALUF,A+B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R7 ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          A,R5 ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          501 CONDENABL;
+          ALUF,-Q
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,COND F,JMP F,HOLD;
+          B,A ALUF,PASSQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          503 CONDENABL;
+          B,D ALUF,-B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R7 ALUF,XORAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,POP;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          21 CONDENABL;
+          B,STS ALUF,PASSD
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          B,STS ALUF,ORDQ ALUD,B
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW;
+          A,STS ALUF,PASSA ALUD,NONE STS,LO
+          T,JMP T,POP CYCL,SLOW
+          21;
+L0510:
+          A,SRCE ALUF,XORDA EN_EXT
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R7 ALUF,ANDDQ ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7700;
+          A,SRCE ALUF,PASSA ALUD,NONE EN_EXT
+          COMM,LDGPR T,JMP T,HOLD CYCL,SLOW
+          505 CONDENABL;
+          ALUD,NONE
+          IDBS,GPR COMM,CLIRQ T,NEXT T,NEXT T,MAPJ T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          0;
+L0515:
+          A,A B,X ALUF,A-1 ALUD,SLB
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          A,X B,X ALUF,D+A ALUD,B
+          IDBS,GPR T,JMP T,POP CYCL,SLOW
+          21;
+L0517:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          ALUF,PASSD
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          AB,IIE A,R7 B,R2 ALUF,XORDQ ALUD,B
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          524;
+L0522:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          B,R2 ALUF,PASSD ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          B,STS ALUF,INVD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          2;
+          A,A B,R6 ALUF,D-1 ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          AB,PVL A,R7 B,R5 ALUF,INVD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 B,T ALUF,ANDAB
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R2 B,R5 ALUF,ANDAB ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          3675;
+          B,R7 ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,Q-A ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          A,STS B,STS ALUF,ANDDA ALUD,B
+          IDBS,STS COMM,CLFF T,JMP T,HOLD CYCL,SLOW
+          555 CONDENABL;
+          A,R5 ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R5 ALUF,A-1 ALUD,NONE
+          COMM,LDLC T,JMP T,HOLD CYCL,SLOW
+          603 CONDENABL;
+          AB,DISPL A,R6 B,R5 ALUF,MASKAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          B,R3 ALUF,PASSD ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT
+          1023 CONDENABL;
+          ALUD,NONE
+          IDBS,DSABL T,JMP T,PUSH CYCL,SLOW
+          3675;
+          ALUF,PASSD
+          IDBS,DBR COMM,CLFF T,NEXT T,PUSH CYCL,WAIT
+          COND,LC=0 F,JMP F,HOLD;
+          B,R3 ALUF,PASSB ALUD,SRD STS,ES
+          T,JMP MIS,APT T,LOAD LCOUNT CYCL,SLOW
+          641;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          575 CONDENABL;
+          A,D B,D ALUD,B STS,EA
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R3 B,A ALUF,A+B ALUD,B STS,EA CRY,C
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,CRY F,JMP F,HOLD;
+          A,D ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW
+          720 CONDENABL;
+          ALUF,ORDQ
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          1;
+          B,A ALUF,PASSB ALUD,SRD
+          T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          B,D ALUF,PASSQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,L B,R6 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          A,T ALUF,A+1
+          T,JMP T,PUSH CYCL,SLOW
+          1027;
+          A,R7 ALUF,PASSA ALUD,NONE
+          COMM,LDGPR T,JMP T,HOLD CYCL,SLOW
+          1011;
+          AB,RONLY A,R5 B,R4 ALUF,A-1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,TXT1 A,R6 B,R4 ALUF,ORAB
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,INVQ ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,R5 ALUF,A+1 ALUD,NONE
+          COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          572 CONDENABL;
+          A,D ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R3 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R4 ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3675;
+          B,R5 ALUF,PASSD ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          A,R4 B,A ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 B,D ALUF,PASSA ALUD,B
+          COMM,CLFF T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          B,R3 ALUF,PASSB ALUD,SRD STS,ES
+          T,JMP MIS,APT T,LOAD LCOUNT CYCL,SLOW
+          641;
+          A,R2 B,T ALUF,PASSA ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          575 CONDENABL;
+          A,D B,D ALUD,B STS,EA
+          T,JMP T,HOLD CYCL,SLOW
+          545;
+          B,A ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3675;
+          B,D ALUF,PASSD ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          A,R2 B,T ALUF,PASSA ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1023;
+          A,D B,D ALUF,A-Q ALUD,B STS,EA
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R3 B,A ALUF,B-A-1 ALUD,B CRY,C
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,OOD F,JMP F,HOLD;
+          A,STS ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW
+          602 CONDENABL;
+          B,STS ALUF,ORDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          2;
+          A,D B,D ALUF,ORDA ALUD,B
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          A,D ALUF,PASSA
+          T,JMP T,HOLD CYCL,SLOW
+          620;
+          A,R2 B,T ALUF,XORAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          607 CONDENABL;
+          B,R3 ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3675;
+          ALUF,PASSD
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          544;
+          B,R3 ALUF,INVD ALUD,B
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,D ALUF,A-D-1 STS,EA
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          A,R3 B,A ALUF,A+B ALUD,B STS,EA CRY,C
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,CRY F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          615 CONDENABL;
+          ALUF,Q+1 STS,EA
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,B ALUD,B CRY,C
+          T,JMP T,HOLD CYCL,SLOW
+          620;
+          A,STS ALUF,INVQ
+          IDBS,ARG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,T ALUF,XORDA ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,INVB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R4 ALUF,D-1 ALUD,B
+          IDBS,ARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          21;
+          A,P B,A ALUF,PASSB ALUD,NONE
+          IDBS,AARG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,T B,R5 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          631 CONDENABL;
+          A,T B,R5 ALUF,A-D ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,PASSQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUF,ZERO
+          T,NEXT T,HOLD CYCL,SLOW
+          631 CONDENABL;
+          B,A ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,D ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R7 B,T ALUF,ZERO ALUD,B,YA
+          COMM,LDGPR T,JMP T,HOLD CYCL,SLOW
+          1011;
+          AB,PRCHR A,R6 B,R6 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,PUSH CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          B,A ALUF,PASSB ALUD,SLD
+          T,NEXT T,NEXT MIS,PT T,POP LCOUNT CYCL,SLOW;
+          B,A ALUF,PASSB ALUD,SRD
+          T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          B,A ALUF,PASSB ALUD,SRD
+          T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          B,D ALUF,PASSQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R4 B,LC ALUF,A-D-1
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 ALUF,A-Q
+          T,JMP T,PUSH CYCL,SLOW
+          1024;
+          A,R7 ALUF,PASSA ALUD,NONE
+          COMM,LDGPR T,JMP T,HOLD CYCL,SLOW
+          1011;
+          B,R3 ALUF,PASSB ALUD,SLD
+          T,NEXT T,NEXT MIS,HOLD T,HOLD CYCL,SLOW;
+          A,R2 B,T ALUF,XORAB ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+L0661:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          B,STS ALUF,INVD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          2;
+          A,STS B,STS ALUF,ANDDA ALUD,B
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW;
+          B,R2 ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,R2 B,T ALUF,A+B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R7 ALUF,MASKDQ
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          B,R3 ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,T B,R2 ALUF,XORAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          B,R7 ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW
+          673 CONDENABL;
+          A,R7 ALUF,ORDQ
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,DBR COMM,LDGPR T,NEXT T,HOLD CYCL,WAIT
+          COND,F=0 F,JMP F,HOLD;
+          A,L B,R6 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          A,R2 B,R6 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,R2 ALUF,XNORAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          701 CONDENABL;
+          A,R2 B,R6 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          762 CONDENABL;
+          A,R6 B,T ALUF,XORDQ ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,ZERO
+          COMM,CLFF T,NEXT T,HOLD CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          B,R1 ALUF,ZERO ALUD,B
+          IDBS,ARG COMM,LDLC T,NEXT T,PUSH CYCL,SLOW
+          17;
+          A,D STS,EA ALUM,FMU
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R1 ALUF,A+B ALUD,SRD STS,EA CRY,C ALUM,FMU
+          T,NEXT T,NEXT MIS,APT T,POP LCOUNT CYCL,SLOW;
+          A,R3 ALUF,PASSA ALUD,NONE
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,ARG COMM,LDLC T,NEXT T,PUSH CYCL,SLOW
+          16;
+          A,D STS,EA ALUM,FMU
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R1 ALUF,A+B ALUD,SRD STS,EA CRY,C ALUM,FMU
+          T,NEXT T,NEXT MIS,APT T,POP LCOUNT CYCL,SLOW;
+          A,D STS,EA ALUM,FMU
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R1 ALUF,A+B ALUD,B STS,EA CRY,C ALUM,FMU
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,CRY F,NEXT F,HOLD;
+          A,R1 B,A ALUF,PASSA ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          724 CONDENABL;
+          A,R1 ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          B,D ALUF,PASSQ ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          626 CONDENABL;
+          A,T ALUF,A-1
+          T,JMP T,PUSH CYCL,SLOW
+          1024;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,OOD F,JMP F,HOLD;
+          A,STS ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW
+          1023 CONDENABL;
+          B,STS ALUF,ORDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          2;
+          A,D B,D ALUF,ORDA ALUD,B
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1023;
+          B,D ALUF,ORDQ
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,OOD F,JMP F,HOLD;
+          A,D B,A ALUF,PASSB ALUD,SRD
+          IDBS,BMG COMM,LDGPR T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW
+          730 CONDENABL;
+          A,STS B,STS ALUF,ORDA ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,ORDQ
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          1;
+          A,R7 B,D ALUF,PASSQ ALUD,B,YA
+          COMM,LDGPR T,JMP T,HOLD CYCL,SLOW
+          1011;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+L0740:
+          B,R1 ALUF,D-1 ALUD,B
+          IDBS,GPR,SEXT T,JMP8-10 T,PUSH CYCL,SLOW
+          3720;
+          B,STS ALUF,INVD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          2;
+          A,STS B,STS ALUF,ANDDA ALUD,B
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW;
+          B,R2 ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3675;
+          A,T B,R2 ALUF,A-B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R7 ALUF,MASKDQ
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,R2 ALUF,XORAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          B,R7 ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW
+          751 CONDENABL;
+          A,R7 ALUF,ORDQ
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          B,R3 ALUF,PASSD ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT
+          COND,F15 F,JMP F,HOLD;
+          A,R6 ALUF,XORDQ
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          1016 CONDENABL;
+          B,R1 ALUF,B+1 ALUD,B
+          COMM,RDRQ T,NEXT T,NEXT MIS,HOLD T,HOLD CYCL,SLOW;
+          B,R4 ALUF,PASSD ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT
+          COND,F=0 F,NEXT F,HOLD;
+          A,L B,R6 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          A,R2 B,R6 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,R2 ALUF,XORAQ ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          765 CONDENABL;
+          A,R2 B,R6 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          765 CONDENABL;
+          A,T B,R6 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          1016 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          626;
+          B,T ALUF,PASSQ ALUD,B
+          IDBS,ARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          16;
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          A,D ALUF,PASSA
+          COMM,CLFF T,NEXT T,HOLD CYCL,SLOW
+          626 CONDENABL;
+          A,X ALUF,PASSD ALUD,NONE STS,LO
+          IDBS,BMG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          A,R4 ALUF,Q-A STS,EA
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R3 B,A ALUF,B-A-1 ALUD,SLD STS,ES CRY,C
+          T,NEXT T,NEXT MIS,APT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          A,R4 ALUF,Q-A STS,EA CRY,C ALUM,FDV
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R3 B,A ALUF,B-A-1 ALUD,SLD STS,ES CRY,C ALUM,FDV
+          T,NEXT T,NEXT MIS,APT T,POP LCOUNT CYCL,SLOW;
+          B,R5 ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          AB,DEPOS A,R5 B,R7 ALUF,PASSA ALUD,NONE
+          IDBS,BARG COMM,LDLC T,NEXT T,PUSH CYCL,SLOW;
+          A,R4 ALUF,Q-A STS,EA CRY,C ALUM,FDV
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R3 B,A ALUF,B-A-1 ALUD,SLD STS,ES CRY,C ALUM,FDV
+          T,NEXT T,NEXT MIS,APT T,POP LCOUNT CYCL,SLOW;
+          A,R5 B,A ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          B,D ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW
+          1013 CONDENABL;
+          A,T ALUF,A+1
+          T,JMP T,PUSH CYCL,SLOW
+          1027;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,DZD F,JMP F,HOLD;
+          A,R7 ALUF,PASSA ALUD,NONE
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          1012 CONDENABL;
+          A,D B,D ALUF,MASKDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          2;
+          A,STS B,STS ALUF,ORAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,STS ALUF,PASSA ALUD,NONE STS,LO
+          T,JMP T,POP CYCL,SLOW
+          26;
+          A,D B,D ALUF,ORDA ALUD,B
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1011;
+          A,D ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,PASSB ALUD,SLD
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,DZD F,JMP F,HOLD;
+          B,D ALUF,PASSQ ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1005;
+          A,X B,T ALUF,ORDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7777;
+          B,A ALUF,INVA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,D ALUF,INVA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,STS ALUF,PASSD
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          A,STS B,STS ALUF,ORAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R7 ALUF,PASSA ALUD,NONE
+          COMM,LDGPR T,JMP T,HOLD CYCL,SLOW
+          1011;
+          A,T B,R2 ALUF,MASKAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,POP;
+          A,R2 B,R6 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,T ALUF,PASSQ ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          626 CONDENABL;
+          B,R2 ALUF,INVQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,R2 ALUF,ANDAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R2 B,R6 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,T ALUF,PASSQ ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          0 CONDENABL;
+          A,R7 ALUF,XORDQ
+          IDBS,BMG T,JMP T,POP CYCL,SLOW
+          1016;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+L1037:
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          B,D ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          1042 CONDENABL;
+          B,T ALUF,ZERO ALUD,B
+          T,JMP T,POP CYCL,SLOW
+          21;
+          A,L ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          B,T ALUF,D+Q ALUD,B
+          IDBS,GPR,SEXT T,NEXT T,HOLD CYCL,SLOW;
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          A,R7 ALUD,NONE
+          IDBS,BMG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          1050 CONDENABL;
+          A,T B,T ALUF,D+A ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,-B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R4 ALUF,D-1 ALUD,B
+          IDBS,ARG COMM,LDLC T,NEXT T,PUSH CYCL,SLOW
+          21;
+          B,A ALUF,PASSB ALUD,SLB
+          T,NEXT T,NEXT MIS,PT T,POP LCOUNT CYCL,SLOW;
+          B,A ALUF,PASSB ALUD,SRB
+          T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          B,A ALUF,PASSB ALUD,SRB
+          T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          A,R4 B,LC ALUF,A-D-1
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,T ALUF,A-Q ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          21;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+L1061:
+          A,T ALUF,D+A
+          IDBS,GPR,SEXT T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          B,R2 ALUF,D+Q ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          20;
+          A,L B,R6 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          A,R2 B,R6 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R6 B,D ALUF,ANDDQ ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          1071 CONDENABL;
+          B,T ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,D ALUF,ZERO ALUD,B
+          T,JMP T,POP CYCL,SLOW
+          21;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          505 CONDENABL;
+          ALUD,NONE
+          IDBS,DSABL T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          B,A ALUF,PASSB ALUD,SRD
+          T,NEXT T,NEXT MIS,APT T,POP LCOUNT CYCL,SLOW;
+          B,A ALUF,PASSB ALUD,SLD
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,PASSB ALUD,SLD
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,T ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,POP;
+          B,T ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          21 CONDENABL;
+          B,A ALUF,-B ALUD,B
+          T,JMP T,POP CYCL,SLOW
+          21;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+L1106:
+          B,R1 ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,DBR COMM,LDGPR T,JMP T,PUSH CYCL,WAIT
+          1115;
+          ALUD,NONE
+          T,JMP T,POP CYCL,SLOW
+          26;
+          A,T B,R1 ALUF,PASSA ALUD,B
+          COMM,CLIRQ T,NEXT T,NEXT T,MAPJ T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,DBR COMM,LDGPR T,NEXT T,HOLD CYCL,WAIT;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          1117;
+          ALUD,NONE
+          T,JMP T,POP CYCL,SLOW
+          26;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          3777;
+          A,R1 B,R1 ALUF,ANDAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 B,X ALUF,MASKDA
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,OPCTT1 F,NEXT F,HOLD;
+          ALUF,XORDQ ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          300;
+          A,R1 B,B ALUF,MASKDA
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1127 CONDENABL;
+          B,STS ALUF,XORDQ ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,Z ALUF,PASSD
+          IDBS,IOR T,JMP T,HOLD CYCL,SLOW
+          1130 CONDENABL;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,IOX T,NEXT T,HOLD CYCL,SLOW;
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT;
+          B,A ALUF,PASSD ALUD,B
+          IDBS,DBR T,RETURN T,POP CYCL,WAIT;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD
+          IDBS,REG T,JMP0-3 T,HOLD CYCL,SLOW
+          3640;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD
+          IDBS,REG T,JMP0-3 T,HOLD CYCL,SLOW
+          3650;
+          AB,STATUS A,R6 B,R7 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSQ ALUD,NONE
+          COMM,SIOC T,RETURN T,POP CYCL,SLOW;
+          A,R3 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          B,A ALUF,ANDDQ ALUD,B
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          377 CONDENABL;
+          ALUD,NONE
+          COMM,RSDA T,RETURN T,POP CYCL,SLOW;
+          A,A B,D ALUF,PASSA
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          B,R7 ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,PUSH CYCL,SLOW;
+          B,A ALUF,PASSB ALUD,SRB
+          T,NEXT T,NEXT MIS,APT T,POP LCOUNT CYCL,SLOW;
+          B,R6 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          340;
+          A,R7 ALUF,PASSA ALUD,NONE
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R6 B,A ALUF,ANDAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,L B,R6 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1146 CONDENABL;
+          A,R6 B,A ALUF,ORAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R6 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R3 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1153 CONDENABL;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          1153 CONDENABL;
+          A,B B,R6 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,R6 B,A ALUF,ORAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,D ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,Z B,R6 ALUF,PASSD ALUD,B
+          IDBS,BMG T,RETURN T,POP CYCL,SLOW
+          0 CONDENABL;
+          A,R6 B,A ALUF,ORAB ALUD,B
+          T,RETURN T,POP CYCL,SLOW;
+          A,R2 B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,NUMBR A,R2 B,R2 ALUF,ORDA ALUD,B
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1161 CONDENABL;
+          AB,NUMBR A,R2 B,R2 ALUF,MASKDA ALUD,B
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          A,X B,R3 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          4002;
+          AB,UPPNR A,R3 B,R2 ALUF,ANDAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,ANDDQ
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0175;
+          A,R2 ALUF,ORAQ
+          T,JMP T,HOLD CYCL,SLOW
+          1131;
+          A,Z ALUF,PASSD ALUD,NONE
+          IDBS,IOR T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          1170 CONDENABL;
+          A,B B,A ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,P ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,Z B,R6 ALUF,PASSD ALUD,B
+          IDBS,BMG T,RETURN T,POP CYCL,SLOW
+          1155 CONDENABL;
+          A,A B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,P ALUF,ORDQ
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          1131 CONDENABL;
+          B,L ALUF,MASKDQ
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1131;
+          ALUF,PASSQ ALUD,NONE
+          COMM,SIOC T,NEXT T,HOLD CYCL,SLOW;
+          A,X ALUF,MASKDQ
+          IDBS,BMG COMM,CLRTC T,JMP T,HOLD CYCL,SLOW
+          1132;
+          A,A B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          AB,WRTYP A,R5 B,R2 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          1202 CONDENABL;
+          B,D ALUF,MASKDQ
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R2 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1131 CONDENABL;
+          B,STS ALUF,MASKDQ
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1131;
+L1205:
+          A,T B,R1 ALUF,D-1 ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 B,R1 ALUF,ANDDA ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,DBR COMM,LDGPR T,NEXT T,HOLD CYCL,WAIT
+          COND,F=0 F,NEXT F,HOLD;
+          B,R6 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          43;
+          A,R1 B,R6 ALUF,A-B ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 B,L ALUF,A-D ALUD,NONE
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1232 CONDENABL;
+          A,R1 B,R1 ALUF,A-D ALUD,NONE
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1226 CONDENABL;
+          A,Z ALUF,PASSD
+          IDBS,IOR T,JMP T,HOLD CYCL,SLOW
+          1236 CONDENABL;
+          A,R6 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R3 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1236 CONDENABL;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          1236 CONDENABL;
+          A,D ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,COND F,NEXT F,HOLD;
+          B,LC ALUF,MASKDQ
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1236 CONDENABL;
+          A,Z B,A ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSQ ALUD,NONE
+          COMM,SIOC T,NEXT T,HOLD CYCL,SLOW;
+          AB,STATUS A,R6 B,R7 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,POP CYCL,SLOW
+          26;
+          A,R7 ALUF,PASSD
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,Z ALUF,ANDDQ ALUD,NONE
+          IDBS,IOR T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          1236 CONDENABL;
+          A,P ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG COMM,LDLC T,JMP T,HOLD CYCL,SLOW
+          1221;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          B,R2 ALUF,ANDDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          11;
+          A,R2 B,R1 ALUF,D-A ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          A,Z ALUF,MASKDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1223 CONDENABL;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,IDENT T,NEXT T,HOLD CYCL,SLOW;
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT;
+          B,A ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,POP CYCL,WAIT
+          26;
+L1241:
+          ALUF,PASSD
+          IDBS,GPR T,JMP T,PUSH CYCL,SLOW
+          1253;
+          B,T ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1257 CONDENABL;
+          B,X ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1261 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1263 CONDENABL;
+          A,X ALUD,NONE
+          IDBS,BMG COMM,SMPID T,JMP T,POP CYCL,WAIT
+          20;
+L1246:
+          ALUF,PASSD
+          IDBS,GPR T,JMP T,PUSH CYCL,SLOW
+          1253;
+          B,T ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1265 CONDENABL;
+          B,X ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1266 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1270 CONDENABL;
+          A,X ALUD,NONE
+          IDBS,BMG COMM,SMPID T,JMP T,POP CYCL,WAIT
+          20;
+          B,R7 ALUF,ANDDQ
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          B,D ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,RETURN T,POP CYCL,SLOW;
+          A,A ALUF,MASKAQ
+          T,RETURN T,POP CYCL,SLOW;
+          A,A ALUF,ORAQ
+          T,RETURN T,POP CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW;
+          A,A ALUF,MASKAQ ALUD,NONE STS,LO
+          T,JMP T,POP CYCL,SLOW
+          21;
+          AB,PID A,R7 B,R4 ALUF,PASSD
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          1255;
+          ALUD,NONE
+          T,JMP T,POP CYCL,SLOW
+          3626;
+          AB,PIE A,R7 B,R3 ALUF,PASSD
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          1255;
+          ALUD,NONE
+          T,JMP T,POP CYCL,SLOW
+          3627;
+          A,A ALUF,ORDA
+          IDBS,STS T,JMP T,HOLD CYCL,SLOW
+          3621;
+          AB,PID A,R7 B,R4 ALUF,PASSD
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          1256;
+          ALUD,NONE
+          T,JMP T,POP CYCL,SLOW
+          3626;
+          AB,PIE A,R7 B,R3 ALUF,PASSD
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          1256;
+          ALUD,NONE
+          T,JMP T,POP CYCL,SLOW
+          3627;
+L1272:
+          A,L ALUD,NONE
+          IDBS,BMG COMM,SMPID T,NEXT T,POP CYCL,SLOW;
+          A,R6 B,T ALUD,NONE
+          IDBS,GPR,SEXT COMM,EWRF T,RETURN T,HOLD CYCL,SLOW;
+L1274:
+          B,P ALUF,B+1 ALUD,B
+          T,NEXT T,HOLD CYCL,WAIT;
+          ALUD,NONE
+          IDBS,DSABL T,JMP T,PUSH SLWCS CYCL,WAIT
+          7400;
+L1276:
+          ALUF,PASSD
+          IDBS,STS T,JMP0-3 T,HOLD CYCL,SLOW
+          3560;
+          PIC,IOF ALUD,NONE
+          COMM,EPIC T,NEXT T,HOLD CYCL,WAIT;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDPIL T,RETURN T,HOLD CYCL,SLOW;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDPIL T,NEXT T,HOLD CYCL,SLOW;
+          PIC,ION ALUD,NONE
+          COMM,EPIC T,JMP T,HOLD CYCL,SLOW
+          1465;
+          A,A B,R7 ALUF,PASSA ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,PUSH CYCL,WAIT
+          1311;
+          A,D ALUF,PASSA ALUD,NONE
+          COMM,IRDRQ T,NEXT T,HOLD CYCL,SLOW;
+          B,T ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          1315;
+          A,A B,R7 ALUF,PASSA ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,PUSH CYCL,WAIT
+          1311;
+          A,D ALUF,PASSA ALUD,NONE
+          COMM,DERQ T,NEXT T,HOLD CYCL,SLOW;
+          A,T ALUF,PASSA ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1315;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDIR T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,ZERO ALUD,NONE
+          COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          122;
+          A,R7 ALUF,PASSA ALUD,NONE
+          COMM,XMM T,RETURN T,POP CYCL,SLOW;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,WAIT
+          121;
+          AB,EXMOD A,R3 B,R1 ALUD,NONE
+          IDBS,REG COMM,XMM T,JMP T,POP CYCL,SLOW
+          26;
+L1317:
+          ALUD,NONE
+          T,JMP0-3 T,POP CYCL,SLOW
+          3600;
+          PIC,RSTS B,R5 ALUF,PASSD ALUD,B
+          IDBS,PIC COMM,EPIC T,NEXT T,HOLD CYCL,SLOW
+          COND,IRQ F,JMP F,HOLD;
+          PIC,LOSTS B,STS ALUF,ZERO
+          IDBS,BARG COMM,EPIC T,NEXT T,HOLD CYCL,SLOW;
+          PIC,ION B,R6 ALUF,INVD ALUD,B
+          IDBS,BMG COMM,EPIC T,NEXT T,HOLD CYCL,SLOW;
+          AB,PRCHR B,R6 ALUF,PASSB ALUD,NONE
+          COMM,EPIC T,NEXT T,HOLD CYCL,SLOW;
+          AB,IIE A,R7 B,R2 ALUF,PASSD ALUD,B
+          IDBS,REG COMM,CLIRQ T,NEXT T,HOLD CYCL,SLOW;
+          A,R7 ALUD,NONE
+          IDBS,BMG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          1327 CONDENABL;
+          A,R7 ALUF,PASSD
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUD,NONE
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW;
+          A,L B,R3 ALUF,INVD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTA2 B,R2 ALUF,INVB ALUD,NONE
+          COMM,EPIC T,JMP T,PUSH CYCL,SLOW
+          1334;
+          AB,TXT2 B,R3 ALUF,PASSB ALUD,NONE
+          COMM,EPIC T,NEXT T,HOLD CYCL,SLOW
+          1334 CONDENABL;
+          ALUF,ORDQ
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          PIC,LOSTS B,STS ALUD,NONE
+          IDBS,BARG COMM,EPIC T,NEXT T,HOLD CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          B,R3 ALUF,PASSB ALUD,SRB ALUM,FMU
+          COMM,CLIRQ T,NEXT T,POP LCOUNT CYCL,SLOW
+          COND,IRQ F,JMP F,HOLD;
+          AB,PID A,R7 B,R4 ALUF,ORDQ
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          PIC,LOSTS B,R5 ALUF,PASSB ALUD,NONE
+          COMM,EPIC T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD ALUD,NONE
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          AB,OPR B,R1 ALUF,PASSB ALUD,NONE
+          COMM,EPIC T,JMP T,HOLD CYCL,SLOW
+          1362 CONDENABL;
+          PIC,IOF ALUD,NONE
+          COMM,EPIC T,JMP T,HOLD CYCL,SLOW
+          1362;
+          PIC,RMSK B,R6 ALUF,PASSD ALUD,B
+          IDBS,DSABL COMM,EPIC T,NEXT T,HOLD CYCL,SLOW;
+          AB,IIE A,R7 B,R2 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          A,B ALUF,ANDDQ
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7760;
+          PIC,LMSK ALUF,INVQ ALUD,NONE
+          COMM,EPIC T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          25;
+          AB,PIE B,R3 ALUF,PASSD ALUD,B
+          IDBS,BARG COMM,EPIC T,NEXT T,PUSH CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          PIC,LOSTS ALUF,PASSQ ALUD,NONE
+          COMM,EPIC T,JMP T,POP CYCL,SLOW
+          1355 CONDENABL;
+          A,R3 ALUF,A-Q ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,RETURN F,HOLD;
+          ALUF,Q-1
+          COMM,CLIRQ T,NEXT T,POP CYCL,SLOW
+          COND,IRQ F,NEXT F,HOLD CONDENABL;
+          ALUF,ZERO
+          T,JMP T,HOLD CYCL,SLOW
+          1357;
+          ALUF,Q-D
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          12;
+          A,R6 ALUD,NONE
+          IDBS,BMG COMM,SMPID T,NEXT T,HOLD CYCL,SLOW;
+          PIC,LOSTS B,R5 ALUF,PASSB ALUD,NONE
+          COMM,EPIC T,JMP T,PUSH CYCL,SLOW
+          1527;
+          ALUF,PASSD ALUD,NONE
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          AB,PRCHR B,R6 ALUF,PASSB ALUD,NONE
+          COMM,EPIC T,NEXT T,HOLD CYCL,SLOW
+          1342 CONDENABL;
+          B,A ALUF,PASSQ ALUD,B
+          T,RETURN T,HOLD CYCL,SLOW;
+          A,R5 B,A ALUF,ORDQ ALUD,B
+          IDBS,ARG T,RETURN T,HOLD CYCL,SLOW
+          3602;
+          ALUD,NONE
+          T,JMPALD T,PUSH CYCL,SLOW
+          3520;
+          B,A ALUF,PASSQ ALUD,B
+          T,RETURN T,HOLD CYCL,SLOW;
+          B,Z ALUF,D-1
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1376;
+          B,R6 ALUF,PASSD ALUD,B
+          IDBS,STS T,JMP T,PUSH CYCL,SLOW
+          1402;
+          ALUF,PASSD
+          IDBS,MMR T,NEXT T,HOLD CYCL,SLOW;
+          A,R7 B,A ALUF,ANDDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7773;
+          A,R6 ALUF,PASSA ALUD,NONE
+          COMM,LDPIL T,JMP T,HOLD CYCL,SLOW
+          1442;
+          B,R6 ALUF,PASSD ALUD,B
+          IDBS,STS T,JMP T,PUSH CYCL,SLOW
+          1402;
+          A,A ALUF,PASSA ALUD,NONE
+          COMM,XMM T,JMP T,HOLD CYCL,SLOW
+          1372;
+          A,R6 ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          1777;
+          ALUD,NONE
+          IDBS,GPR COMM,LDIR T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,ANDDQ ALUD,B
+          IDBS,MMR T,JMP T,HOLD CYCL,SLOW
+          1442;
+          B,X ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1376;
+          B,P ALUD,NONE
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R5 ALUF,PASSA ALUD,SLB
+          IDBS,GPR COMM,LDIR T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          B,R5 ALUF,PASSB ALUD,SLB
+          T,NEXT T,POP LCOUNT CYCL,SLOW;
+          A,R5 ALUF,PASSA ALUD,NONE
+          COMM,LDPIL T,RETURN T,POP CYCL,SLOW;
+L1406:
+          B,A ALUF,PASSB
+          T,JMP0-3 T,POP CYCL,SLOW
+          3620;
+          ALUF,ANDDQ
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7774;
+          A,D B,R1 ALUF,ORDQ ALUD,SLB
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          PIC,RMSK B,R2 ALUF,INVD ALUD,B
+          IDBS,DSABL COMM,EPIC T,NEXT T,HOLD CYCL,SLOW;
+          AB,PIE A,R7 B,R3 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          A,R6 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R1 B,R1 ALUF,A+B
+          T,JMP T,HOLD CYCL,SLOW
+          1421 CONDENABL;
+          A,STS B,R6 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          17;
+          AB,OCTA2 A,R6 B,R2 ALUF,ANDAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,NUMBR A,R2 B,R2 ALUF,ORAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTA2 B,R2 ALUF,INVB ALUD,NONE
+          COMM,EPIC T,NEXT T,HOLD CYCL,SLOW;
+          AB,IIE A,R7 B,R2 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,RETURN T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,SWAP T,JMP T,PUSH CYCL,SLOW
+          1531;
+          B,STS ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,STS B,R1 ALUF,ANDDA ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          17;
+          A,STS ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,IIE A,R7 B,R2 ALUF,ANDDQ
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 B,R1 ALUF,ORAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,OPR B,R1 ALUF,INVB ALUD,NONE
+          COMM,EPIC T,JMP T,HOLD CYCL,SLOW
+          1465;
+          ALUF,PASSD
+          IDBS,SWAP T,JMP T,PUSH CYCL,SLOW
+          1531;
+          A,R4 ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          17;
+          B,R1 ALUF,MASKAQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          1530;
+          ALUF,ANDAQ ALUD,NONE
+          COMM,SMPID T,JMP T,HOLD CYCL,SLOW
+          1465;
+          AB,LMP A,R4 B,R2 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,RETURN T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,GPR COMM,LDIR T,NEXT T,HOLD CYCL,SLOW;
+          A,A ALUF,PASSA ALUD,NONE
+          COMM,XMM T,JMP T,HOLD CYCL,SLOW
+          1442;
+          A,STS B,R1 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          115;
+          ALUD,NONE
+          IDBS,DBR COMM,LDGPR T,JMP T,PUSH CYCL,WAIT
+          1117;
+          A,P ALUF,PASSA ALUD,NONE
+          COMM,RDRQ T,RETURN T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,GPR COMM,LDIR T,NEXT T,HOLD CYCL,SLOW;
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,SWAP COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,SWAP COMM,XMM T,JMP T,HOLD CYCL,SLOW
+          1442;
+L1447:
+          ALUF,PASSD ALUD,NONE
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          ALUF,PASSD
+          IDBS,SWAP T,NEXT T,HOLD CYCL,WAIT
+          1706 CONDENABL;
+          B,R7 ALUF,ANDDQ
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          B,R1 ALUF,PASSQ ALUD,B
+          COMM,LDLC T,NEXT T,HOLD CYCL,SLOW;
+          AB,PID A,R7 B,R4 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          A,LC ALUF,MASKDQ
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 B,R6 ALUF,A-D ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,PID A,R7 B,R4 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          1474 CONDENABL;
+          A,R1 B,R2 ALUF,A-D
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDLC T,JMP T,HOLD CYCL,SLOW
+          1465 CONDENABL;
+          B,L ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          A,LC ALUF,PASSD
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1464 CONDENABL;
+          A,R7 ALUF,PASSD
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          PIC,MCLPID ALUF,PASSQ ALUD,NONE
+          COMM,EPIC T,NEXT T,HOLD CYCL,SLOW;
+          PIC,LOSTS B,STS ALUD,NONE
+          IDBS,BARG COMM,EPIC T,NEXT T,HOLD CYCL,SLOW
+          COND,IRQ F,NEXT F,HOLD;
+          AB,PID A,R7 B,R4 ALUF,PASSD
+          IDBS,REG COMM,CLIRQ T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD ALUD,NONE
+          IDBS,STS T,RETURN T,HOLD CYCL,SLOW
+          COND,F15 F,RETURN F,HOLD CONDENABL;
+          AB,PIE A,R7 B,R3 ALUF,ANDDQ ALUD,SLB
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F11 F,JMP F,HOLD CONDENABL;
+          A,STS ALUF,PASSD
+          IDBS,ARG COMM,LDLC T,NEXT T,PUSH CYCL,SLOW
+          13;
+          B,R3 ALUF,PASSB ALUD,SLD
+          T,NEXT T,POP LCOUNT CYCL,SLOW;
+          B,LC ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1502;
+          A,L ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          PIC,MCLPID ALUF,PASSQ ALUD,NONE
+          COMM,EPIC T,JMP T,HOLD CYCL,SLOW
+          1465;
+          B,P ALUF,B-1 ALUD,B
+          IDBS,ARG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          L0027;
+          A,R6 ALUD,NONE
+          IDBS,BMG COMM,SMPID T,NEXT T,HOLD CYCL,SLOW;
+          PIC,LOSTS ALUD,NONE
+          IDBS,GPR COMM,EPIC T,JMP T,HOLD CYCL,SLOW
+          1502;
+          B,P ALUF,B-1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          B,R6 ALUF,PASSD ALUD,B
+          IDBS,SWAP T,JMP T,HOLD CYCL,SLOW
+          1507 CONDENABL;
+          A,LC ALUF,PASSD
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          AB,PID A,R7 B,R4 ALUF,ORDQ ALUD,B
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          AB,PID A,R7 B,R4 ALUF,PASSB ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          A,PIL ALUF,PASSD
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,LC ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,RETURN F,HOLD;
+          A,R4 ALUF,ANDDQ ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          0 CONDENABL;
+          A,LC ALUF,PASSD
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,COND F,JMP F,HOLD;
+          A,PIL B,R5 ALUF,PASSD ALUD,B
+          IDBS,AARG T,NEXT T,HOLD CYCL,SLOW
+          1515 CONDENABL;
+          AB,PVL A,R7 B,R5 ALUF,PASSB ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,ACTLV A,R4 B,R7 ALUF,ORDQ ALUD,B
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,ARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          7;
+          ALUF,PASSD ALUD,B
+          IDBS,STS T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          A,PIL B,LC ALUF,PASSB
+          COMM,EWRF T,NEXT T,POP LCOUNT CYCL,SLOW;
+          A,R7 ALUF,ANDDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,WAIT;
+          B,R6 ALUF,ORAB ALUD,NONE
+          COMM,LDPIL T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,ARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          7;
+          AB,ACTLV A,R4 B,R7 ALUF,PASSB ALUD,NONE
+          COMM,EWRF T,NEXT T,PUSH CYCL,SLOW;
+          A,PIL B,LC ALUF,PASSD ALUD,B
+          IDBS,REG T,NEXT T,POP LCOUNT CYCL,SLOW;
+          ALUF,PASSA ALUD,NONE STS,LO
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          A,B B,R1 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7760;
+          PIC,MCLPID B,R1 ALUF,PASSB ALUD,NONE
+          COMM,EPIC T,RETURN T,POP CYCL,SLOW;
+          ALUF,ANDDQ ALUD,SRB
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          74;
+          A,X ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,T ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1535 CONDENABL;
+          A,Z ALUF,ORDA ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,COND F,NEXT F,HOLD;
+          ALUF,PASSB ALUD,SRB
+          T,RETURN T,RETURN MIS,PT T,POP CYCL,SLOW
+          0 CONDENABL;
+          A,X ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7760;
+          ALUF,ORAQ ALUD,B
+          T,RETURN T,POP CYCL,SLOW;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          100;
+          AB,EXMOD A,R3 B,R1 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          B,R5 ALUD,NONE
+          IDBS,BARG COMM,XMM T,RETURN T,POP CYCL,SLOW;
+          A,B ALUF,PASSD
+          IDBS,ARG COMM,SIOC T,NEXT T,HOLD CYCL,SLOW
+          120;
+          ALUF,PASSD
+          IDBS,STS COMM,SSTOP T,JMP T,PUSH CYCL,SLOW
+          3565;
+          ALUF,ZERO
+          COMM,RSDA T,JMP T,PUSH CYCL,SLOW
+          1407;
+          PIC,LOSTS B,STS ALUF,ZERO
+          IDBS,BARG COMM,EPIC T,JMP T,PUSH CYCL,SLOW
+          3627;
+          A,R7 ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7777;
+          AB,RONLY A,R5 B,R4 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,CDIGI A,R7 B,R1 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,PRCHR A,R6 B,R6 ALUD,NONE
+          IDBS,ARG COMM,EWRF T,NEXT T,HOLD CYCL,SLOW
+          443;
+          PIC,LMSK ALUF,PASSQ ALUD,NONE
+          COMM,EPIC T,NEXT T,NEXT T,MAPJ T,HOLD CYCL,SLOW;
+          AB,DISPL A,R6 B,R5 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTAD A,R5 B,R3 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTA2 A,R6 B,R2 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,JMP T,PUSH CYCL,SLOW
+          1677;
+          AB,BPFLG A,R4 B,R3 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,STS T,JMP T,PUSH CYCL,SLOW
+          3567;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          121;
+          ALUF,ZERO
+          COMM,XMM T,JMP T,PUSH CYCL,SLOW
+          1540;
+          ALUF,PASSQ ALUD,NONE
+          COMM,XMM T,JMP T,HOLD CYCL,SLOW
+          1564;
+          B,R2 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,PUSH CYCL,SLOW
+          400;
+          B,R1 ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R1 ALUF,B-1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R1 ALUF,B+1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          1667 CONDENABL;
+          B,R2 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          1000;
+          ALUF,ZERO
+          IDBS,ARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          3;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          ALUF,Q+1
+          T,NEXT T,POP LCOUNT CYCL,SLOW;
+          B,A ALUF,D-Q ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          1667 CONDENABL;
+          B,R2 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          1400;
+          B,B ALUD,NONE
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          A,X ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          707;
+          A,B B,R3 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,PUSH CYCL,SLOW
+          L0303;
+          B,R3 ALUF,PASSB ALUD,SLD
+          T,NEXT T,NEXT MIS,PT T,POP LCOUNT CYCL,SLOW;
+          A,B ALUF,Q-D
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          4346;
+          ALUF,PASSQ ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          B,R3 ALUF,PASSB
+          T,NEXT T,HOLD CYCL,SLOW
+          1667 CONDENABL;
+          A,D ALUF,Q-D ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          4156;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          1666 CONDENABL;
+          B,R2 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          2400;
+          AB,PVL A,R7 B,R5 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7777;
+          B,Z ALUF,PASSD
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSQ ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          B,R5 ALUF,B+1 ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          1667 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          1666 CONDENABL;
+          B,R2 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          3400;
+          A,R7 ALUD,NONE
+          IDBS,AARG T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,SWAP T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,X ALUF,Q-D ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          4000;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          1667 CONDENABL;
+          B,R2 ALUF,B+1 ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          4000;
+          B,R1 ALUF,ZERO ALUD,B
+          IDBS,ARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          17;
+          A,STS ALUF,PASSD
+          IDBS,ARG COMM,LDGPR T,NEXT T,PUSH CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,LC ALUF,Q-D ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,POP;
+          ALUF,Q-D ALUD,NONE
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW
+          1667 CONDENABL;
+          B,R1 ALUF,PASSB ALUD,SRD ALUM,FMU
+          T,NEXT T,HOLD CYCL,SLOW
+          1666 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          ALUD,NONE
+          IDBS,PEA T,NEXT T,HOLD LCOUNT CYCL,SLOW;
+          B,R7 ALUF,PASSD ALUD,B
+          IDBS,STS T,NEXT T,LOAD CYCL,SLOW;
+          B,R2 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          5000;
+          A,R7 B,STS ALUD,NONE
+          IDBS,ARG COMM,EWRF T,NEXT T,HOLD CYCL,SLOW
+          7777;
+          ALUF,ZERO ALUD,NONE STS,LO
+          COMM,LDPIL T,JMP T,PUSH CYCL,SLOW
+          1664;
+          ALUF,PASSD
+          IDBS,STS T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,D ALUF,Q-D ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          A,R7 B,STS ALUF,D+1 ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          1667 CONDENABL;
+          A,R7 B,STS ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW
+          1666 CONDENABL;
+          A,R7 B,STS ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          1665 CONDENABL;
+          A,R7 ALUF,PASSA ALUD,NONE STS,LO
+          COMM,LDPIL T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R7 ALUF,PASSA ALUD,B
+          T,NEXT T,PUSH CYCL,SLOW;
+          B,R2 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          6400;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3606;
+          A,R7 B,STS ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,ZERO
+          T,JMP T,LOAD CYCL,SLOW
+          3626;
+          A,R4 ALUD,NONE
+          IDBS,ARG COMM,SMPID T,NEXT T,HOLD CYCL,SLOW
+          17;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3606;
+          A,R7 ALUF,D-Q
+          IDBS,ARG T,NEXT T,POP CYCL,SLOW
+          6000;
+          ALUF,PASSQ ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,R7 B,STS ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          1667 CONDENABL;
+          B,R6 ALUF,ZERO ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          3626;
+          A,R7 B,A ALUF,PASSA ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1671;
+          A,R7 ALUD,NONE
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          7777;
+          AB,NUMBR A,R2 B,R2 ALUF,A+B ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          400;
+          AB,NUMBR A,R2 B,R2 ALUF,A+B ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          400;
+          B,R2 ALUF,PASSB
+          T,JMP T,PUSH CYCL,SLOW
+          2237;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDPIL T,RETURN T,HOLD CYCL,SLOW;
+          A,B ALUF,PASSD
+          IDBS,ARG COMM,SIOC T,NEXT T,HOLD CYCL,SLOW
+          L0140;
+          AB,STATUS A,R6 B,R7 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,MANIR A,R3 B,R4 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,TXT1 A,R6 B,R4 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,TXT2 A,R6 B,R3 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,SINGL A,R4 B,R4 ALUF,ZERO
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          1515;
+          AB,DUMPF A,R5 B,R6 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,SCRAM A,R4 B,R5 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,CURNR A,R3 B,R3 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,UPPNR A,R3 B,R2 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTN2 A,R3 B,R5 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,DEPOS A,R5 B,R7 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,RETURN T,POP CYCL,SLOW;
+          AB,PRCHR A,R6 B,R6 ALUD,NONE
+          IDBS,ARG COMM,EWRF T,NEXT T,HOLD CYCL,SLOW
+          443;
+          AB,MACL A,R4 B,R1 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,Z ALUF,PASSD
+          IDBS,IOR T,JMP T,HOLD CYCL,SLOW
+          3545 CONDENABL;
+          A,R5 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          AB,MACL A,R4 B,R1 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW
+          3545 CONDENABL;
+          ALUD,NONE
+          T,JMPALD T,PUSH CYCL,SLOW
+          3520;
+          A,R7 ALUF,MASKDQ
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R5 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          20 CONDENABL;
+          A,X B,STS ALUF,D-1 ALUD,B
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1755 CONDENABL;
+          A,D B,D ALUF,D+Q ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,D B,R1 ALUF,A-1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          1115;
+          A,D B,R1 ALUF,A-1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          1115;
+          A,D B,R1 ALUF,A+1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          1115;
+          A,D B,R1 ALUF,D+A ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          5;
+          A,R2 B,A ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          1115;
+          A,D B,R1 ALUF,D+A+1 ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,P B,A ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          1115;
+          A,D B,R1 ALUF,D+A ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          1115;
+          A,A B,L ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,P B,R7 ALUF,PASSD ALUD,B
+          IDBS,AARG T,NEXT T,HOLD CYCL,SLOW
+          1730 CONDENABL;
+          A,A B,R7 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          1720 CONDENABL;
+          B,P ALUF,ZERO ALUD,B
+          COMM,START T,JMP T,HOLD CYCL,SLOW
+          2303;
+          A,Z ALUF,PASSD
+          IDBS,IOR COMM,CLRTC T,NEXT T,HOLD CYCL,SLOW
+          COND,STP F,RETURN F,POP;
+          A,R5 ALUF,ANDDQ
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD CONDENABL;
+          AB,MACL A,R4 B,R1 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          1745 CONDENABL;
+          AB,MACL A,R4 B,R1 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,JMPALD T,PUSH CYCL,SLOW
+          3520;
+          ALUF,PASSQ ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1714 CONDENABL;
+          A,P B,P ALUF,PASSD ALUD,B
+          IDBS,AARG T,JMP T,HOLD CYCL,SLOW
+          1751;
+          AB,MACL A,R4 B,R1 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW
+          20 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1744;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,STP F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1713 CONDENABL;
+          ALUD,NONE
+          COMM,START T,JMP T,HOLD CYCL,SLOW
+          2303;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1713 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1714;
+          B,D ALUF,PASSQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2010;
+          A,R5 B,P ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,L ALUF,D+1 ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          2012;
+          A,R2 B,R5 ALUF,A-D ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R2 B,L ALUF,A-B ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1756 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1764 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1757;
+          A,STS B,STS ALUF,D-1 ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          B,L ALUF,ZERO ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2022;
+          B,X ALUF,PASSA ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2022;
+          B,T ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,WAIT
+          2022;
+          B,T ALUF,B-1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,X B,X ALUF,B+1 ALUD,B,YA
+          COMM,WRRQ T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW
+          COND,COND F,JMP F,HOLD;
+          B,L ALUF,A+B ALUD,B,YA
+          T,NEXT T,HOLD CYCL,WAIT
+          1770 CONDENABL;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,WAIT
+          2022;
+          B,L ALUF,XORAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2162 CONDENABL;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2012;
+          A,R2 ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2303 CONDENABL;
+          ALUD,NONE
+          COMM,START T,JMP T,HOLD CYCL,SLOW
+          2303;
+          A,D B,R1 ALUF,D+A ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          1115;
+          A,A B,STS ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2003 CONDENABL;
+          A,D B,R1 ALUF,PASSA ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          1115;
+          A,A B,STS ALUF,ANDAB ALUD,NONE
+          COMM,LDGPR T,JMP T,HOLD CYCL,SLOW
+          2010;
+          B,A ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          4005;
+          A,D B,R1 ALUF,D+A+1 ALUD,B
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1115;
+          AB,OCTNR A,R5 B,R5 ALUF,ZERO ALUD,B
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2014;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2267;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD ALUD,B
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          2003;
+          A,STS B,R2 ALUF,ANDDA ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          60;
+          A,R2 B,R3 ALUF,A-Q ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R3 B,STS ALUF,A-D ALUD,NONE
+          IDBS,BARG T,RETURN T,POP CYCL,SLOW
+          COND,F15 F,RETURN F,POP CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2013 CONDENABL;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2003;
+          ALUD,NONE
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD ALUD,B
+          IDBS,SWAP T,JMP T,PUSH CYCL,SLOW
+          2003;
+          ALUF,ORDA ALUD,B
+          IDBS,GPR T,RETURN T,POP CYCL,SLOW;
+          B,STS ALUF,PASSD
+          IDBS,BARG COMM,CLRTC T,NEXT T,HOLD CYCL,SLOW;
+          AB,STATUS A,R6 B,R7 ALUF,ORDQ
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          1131;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          40;
+          ALUF,PASSD ALUD,NONE
+          IDBS,MMR T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2036 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          40;
+          ALUD,NONE
+          IDBS,MMR T,NEXT T,HOLD CYCL,SLOW;
+          AB,PRCHR A,R6 B,R6 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,Z ALUF,PASSD
+          IDBS,IOR T,JMP T,HOLD CYCL,SLOW
+          2117 CONDENABL;
+          A,R6 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R7 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          2043 CONDENABL;
+          ALUD,NONE
+          COMM,RSDA T,JMP T,HOLD CYCL,SLOW
+          2305;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          20 CONDENABL;
+          AB,PRCHR A,R6 B,R6 ALUF,PASSD
+          IDBS,REG COMM,TBSTR T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUF,D-Q ALUD,NONE
+          IDBS,ARG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          43;
+          B,R2 ALUF,D-Q ALUD,NONE
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2417 CONDENABL;
+          AB,PRCHR A,R6 B,R6 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2313 CONDENABL;
+          AB,CDIGI A,R7 B,R1 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2064 CONDENABL;
+          ALUF,PASSQ ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,CDIGI A,R7 B,R1 ALUF,Q-1 ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2063 CONDENABL;
+          AB,NUMBR A,R2 B,R2 ALUF,PASSD ALUD,SLB
+          IDBS,REG T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          AB,NUMBR A,R2 B,R2 ALUF,PASSB ALUD,SLB
+          T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          AB,NUMBR A,R2 B,R2 ALUF,PASSB ALUD,SLB
+          T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          AB,NUMBR A,R2 B,R2 ALUF,PASSB
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,ANDDQ
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7;
+          ALUF,D+Q
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          60;
+          AB,PRCHR A,R6 B,R6 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2036;
+          A,A ALUF,PASSD
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          2062;
+          AB,DUMPF A,R5 B,R6 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,CNT10 A,R7 B,R7 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          2036 CONDENABL;
+          B,P ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          B,R2 ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2071 CONDENABL;
+          AB,CURNR A,R3 B,R3 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          2075 CONDENABL;
+          AB,CNT10 A,R7 B,R7 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          ALUF,PASSQ ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2105;
+          AB,CURNR A,R3 B,R3 ALUF,PASSD
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          2241;
+          AB,CNT10 A,R7 B,R7 ALUF,D+1
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          2104;
+          AB,UPPNR A,R3 B,R2 ALUF,Q-D ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,PRCHR A,R6 B,R6 ALUF,ZERO ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2306 CONDENABL;
+          AB,SCRAM A,R4 B,R5 ALUD,NONE
+          IDBS,REG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2171;
+          AB,CURNR A,R3 B,R3 ALUF,D+1 ALUD,B
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          AB,CURNR A,R3 B,R3 ALUF,PASSB ALUD,NONE
+          COMM,EWRF T,JMP T,PUSH CYCL,SLOW
+          2241;
+          AB,CNT10 A,R7 B,R7 ALUF,D+1
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          AB,CNT10 A,R7 B,R7 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2036;
+          B,D ALUF,D-Q ALUD,NONE
+          IDBS,BARG T,RETURN T,POP CYCL,SLOW
+          2111 CONDENABL;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0057;
+          AB,PRCHR A,R6 B,R6 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,CNT10 A,R7 B,R7 ALUF,D+1
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          2104;
+          B,R2 ALUF,D-Q ALUD,NONE
+          IDBS,BARG T,RETURN T,POP CYCL,SLOW
+          2113 CONDENABL;
+          B,R5 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2107;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          2114 CONDENABL;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          412;
+          AB,PRCHR A,R6 B,R6 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,CNT10 A,R7 B,R7 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2036;
+          A,R3 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          2164;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          A,T ALUF,MASKDQ
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          1131;
+          A,Z ALUF,PASSD
+          IDBS,IOR T,NEXT T,HOLD CYCL,SLOW;
+          A,R6 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUF,ZERO ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2166 CONDENABL;
+          ALUF,ANDDQ
+          IDBS,ARG COMM,RSDA T,NEXT T,HOLD CYCL,SLOW
+          L0177;
+          B,R2 ALUF,PASSQ ALUD,B
+          COMM,TBSTR T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          B,R5 ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,JMP T,PUSH CYCL,SLOW
+          2132;
+          B,R2 ALUF,PASSD
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          AB,PRCHR A,R6 B,R6 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          20;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          COND,F15 F,NEXT F,POP CONDENABL;
+          B,R1 ALUF,Q-D ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          60;
+          A,R1 B,STS ALUF,A-D ALUD,NONE
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2136 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2301 CONDENABL;
+          ALUF,Q-D ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0101;
+          B,R5 ALUF,ZERO ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2142 CONDENABL;
+          ALUF,Q-D ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0132;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2314 CONDENABL;
+          A,T ALUF,Q-D
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          B,L ALUF,D+Q
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2306 CONDENABL;
+          B,R5 ALUF,D+Q
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2410 CONDENABL;
+          B,A ALUF,D+Q
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2553 CONDENABL;
+          B,R7 ALUF,D+Q
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2415 CONDENABL;
+          B,A ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2303 CONDENABL;
+          A,X B,R1 ALUF,Q-D-1 ALUD,B
+          IDBS,AARG T,JMP T,HOLD CYCL,SLOW
+          2306 CONDENABL;
+          B,R1 ALUF,B-1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2250;
+          B,D ALUF,Q-D
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          B,R1 ALUF,PASSB ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2321 CONDENABL;
+          B,D ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2373 CONDENABL;
+          B,D ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2363 CONDENABL;
+          B,D ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2326 CONDENABL;
+          B,P ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1752 CONDENABL;
+          B,STS ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1752 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3554 CONDENABL;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0077;
+          AB,PRCHR A,R6 B,R6 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2305;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          COND,STP F,NEXT F,HOLD CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2120 CONDENABL;
+          AB,DISPL A,R6 B,R5 ALUD,NONE
+          IDBS,REG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTAD A,R5 B,R3 ALUF,PASSD
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          2171;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          A,LC ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMPAOPR T,HOLD CYCL,SLOW
+          3540;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          122;
+          AB,OCTA2 A,R6 B,R2 ALUF,PASSD ALUD,B
+          IDBS,REG COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          100;
+          B,STS ALUD,NONE
+          IDBS,BARG COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTA2 A,R6 B,R2 ALUF,PASSB ALUD,NONE
+          COMM,XMM T,JMP T,PUSH CYCL,SLOW
+          2235;
+          ALUF,PASSQ ALUD,NONE
+          COMM,IRDRQ T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          2235;
+          ALUF,PASSQ ALUD,NONE
+          COMM,CLIRQ T,NEXT T,NEXT T,MAPJ T,HOLD CYCL,SLOW;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2207;
+          A,A ALUF,PASSA
+          T,NEXT T,POP CYCL,SLOW;
+          A,R7 B,A ALUF,PASSA ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2232;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          L0373;
+          ALUF,PASSQ ALUD,NONE
+          COMM,CLIRQ T,NEXT T,NEXT T,MAPJ T,HOLD CYCL,SLOW;
+          A,R6 ALUF,PASSA ALUD,NONE
+          COMM,LDLC T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,REG B,LC ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          2232;
+          ALUF,PASSQ ALUD,NONE
+          COMM,CLIRQ T,NEXT T,NEXT T,MAPJ T,HOLD CYCL,SLOW;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2220;
+          A,A ALUF,PASSA
+          T,JMP T,POP CYCL,WAIT
+          2206;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,WAIT
+          L1317;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          23;
+          AB,OCTA2 A,R6 B,R2 ALUF,PASSD ALUD,B
+          IDBS,MMR T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          22;
+          ALUF,PASSD
+          IDBS,MMR T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          100;
+          B,R3 ALUD,NONE
+          IDBS,BARG COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTA2 A,R6 B,R2 ALUF,PASSB ALUD,NONE
+          COMM,XMM T,JMP T,HOLD CYCL,SLOW
+          2235;
+          AB,ACTLV A,PIL B,R7 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          AB,ACTLV A,R4 B,R7 ALUF,PASSB ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2237;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          100;
+          B,R1 ALUD,NONE
+          IDBS,BARG COMM,XMM T,JMP T,PUSH CYCL,SLOW
+          2235;
+          A,P ALUF,PASSA ALUD,NONE
+          COMM,XMM T,JMP T,HOLD CYCL,SLOW
+          2236;
+          ALUF,PASSQ ALUD,NONE
+          COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,SWAP COMM,XMM T,RETURN T,POP CYCL,SLOW;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          100;
+          B,R2 ALUD,NONE
+          IDBS,BARG COMM,XMM T,JMP T,HOLD CYCL,SLOW
+          2235;
+          AB,NUMBR A,R2 B,R2 ALUF,PASSQ ALUD,SLB
+          T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          AB,NUMBR A,R2 B,R2 ALUF,PASSB
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,ANDDQ
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          1;
+          ALUF,D+Q
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          60;
+          AB,PRCHR A,R6 B,R6 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          5;
+          AB,CDIGI A,R7 B,R1 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,RETURN T,POP CYCL,SLOW;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2162 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,STP F,JMP F,HOLD;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          2162 CONDENABL;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          100;
+          B,R6 ALUD,NONE
+          IDBS,BARG COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          AB,TXT1 A,R6 B,R4 ALUD,NONE
+          IDBS,REG COMM,XMM T,JMP T,PUSH CYCL,SLOW
+          2236;
+          AB,TXT2 A,R6 B,R3 ALUD,NONE
+          IDBS,REG COMM,XMM T,JMP T,HOLD CYCL,SLOW
+          2236;
+          AB,TXT1 A,R6 B,R4 ALUF,PASSD ALUD,B
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          B,T ALUD,NONE
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW;
+          AB,TXT2 A,R6 B,R3 ALUF,PASSD
+          IDBS,REG T,NEXT T,PUSH CYCL,SLOW;
+          AB,TXT1 A,R6 B,R4 ALUF,PASSB ALUD,SLD
+          T,NEXT T,POP LCOUNT CYCL,SLOW;
+          A,R2 ALUF,ORAQ
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,TXT1 A,R6 B,R4 ALUF,PASSB ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,TXT2 A,R6 B,R3 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,RETURN T,POP CYCL,SLOW;
+          AB,OCTN2 A,R3 B,R5 ALUF,PASSD ALUD,B
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          2260;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          B,R5 ALUF,PASSB ALUD,SLD
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R5 ALUF,PASSB ALUD,SLD
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R5 ALUF,PASSB ALUD,SLD
+          IDBS,ARG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          7;
+          AB,NUMBR A,R2 B,R2 ALUF,ANDDA ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          A,R2 ALUF,ORAQ
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTN2 A,R3 B,R5 ALUF,PASSB ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,DEPOS A,R5 B,R7 ALUD,NONE
+          IDBS,ARG COMM,EWRF T,RETURN T,POP CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2267;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          A,T ALUF,ORDQ
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          1131;
+          AB,RONLY A,R5 B,R4 ALUD,NONE
+          IDBS,ARG COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2306;
+          AB,MANIR A,R3 B,R4 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,BPFLG A,R4 B,R3 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,SINGL A,R4 B,R4 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,TXT1 A,R6 B,R4 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,JMP T,PUSH CYCL,SLOW
+          1677;
+          AB,TXT2 A,R6 B,R3 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          20;
+          AB,PRCHR A,R6 B,R6 ALUD,NONE
+          IDBS,GPR COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          20;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSD ALUD,SLB
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          2260;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0037;
+          AB,NUMBR A,R2 B,R2 ALUF,ANDAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R2 B,R5 ALUF,A+B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSB ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          20;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          2162 CONDENABL;
+          AB,DEPOS A,R5 B,R7 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUD,NONE
+          COMM,START T,JMP T,HOLD CYCL,SLOW
+          2303 CONDENABL;
+          B,P ALUF,PASSQ ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2303;
+          A,R5 B,A ALUF,ZERO ALUD,B
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          122;
+          AB,OCTNR A,R5 B,R5 ALUD,NONE
+          IDBS,REG COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          B,D ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,Z B,T ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          B,R2 ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,B B,P ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,P B,L ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,R2 ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2340 CONDENABL;
+          A,T B,L ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,COND F,JMP F,HOLD;
+          A,D B,L ALUF,XORAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          2343 CONDENABL;
+          A,P B,P ALUF,B+1 ALUD,B,YA
+          COMM,DERQ T,NEXT T,HOLD CYCL,SLOW;
+          A,L ALUF,PASSA ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          2346;
+          A,P B,P ALUF,B+1 ALUD,B,YA
+          COMM,IRDRQ T,NEXT T,HOLD CYCL,SLOW;
+          A,L ALUF,XORDA ALUD,NONE
+          IDBS,DBR COMM,LDGPR T,NEXT T,HOLD CYCL,WAIT
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2357 CONDENABL;
+          A,P B,X ALUF,A-B-1 ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT
+          COND,F=0 F,JMP F,HOLD;
+          B,R2 ALUF,INVB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2334 CONDENABL;
+          B,R2 ALUF,INVB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          2333 CONDENABL;
+          A,T B,T ALUF,A+B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,D ALUF,INVB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2332 CONDENABL;
+          B,D ALUF,INVB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          2331 CONDENABL;
+          B,A ALUF,INVB ALUD,B
+          IDBS,ARG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          443;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2330 CONDENABL;
+          AB,PRCHR A,R6 B,R6 ALUD,NONE
+          IDBS,GPR COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2305;
+          B,D ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          B,P ALUF,B-1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,L B,D ALUF,XORAB
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,T ALUF,PASSQ ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2162;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          AB,BRKPT A,R4 B,R6 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,MANIR A,R3 B,R4 ALUD,NONE
+          IDBS,ARG COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2311;
+          AB,MANIR A,R3 B,R4 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,BRKPT A,R4 B,R6 ALUD,NONE
+          IDBS,REG COMM,LDGPR T,JMP T,HOLD CYCL,SLOW
+          20 CONDENABL;
+          ALUD,NONE
+          COMM,CLIRQ T,JMP T,PUSH CYCL,SLOW
+          2372;
+          ALUD,NONE
+          T,MAPJ T,HOLD CYCL,SLOW
+          16;
+          ALUD,NONE
+          IDBS,GPR COMM,CLIRQ T,MAPJ T,HOLD CYCL,SLOW
+          16;
+          AB,BPFLG A,R4 B,R3 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          2162 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2404 CONDENABL;
+          A,P B,P ALUF,A+1 ALUD,B,YA
+          COMM,RDRQ T,JMP T,PUSH CYCL,SLOW
+          2400;
+          A,A B,P ALUF,B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,MAPJ T,HOLD CYCL,WAIT
+          16;
+          ALUD,NONE
+          IDBS,DBR COMM,LDGPR T,NEXT T,HOLD CYCL,WAIT;
+          ALUD,NONE
+          COMM,START T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A ALUD,NONE
+          IDBS,GPR COMM,SSTOP T,MAPJ T,HOLD CYCL,SLOW
+          16;
+          AB,SINGL A,R4 B,R4 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2311;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,STP F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2376 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          2162 CONDENABL;
+          AB,CURNR A,R3 B,R3 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,DUMPF A,R5 B,R6 ALUD,NONE
+          IDBS,BARG COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          20;
+          AB,OCTAD A,R5 B,R3 ALUF,PASSD
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          2241;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2306;
+          AB,PRCHR A,R6 B,R6 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,DUMPF A,R5 B,R6 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          2526 CONDENABL;
+          ALUF,Q-D ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          114;
+          B,Z ALUD,NONE
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          2432 CONDENABL;
+          B,B ALUF,PASSD
+          IDBS,BARG T,JMP T,PUSH CYCL,SLOW
+          2252;
+          AB,DUMPF A,R5 B,R6 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          20;
+          AB,UPPNR A,R3 B,R2 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,CURNR A,R3 B,R3 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2540;
+          B,A ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          B,T ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          2442 CONDENABL;
+          AB,DEPOS A,R5 B,R7 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          2437 CONDENABL;
+          A,P ALUF,ORDQ
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          121;
+          ALUF,PASSQ ALUD,NONE
+          COMM,XMM T,JMP T,PUSH CYCL,SLOW
+          1540;
+          ALUF,PASSQ ALUD,NONE
+          COMM,XMM T,JMP T,HOLD CYCL,SLOW
+          2305;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2447 CONDENABL;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          100;
+          B,R7 ALUD,NONE
+          IDBS,BARG COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUD,NONE
+          IDBS,REG COMM,XMM T,JMP T,PUSH CYCL,SLOW
+          2236;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2305;
+          ALUF,Q-D ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0176;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2452 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1543;
+          ALUF,Q-D ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0426;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2455 CONDENABL;
+          ALUD,NONE
+          COMM,SSTOP T,JMP T,HOLD CYCL,SLOW
+          2305;
+          AB,DEPOS A,R5 B,R7 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2465 CONDENABL;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          AB,DISPL A,R6 B,R5 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          2162 CONDENABL;
+          AB,OCTAD A,R5 B,R3 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          2305 CONDENABL;
+          AB,OCTAD A,R5 B,R3 ALUF,Q+1
+          COMM,EWRF T,JMP T,PUSH CYCL,SLOW
+          2171;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2241;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2306;
+          ALUF,D-Q ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          52;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2250 CONDENABL;
+          AB,RONLY A,R5 B,R4 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          AB,WRTYP A,R5 B,R2 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          2162 CONDENABL;
+          B,D ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          2477 CONDENABL;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          122;
+          AB,OCTA2 A,R6 B,R2 ALUD,NONE
+          IDBS,REG COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTAD A,R5 B,R3 ALUF,PASSD
+          IDBS,REG COMM,DERQ T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,WAIT;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          2462;
+          B,P ALUF,Q-D ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          2511 CONDENABL;
+          AB,WRADR A,R5 B,R1 ALUF,PASSD
+          IDBS,REG COMM,CLIRQ T,MAPJ T,PUSH CYCL,SLOW
+          350;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          2504 CONDENABL;
+          B,DEST ALUF,PASSQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2506;
+          ALUF,PASSQ ALUD,NONE STS,LO
+          T,JMP T,HOLD CYCL,SLOW
+          2305;
+          A,REG B,DEST ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,PUSH CYCL,SLOW
+          2506;
+          A,REG B,Z ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2305;
+          ALUF,ANDDQ
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          377;
+          B,DEST ALUF,PASSD ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          2305 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2520 CONDENABL;
+          AB,WRADR A,R5 B,R1 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          A,B B,R6 ALUF,ORDQ ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSQ ALUD,NONE
+          COMM,CLIRQ T,NEXT T,NEXT T,MAPJ T,HOLD CYCL,SLOW;
+          A,R6 ALUF,PASSA ALUD,NONE
+          COMM,LDLC T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          A,REG B,LC ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2305;
+          A,A B,R7 ALUF,PASSA ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2522;
+          A,R7 B,A ALUF,PASSA ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          2305;
+          AB,WRADR A,R5 B,R1 ALUF,PASSD
+          IDBS,REG COMM,CLIRQ T,NEXT T,NEXT T,MAPJ T,HOLD CYCL,SLOW;
+          ALUF,PASSQ ALUD,NONE
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,PASSQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          L1406;
+          A,A ALUF,Q-D ALUD,NONE
+          IDBS,AARG T,NEXT T,HOLD CYCL,SLOW
+          2531 CONDENABL;
+          AB,OCTNR A,R5 B,R5 ALUF,D+1
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          AB,UPPNR A,R3 B,R2 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2540;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2534 CONDENABL;
+          AB,OCTNR A,R5 B,R5 ALUF,D+1 ALUD,B
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          2543;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2540;
+          ALUF,Q-D ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0125;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2162 CONDENABL;
+          AB,OCTNR A,R5 B,R5 ALUF,D+1 ALUD,B
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          2543;
+          AB,SCRAM A,R4 B,R5 ALUF,Q+1 ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          15;
+          AB,PRCHR A,R6 B,R6 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,CNT10 A,R7 B,R7 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          20;
+          AB,CURNR A,R3 B,R3 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSB ALUD,SLD
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSB ALUD,SLD
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSB ALUD,SLD
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,CURNR A,R3 B,R3 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSB
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,UPPNR A,R3 B,R2 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          B,D ALUF,PASSD
+          IDBS,BARG T,RETURN T,POP CYCL,SLOW;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          B,R1 ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2612 CONDENABL;
+          B,R7 ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2610 CONDENABL;
+          B,L ALUF,D+Q
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2604 CONDENABL;
+          B,D ALUF,D+Q
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2603 CONDENABL;
+          B,B ALUF,D+Q
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2575 CONDENABL;
+          B,L ALUF,D+Q
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2577 CONDENABL;
+          B,R3 ALUF,D+Q
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2601 CONDENABL;
+          B,D ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2602 CONDENABL;
+          B,P ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2600 CONDENABL;
+          B,R6 ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2576 CONDENABL;
+          B,B ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2606 CONDENABL;
+          B,R4 ALUF,Q-D
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2640 CONDENABL;
+          B,B ALUF,D+Q
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2630 CONDENABL;
+          A,R2 ALUF,Q-D
+          IDBS,AARG T,JMP T,HOLD CYCL,SLOW
+          2642 CONDENABL;
+          A,A ALUF,D+Q+1
+          IDBS,AARG T,JMP T,HOLD CYCL,SLOW
+          2637 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2644 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2162;
+          B,Z ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2605;
+          B,D ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2605;
+          B,P ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2605;
+          B,B ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2605;
+          B,L ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2605;
+          B,A ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2605;
+          B,T ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2605;
+          B,X ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          2605;
+          B,R2 ALUF,PASSQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2270;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          2607;
+          A,Z B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          2614;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          A,D B,R1 ALUF,D+1 ALUD,B
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          2614;
+          B,R1 ALUF,ZERO ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTAD A,R5 B,R3 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,WRADR A,R5 B,R1 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTN2 A,R3 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTA2 A,R6 B,R2 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 ALUF,PASSA
+          COMM,LDLC T,NEXT T,HOLD CYCL,SLOW;
+          AB,DISPL A,R6 B,R5 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,WRTYP A,R5 B,R2 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2623;
+          AB,OCTAD A,R5 B,R3 ALUF,PASSD
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          2171;
+          AB,RONLY A,R5 B,R4 ALUF,ZERO ALUD,NONE
+          COMM,EWRF T,JMP T,PUSH CYCL,SLOW
+          2241;
+          AB,DISPL A,R6 B,R5 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2254 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2306;
+          A,A B,R4 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG COMM,CLIRQ T,NEXT T,NEXT T,MAPJ T,HOLD CYCL,SLOW;
+          B,R1 ALUF,PASSQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,OPR A,R6 B,R1 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,PASSQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          1117;
+          A,A ALUF,PASSA
+          T,JMP T,PUSH CYCL,SLOW
+          2241;
+          A,R4 B,A ALUF,PASSA ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2305;
+          A,R6 ALUF,D+1
+          IDBS,AARG T,JMP T,HOLD CYCL,SLOW
+          2641;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0142;
+          A,D B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          2614;
+          B,R7 ALUF,PASSD
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          AB,DISPL A,R6 B,R5 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,PUSH CYCL,SLOW
+          2305;
+          B,L ALUF,PASSD
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          AB,DISPL A,R6 B,R5 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          123;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG COMM,XMM T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 ALUD,NONE
+          IDBS,ARG COMM,LDIR T,NEXT T,HOLD CYCL,SLOW
+          100;
+          B,R4 ALUD,NONE
+          IDBS,BARG COMM,XMM T,JMP T,HOLD CYCL,SLOW
+          2441;
+L2652:
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          60;
+          ALUF,ANDDQ
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          A,P ALUF,XORDQ ALUD,NONE
+          IDBS,AARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          L0027 CONDENABL;
+          ALUD,NONE
+          T,JMP0-3 T,HOLD CYCL,WAIT
+          3500;
+          A,R1 B,R4 ALUF,PASSA ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          A,R7 ALUF,PASSD
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          AB,TXT1 A,R6 B,R4 ALUF,ANDAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R3 ALUF,D-1
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          AB,PRCHR A,R6 B,R6 ALUF,ANDAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R4 B,T ALUF,A+B ALUD,B STS,EA
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R6 B,X ALUF,A+B ALUD,B CRY,C
+          T,RETURN T,POP CYCL,SLOW;
+          A,R7 B,T ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2672 CONDENABL;
+          A,R3 ALUF,PASSA ALUD,NONE
+          COMM,WRRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          A,STS ALUF,PASSA ALUD,NONE
+          COMM,CLIRQ T,RETURN T,POP CYCL,WAIT
+          COND,IRQ F,NEXT F,HOLD;
+          A,R3 ALUF,PASSA ALUD,NONE
+          COMM,WRRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          2671;
+          A,R7 B,T ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2677 CONDENABL;
+          A,R3 ALUF,PASSA ALUD,NONE
+          COMM,RDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,STS ALUF,PASSD ALUD,B
+          IDBS,DBR T,RETURN T,POP CYCL,WAIT;
+          A,R3 ALUF,PASSA ALUD,NONE
+          COMM,RDRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          2676;
+          A,R5 B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,D ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW
+          3243 CONDENABL;
+          A,R7 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          3243 CONDENABL;
+          B,R2 ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3243;
+          A,R5 B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,T ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW
+          2673 CONDENABL;
+          A,R7 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2673 CONDENABL;
+          B,R3 ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2673;
+          B,R2 ALUF,B-1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2673;
+          B,STS ALUF,ANDAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,STS B,STS ALUF,ORAQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2666;
+          B,R3 ALUF,B-1 ALUD,B
+          T,NEXT T,HOLD CYCL,WAIT;
+          B,R5 ALUF,B-1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R6 ALUF,B-1 ALUD,B
+          T,RETURN T,POP CYCL,SLOW;
+          B,X ALUF,B+1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2673;
+          B,STS ALUF,MASKAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,STS B,STS ALUF,ORAQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2666;
+          AB,PIE A,R7 B,R3 ALUF,B+1 ALUD,B
+          IDBS,BMG COMM,LDGPR T,NEXT T,HOLD CYCL,WAIT;
+          A,T B,T ALUF,MASKDA ALUD,B
+          IDBS,GPR T,JMP T,HOLD CYCL,SLOW
+          2716;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7777;
+          A,T B,R5 ALUF,ANDAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          A,X B,R3 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,WAIT
+          2741 CONDENABL;
+          AB,SSAVE A,R3 B,R6 ALUD,NONE
+          IDBS,STS COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,DUMPF A,R5 B,R6 ALUF,PASSA ALUD,SRB
+          T,JMP MIS,PT T,PUSH CYCL,SLOW
+          2660;
+          A,R7 ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,T ALUF,ANDAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,SSAVE A,R3 B,R6 ALUD,NONE STS,LO
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          B,STS ALUF,MASKAB
+          T,NEXT T,HOLD CYCL,SLOW
+          2712 CONDENABL;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          377;
+          B,A ALUF,ANDAB
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R2 ALUF,ORDQ ALUD,B
+          IDBS,SWAP T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          A,T ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2720 CONDENABL;
+          AB,WRADR A,R5 B,R1 ALUF,PASSA ALUD,SRB
+          T,JMP T,PUSH CYCL,SLOW
+          2657;
+          A,R2 B,STS ALUF,PASSA ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          2666 CONDENABL;
+          B,R3 ALUF,B+1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          2753 CONDENABL;
+          B,R1 ALUF,B-1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          A,R1 ALUF,PASSA ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2747;
+          AB,MACL A,R4 B,R1 ALUF,A-B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,X B,X ALUF,A+Q+1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,CDIGI A,R7 B,R1 ALUF,Q+1 ALUD,SLB
+          IDBS,ARG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,T ALUF,ANDDA ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          AB,WRADR A,R5 B,R1 ALUF,A-B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 B,T ALUF,ORAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3243;
+          B,R4 ALUF,ANDDA ALUD,B
+          IDBS,SWAP COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,MASKAQ
+          T,JMP T,HOLD CYCL,SLOW
+          2712;
+          B,D ALUF,B-1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3243;
+          B,STS ALUF,MASKAB
+          T,JMP T,HOLD CYCL,SLOW
+          2712;
+          B,D ALUF,B-1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          3243;
+          ALUF,ANDDA
+          IDBS,SWAP COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          B,R4 ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          B,R4 ALUF,MASKAB ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2720;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3243;
+          B,STS ALUF,ANDAB
+          T,JMP T,HOLD CYCL,SLOW
+          2720;
+          A,R4 ALUF,PASSD
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,D ALUF,ANDAQ ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          3105 CONDENABL;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3141;
+          A,T ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R4 B,T ALUF,MASKDQ ALUD,B
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          3007;
+          A,D ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,T ALUF,ORAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7777;
+          A,D B,R5 ALUF,ANDAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,WRADR A,R5 B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,R1 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,R6 ALUF,ANDAQ ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3017 CONDENABL;
+          AB,LMP A,R4 B,R2 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,R2 ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3030 CONDENABL;
+          AB,DUMPF A,R5 B,R6 ALUF,B-A ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          AB,SINGL A,R4 B,R4 ALUF,INVQ ALUD,B
+          IDBS,BMG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          3022 CONDENABL;
+          AB,DISPL A,R6 B,R5 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,T ALUF,ANDDA ALUD,NONE
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,R1 B,T ALUF,ORAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          3030 CONDENABL;
+          A,R4 B,T ALUF,ANDAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 B,T ALUF,ORAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R4 B,D ALUF,ANDAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 B,D ALUF,ORAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,STS ALUF,D-1 ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,WAIT;
+          A,R5 ALUF,PASSA ALUD,NONE
+          COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          2777 CONDENABL;
+          B,R2 ALUF,ZERO ALUD,SRB ALUM,FMU
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R2 ALUF,D+A ALUD,B
+          IDBS,GPR T,JMP T,PUSH CYCL,SLOW
+          2700;
+          A,X B,R3 ALUF,D+A ALUD,B
+          IDBS,GPR T,JMP T,PUSH CYCL,SLOW
+          2705;
+          B,R2 ALUF,ZERO ALUD,SRB ALUM,FMU
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R2 ALUF,D+A ALUD,B
+          IDBS,GPR T,JMP T,PUSH CYCL,SLOW
+          3243;
+          A,X B,R3 ALUF,D+A ALUD,B
+          IDBS,GPR T,JMP T,PUSH CYCL,SLOW
+          2673;
+          A,A B,R2 ALUF,PASSA ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          3243;
+          A,X B,R3 ALUF,PASSA ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2673;
+          A,D ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,JMP F,HOLD;
+          A,T ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          3107 CONDENABL;
+          AB,RONLY A,R5 B,R4 ALUF,A-1 ALUD,SRB
+          T,NEXT T,HOLD CYCL,SLOW
+          3070 CONDENABL;
+          A,A B,X ALUF,A-B ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,CRY F,JMP F,PUSH;
+          AB,CDIGI A,R7 B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          3056 CONDENABL;
+          AB,CDIGI A,R7 B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          2775;
+          B,R2 ALUF,B+1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,A ALUF,B+1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,D ALUF,B-1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          3345;
+          A,R1 B,D ALUF,MASKAB ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          3252;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3141;
+          A,D B,T ALUF,XORAB
+          T,JMP T,PUSH CYCL,SLOW
+          3155;
+          A,R5 B,STS ALUF,PASSA ALUD,SRB
+          T,NEXT T,POP CYCL,SLOW
+          0 CONDENABL;
+          A,STS B,R2 ALUF,A+B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R5 B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          A,STS B,R3 ALUF,A+B ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2766 CONDENABL;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3260;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          3227;
+          A,T B,R4 ALUF,PASSA ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2775;
+          B,X ALUF,B-1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R4 B,T ALUF,PASSA ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          A,A B,X ALUF,A-B ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,CRY F,JMP F,PUSH;
+          AB,CDIGI A,R7 B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          3074 CONDENABL;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3266;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3115;
+          A,D B,T ALUF,XORAB
+          T,JMP T,PUSH CYCL,SLOW
+          3155;
+          A,R5 B,STS ALUF,PASSA ALUD,SRB
+          T,NEXT T,POP CYCL,SLOW
+          0 CONDENABL;
+          A,STS B,R2 ALUF,A+B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R5 B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          AB,BPFLG A,R4 B,R3 ALUF,A+B ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3104 CONDENABL;
+          B,D ALUF,B-1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2762;
+          A,R4 ALUF,PASSA
+          T,JMP T,PUSH CYCL,SLOW
+          3305;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3105;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3302;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3227;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          AB,RONLY A,R5 B,R4 ALUF,A-1 ALUD,SRB
+          T,NEXT T,HOLD CYCL,SLOW
+          3136 CONDENABL;
+          A,A B,X ALUF,B-A ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,CRY F,NEXT F,HOLD;
+          AB,CDIGI A,R7 B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          3121 CONDENABL;
+          A,R1 B,T ALUF,MASKAB ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2771;
+          A,R1 B,D ALUF,ORAB ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          3345;
+          A,R4 ALUF,PASSA
+          T,JMP T,PUSH CYCL,SLOW
+          3271;
+          B,R1 ALUF,PASSQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          3217;
+          A,R5 B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          A,R1 ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW
+          2712 CONDENABL;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          A,D B,T ALUF,XORAB
+          T,JMP T,PUSH CYCL,SLOW
+          3155;
+          A,R5 B,STS ALUF,PASSA ALUD,SRB
+          T,NEXT T,POP CYCL,SLOW
+          0 CONDENABL;
+          AB,LMP A,R4 B,R2 ALUF,A+B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R5 B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          A,STS B,R3 ALUF,A+B ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3133 CONDENABL;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3302;
+          B,R1 ALUF,PASSQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          3227;
+          A,T B,R4 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 ALUF,PASSA
+          T,JMP T,PUSH CYCL,SLOW
+          2720;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3066;
+          B,D ALUF,B-1 ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2762;
+          A,R4 ALUF,PASSA
+          T,JMP T,PUSH CYCL,SLOW
+          3305;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3127;
+          A,A B,X ALUF,B-A ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,CRY F,NEXT F,HOLD;
+          AB,CDIGI A,R7 B,R1 ALUF,PASSD ALUD,B
+          IDBS,BMG T,JMP T,PUSH CYCL,SLOW
+          3145 CONDENABL;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3252;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3217;
+          A,R5 B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          2767 CONDENABL;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          A,D B,T ALUF,XORAB
+          T,JMP T,PUSH CYCL,SLOW
+          3155;
+          ALUD,NONE
+          T,NEXT T,POP CYCL,SLOW
+          0 CONDENABL;
+          AB,LMP A,R4 B,R2 ALUF,A+B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          A,R5 B,D ALUF,ANDDA ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW;
+          AB,BPFLG A,R4 B,R3 ALUF,A+B ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          2766 CONDENABL;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3260;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3227;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          A,R6 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,RETURN F,POP;
+          A,D ALUF,PASSD
+          IDBS,ARG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          0 CONDENABL;
+          A,D ALUF,ANDDA ALUD,NONE
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          AB,SSAVE A,R3 B,R6 ALUF,ZERO
+          IDBS,STS COMM,EWRF T,NEXT T,HOLD CYCL,SLOW
+          0 CONDENABL;
+          AB,PVL A,R7 B,R5 ALUF,PASSB ALUD,SRB
+          IDBS,BMG COMM,LDGPR T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          A,D ALUF,ANDDA
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 STS,EA
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          IDBS,ARG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          3777;
+          AB,DUMPF A,R5 B,R6 ALUF,ANDDA ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,R6 ALUF,A+B ALUD,B CRY,C
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,SSAVE A,R3 B,R6 ALUD,NONE STS,LO
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          3172;
+          B,R5 ALUF,PASSB ALUD,SLB
+          T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          B,D ALUF,PASSD
+          IDBS,BARG T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,RETURN F,POP;
+          A,X B,R6 ALUF,B-A ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,CRY F,RETURN F,POP;
+          AB,BRKPT A,R4 B,R6 ALUF,PASSB ALUD,NONE
+          IDBS,BMG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD CONDENABL;
+          A,R7 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          3201 CONDENABL;
+          A,T ALUF,ANDDA ALUD,NONE
+          IDBS,GPR T,NEXT T,POP CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          AB,SCRAM A,R4 B,R5 ALUF,PASSB ALUD,SLB
+          IDBS,BMG COMM,LDGPR T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW
+          3215 CONDENABL;
+          A,D B,D ALUF,ORDA ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,ZERO
+          T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,RETURN F,POP;
+          A,T ALUF,PASSA ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          COND,F15 F,JMP F,HOLD CONDENABL;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          3175 CONDENABL;
+          AB,MACL A,R4 B,R1 ALUF,A-B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,A B,A ALUF,A+Q+1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,MACL A,R4 B,R1 ALUF,Q+1 ALUD,SLB
+          IDBS,BMG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          A,T ALUF,ANDDA ALUD,NONE
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,X B,X ALUF,A+Q+1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3213 CONDENABL;
+          A,R1 B,T ALUF,B-A ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3213;
+          AB,MACL A,R4 B,R1 ALUF,A-B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,R1 ALUF,Q+1 ALUD,SLB
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R1 B,D ALUF,B-A ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          20;
+          A,B ALUD,NONE
+          IDBS,ARG COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,T ALUF,MASKDA ALUD,B
+          IDBS,GPR T,JMP T,HOLD CYCL,SLOW
+          20;
+          AB,DUMPF A,R5 B,R6 ALUF,PASSA ALUD,SRB
+          T,JMP MIS,PT T,PUSH CYCL,SLOW
+          3235;
+          A,T ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R4 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3231 CONDENABL;
+          A,R4 ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7777;
+          A,T B,T ALUF,ANDAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 B,T ALUF,B-A ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R5 B,D ALUF,B-A ALUD,B
+          T,RETURN T,POP CYCL,SLOW;
+          B,R6 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7777;
+          A,T B,R6 ALUF,ANDAB ALUD,SRB
+          T,JMP MIS,PT T,PUSH CYCL,SLOW
+          3235;
+          A,R4 ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7777;
+          A,T B,T ALUF,ANDAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R7 ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW;
+          A,D B,D ALUF,ANDAQ ALUD,B
+          T,RETURN T,POP CYCL,SLOW;
+          AB,SSAVE A,R3 B,R6 ALUD,NONE
+          IDBS,STS COMM,EWRF T,JMP T,PUSH CYCL,SLOW
+          2660;
+          A,R4 B,D ALUF,A+B ALUD,B STS,EA
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R6 B,A ALUF,A+B ALUD,B CRY,C
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R6 ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7777;
+          A,D B,D ALUF,ANDAQ ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,SSAVE A,R3 B,R6 ALUD,NONE STS,LO
+          IDBS,REG T,RETURN T,POP CYCL,SLOW;
+          A,R7 B,D ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3247 CONDENABL;
+          A,R2 ALUF,PASSA ALUD,NONE
+          COMM,RDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,STS ALUF,PASSD ALUD,B
+          IDBS,DBR T,RETURN T,POP CYCL,WAIT;
+          A,R2 ALUF,PASSA ALUD,NONE
+          COMM,RDRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          3246;
+          B,R3 ALUF,B+1 ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          B,R3 ALUF,B-1 ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          AB,WRADR A,R5 B,R1 ALUF,PASSA ALUD,SRB
+          T,JMP T,PUSH CYCL,SLOW
+          3316;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          3243 CONDENABL;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2666;
+          B,R2 ALUF,B+1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          3203 CONDENABL;
+          B,R3 ALUF,B+1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          B,R1 ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3253;
+          AB,WRADR A,R5 B,R1 ALUF,PASSA ALUD,SRB
+          T,JMP T,PUSH CYCL,SLOW
+          2657;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          3243 CONDENABL;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          2666;
+          B,R2 ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          3211 CONDENABL;
+          B,R3 ALUF,B-1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          B,R1 ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3261;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3243;
+          B,STS ALUF,ANDAB ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,SWAP T,NEXT T,HOLD CYCL,SLOW;
+          B,R2 ALUF,B+1 ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          AB,WRADR A,R5 B,R1 ALUF,PASSA ALUD,SRB
+          T,JMP T,PUSH CYCL,SLOW
+          2657;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          3243 CONDENABL;
+          B,STS ALUF,ANDDA ALUD,B
+          IDBS,SWAP COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          B,R6 ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          A,STS B,STS ALUF,ORAQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2666;
+          B,R6 ALUF,MASKAB
+          T,JMP T,HOLD CYCL,WAIT
+          3203 CONDENABL;
+          B,R2 ALUF,B+1 ALUD,B
+          T,JMP T,PUSH CYCL,WAIT
+          3250;
+          B,R1 ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3273;
+          ALUD,NONE
+          T,JMP T,PUSH CYCL,SLOW
+          3243;
+          A,STS B,R2 ALUF,B-1 ALUD,B,YA
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,ANDDA
+          IDBS,SWAP T,NEXT T,HOLD CYCL,SLOW;
+          AB,WRADR A,R5 B,R1 ALUF,PASSA ALUD,SRB
+          T,JMP T,PUSH CYCL,SLOW
+          2657;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          3243 CONDENABL;
+          B,R6 ALUF,ANDDA ALUD,B
+          IDBS,SWAP COMM,LDGPR T,NEXT T,HOLD CYCL,SLOW;
+          B,STS ALUF,PASSD ALUD,B
+          IDBS,GPR T,NEXT T,HOLD CYCL,SLOW;
+          B,STS ALUF,MASKAB ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,STS B,STS ALUF,ORAQ ALUD,B
+          T,JMP T,PUSH CYCL,SLOW
+          2666;
+          A,R6 ALUF,PASSA
+          T,JMP T,HOLD CYCL,WAIT
+          3211 CONDENABL;
+          B,R2 ALUF,B-1 ALUD,B
+          T,JMP T,PUSH CYCL,WAIT
+          3251;
+          B,R1 ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3306;
+          A,R1 B,X ALUF,PASSA
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          ALUF,Q-D ALUD,NONE
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          40;
+          A,R1 B,R4 ALUF,PASSA ALUD,B
+          T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH CONDENABL;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          A,PIL B,LC ALUF,PASSB ALUD,NONE
+          COMM,EWRF T,JMP T,LOAD LCOUNT CYCL,SLOW
+          3326;
+          ALUD,NONE
+          T,NEXT T,PUSH CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD;
+          A,PIL B,LC ALUF,PASSD ALUD,B
+          IDBS,REG T,NEXT T,POP LCOUNT CYCL,SLOW;
+          A,R4 ALUF,PASSA ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,JMP F,PUSH;
+          A,R1 B,R1 ALUF,A-D ALUD,NONE
+          IDBS,BARG T,NEXT T,HOLD CYCL,SLOW
+          COND,F15 F,NEXT F,HOLD;
+          A,R7 B,X ALUF,PASSA
+          IDBS,BARG COMM,LDLC T,RETURN T,POP CYCL,SLOW
+          COND,F=0 F,RETURN F,HOLD CONDENABL;
+          A,PIL B,D ALUF,ANDDQ ALUD,NONE
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          3341;
+          AB,NUMBR A,R2 B,R2 ALUF,B+1 ALUD,B,YA
+          COMM,RDRQ T,JMP MIS,APT T,HOLD CYCL,SLOW
+          3332;
+          B,LC ALUF,PASSD ALUD,B
+          IDBS,DBR T,NEXT T,POP LCOUNT CYCL,WAIT;
+          B,X ALUD,NONE
+          IDBS,BARG COMM,LDLC T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,RETURN F,HOLD;
+          A,PIL B,T ALUF,ANDDQ ALUD,NONE
+          IDBS,REG T,JMP T,PUSH CYCL,SLOW
+          3343;
+          AB,CURNR A,R3 B,R3 ALUF,B+1 ALUD,B,YA
+          COMM,WRRQ T,JMP MIS,APT T,HOLD CYCL,SLOW
+          3336;
+          B,LC ALUF,PASSB ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT
+          COND,LC=0 F,JMP F,HOLD;
+          B,R1 ALUF,B-1 ALUD,B
+          COMM,CLIRQ T,NEXT T,POP LCOUNT CYCL,WAIT
+          COND,IRQ F,JMP F,HOLD;
+          B,X ALUD,NONE
+          IDBS,BARG COMM,LDLC T,RETURN T,POP CYCL,SLOW
+          3326 CONDENABL;
+          ALUD,NONE
+          T,NEXT T,LOAD CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD CONDENABL;
+          AB,NUMBR A,R2 B,R2 ALUF,B+1 ALUD,B,YA
+          COMM,RDRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          3332;
+          ALUD,NONE
+          T,NEXT T,LOAD CYCL,SLOW
+          COND,LC=0 F,JMP F,HOLD CONDENABL;
+          AB,CURNR A,R3 B,R3 ALUF,B+1 ALUD,B,YA
+          COMM,WRRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          3336;
+          A,T ALUF,PASSA
+          T,NEXT T,HOLD CYCL,SLOW;
+          A,R4 ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW
+          0 CONDENABL;
+          B,T ALUF,B-1 ALUD,B
+          T,RETURN T,POP CYCL,SLOW;
+L3351:
+          A,R2 ALUF,D+1
+          IDBS,AARG T,NEXT T,HOLD CYCL,SLOW;
+          A,T B,R7 ALUF,PASSA ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,PUSH CYCL,WAIT
+          1311;
+          A,X B,SRCE ALUF,D+A
+          IDBS,BARG T,JMP0-3 T,HOLD CYCL,SLOW
+          3460;
+          B,A ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          1315;
+          B,X ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          1315;
+          B,D ALUF,PASSD ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          ALUF,PASSQ ALUD,NONE
+          COMM,IRDRQ T,JMP T,HOLD CYCL,SLOW
+          3354;
+          ALUF,PASSD
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          A,X B,B ALUF,ORDQ ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          7400;
+          A,B B,B ALUF,A+B ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1315;
+          A,A ALUF,PASSA ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1315;
+          ALUF,ZERO ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1315;
+          A,D ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT;
+          ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT;
+          ALUF,PASSQ ALUD,NONE
+          COMM,DERQ T,JMP T,HOLD CYCL,SLOW
+          3363;
+          A,P B,R1 ALUF,A+1 ALUD,B
+          COMM,RDRQ T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          B,R6 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0176;
+          A,B B,R2 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3417;
+          B,R1 ALUF,B+1 ALUD,B
+          COMM,RDRQ T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          B,R5 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0172;
+          B,R7 ALUF,D+Q ALUD,B
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3426;
+          ALUF,PASSD
+          IDBS,STS T,NEXT T,HOLD CYCL,WAIT;
+          B,R1 ALUF,B+1 ALUD,B
+          COMM,RDRQ T,NEXT T,NEXT MIS,PT T,HOLD CYCL,SLOW;
+          ALUF,XORDQ
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          A,Z ALUF,ANDDQ ALUD,NONE
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          A,R1 B,P ALUF,A+1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3414 CONDENABL;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,POP CYCL,SLOW
+          20;
+          B,R6 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0176;
+          A,B B,R6 ALUF,A-B ALUD,NONE
+          COMM,RDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          A,B B,R2 ALUF,PASSA ALUD,B
+          T,NEXT T,HOLD CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3417;
+          A,R2 B,R4 ALUF,A-B ALUD,NONE
+          COMM,RDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,R5 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,SLOW
+          L0172;
+          B,R7 ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,PUSH CYCL,WAIT
+          3426;
+          AB,PIE A,R7 B,R3 ALUF,A-B ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,CRY F,JMP F,POP;
+          B,P ALUF,B+1 ALUD,B
+          T,NEXT T,HOLD CYCL,WAIT
+          20 CONDENABL;
+          B,P ALUF,B+1 ALUD,B
+          T,JMP T,POP CYCL,SLOW
+          20;
+          ALUF,PASSQ ALUD,NONE
+          COMM,WRRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,L ALUF,B+1 ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT;
+          A,X B,B ALUF,D+Q ALUD,B
+          IDBS,BMG T,NEXT T,HOLD CYCL,SLOW;
+          AB,TXT2 A,R6 B,R3 ALUF,A+1 ALUD,B
+          T,NEXT T,HOLD CYCL,WAIT;
+          A,B B,R3 ALUF,A-B ALUD,NONE
+          COMM,WRRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,R2 ALUF,PASSB ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT;
+          AB,TXT1 A,R6 B,R4 ALUF,A-1 ALUD,B
+          T,RETURN T,POP CYCL,WAIT;
+          A,B B,R4 ALUF,A-B ALUD,NONE
+          COMM,WRRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          A,R7 ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT;
+          A,R5 ALUF,D-A
+          IDBS,GPR T,NEXT T,HOLD CYCL,WAIT;
+          A,B B,R6 ALUF,A-B ALUD,NONE
+          COMM,WRRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          A,B B,R3 ALUD,B
+          T,RETURN T,POP CYCL,WAIT;
+          A,X ALUF,PASSD
+          IDBS,BMG T,NEXT T,HOLD CYCL,WAIT;
+          A,B ALUF,A-Q
+          COMM,RDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,STS ALUF,D-1 ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          ALUF,PASSQ ALUD,NONE
+          COMM,WRRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,STS ALUF,PASSB ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT;
+          ALUF,PASSD
+          IDBS,ARG T,NEXT T,HOLD CYCL,WAIT
+          L0173;
+          A,B ALUF,A-Q ALUD,NONE
+          COMM,WRRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          A,A ALUF,PASSA ALUD,NONE
+          T,NEXT T,HOLD CYCL,WAIT;
+          B,R1 ALUF,PASSD ALUD,B
+          IDBS,ARG T,NEXT T,HOLD CYCL,WAIT
+          L0177;
+          A,B B,R1 ALUF,A-B ALUD,B
+          COMM,RDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,B ALUF,PASSD ALUD,B
+          IDBS,DBR T,NEXT T,HOLD CYCL,WAIT;
+          A,R1 ALUF,A-1 ALUD,NONE
+          COMM,RDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,P ALUF,PASSD ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,POP CYCL,WAIT
+          20;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          T,JMP0-3 T,MAPJ T,HOLD LCOUNT SLWCS CYCL,SLOW
+          COND,DR=2 F,JMP F,HOLD CONDENABL;
+          ALUF,PASSQ ALUD,NONE
+          COMM,IRDRQ T,JMP T,HOLD CYCL,SLOW
+          3354;
+          ALUF,PASSQ ALUD,NONE
+          COMM,IRDRQ T,JMP T,HOLD CYCL,SLOW
+          3355;
+          ALUF,Q+1 ALUD,NONE
+          COMM,IRDRQ T,JMP T,HOLD CYCL,SLOW
+          3356;
+          ALUF,PASSQ ALUD,NONE
+          COMM,IRDRQ T,JMP T,HOLD CYCL,SLOW
+          3360;
+          ALUF,PASSQ ALUD,NONE
+          COMM,DERQ T,JMP T,HOLD CYCL,SLOW
+          3363;
+          ALUF,PASSQ ALUD,NONE
+          COMM,DERQ T,JMP T,HOLD CYCL,SLOW
+          3364;
+          ALUF,Q+1 ALUD,NONE
+          COMM,DERQ T,JMP T,HOLD CYCL,SLOW
+          3365;
+          ALUF,Q+1 ALUD,NONE
+          COMM,DERQ T,JMP T,HOLD CYCL,SLOW
+          3365;
+          ALUF,PASSQ ALUD,NONE
+          COMM,IRDRQ T,JMP T,HOLD CYCL,SLOW
+          3354;
+          ALUF,PASSQ ALUD,NONE
+          COMM,IRDRQ T,JMP T,HOLD CYCL,SLOW
+          3355;
+          ALUF,Q+1 ALUD,NONE
+          COMM,IRDRQ T,JMP T,HOLD CYCL,SLOW
+          3356;
+          ALUF,PASSQ ALUD,NONE
+          COMM,IRDRQ T,JMP T,HOLD CYCL,SLOW
+          3360;
+          ALUF,PASSQ ALUD,NONE
+          COMM,DERQ T,JMP T,HOLD CYCL,SLOW
+          3363;
+          ALUF,PASSQ ALUD,NONE
+          COMM,DERQ T,JMP T,HOLD CYCL,SLOW
+          3364;
+          ALUF,Q+1 ALUD,NONE
+          COMM,DERQ T,JMP T,HOLD CYCL,SLOW
+          3365;
+          ALUF,Q+1 ALUD,NONE
+          COMM,DERQ T,JMP T,HOLD CYCL,SLOW
+          3365;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2725;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3003;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          3005;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUD,NONE
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          L0027;
+          ALUD,NONE
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          L0027;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          L0027;
+          ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          1560;
+          A,P ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          500;
+          A,P ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          1540;
+          ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          400;
+          ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          1600;
+          ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW;
+          ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW;
+          A,STS ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW;
+          A,STS ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          1560;
+          A,R2 ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          500;
+          A,R2 ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          1540;
+          A,STS ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          400;
+          A,STS ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          1600;
+          A,STS ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW;
+          A,STS ALUF,PASSD
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2173;
+          A,A B,R7 ALUF,PASSA ALUD,B
+          COMM,CLIRQ T,JMP T,HOLD CYCL,SLOW
+          2202;
+          A,B B,R6 ALUF,ORDQ ALUD,B
+          IDBS,BMG COMM,CLIRQ T,JMP T,HOLD CYCL,SLOW
+          2210;
+          A,A B,R7 ALUF,PASSA ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2214;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          2221;
+          AB,SINGL A,R4 B,R4 ALUF,PASSD
+          IDBS,REG COMM,SSTOP T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,NEXT F,HOLD;
+          AB,BPFLG A,R4 B,R3 ALUF,PASSD ALUD,NONE
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          3550 CONDENABL;
+          AB,SINGL A,R4 B,R4 ALUF,Q-1 ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2376;
+          AB,BRKPT A,R4 B,R6 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          2366 CONDENABL;
+          A,P ALUF,Q-A ALUD,NONE
+          T,NEXT T,HOLD CYCL,SLOW
+          COND,F=0 F,JMP F,HOLD;
+          A,T ALUF,D-1
+          IDBS,AARG T,NEXT T,HOLD CYCL,SLOW
+          2376 CONDENABL;
+          AB,PRCHR A,R6 B,R6 ALUF,Q-1 ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2305;
+          AB,OCTNR A,R5 B,R5 ALUF,PASSD
+          IDBS,REG T,NEXT T,HOLD CYCL,SLOW;
+          AB,BRKPT A,R4 B,R6 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,NEXT T,HOLD CYCL,SLOW;
+          AB,BPFLG A,R4 B,R3 ALUD,NONE
+          IDBS,ARG COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          2311;
+          AB,ACTLV A,R4 B,R7 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          2230;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          2120;
+          A,R7 ALUF,MASKDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1277;
+          A,R7 ALUF,ORDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,WAIT
+          1301;
+          A,X ALUD,NONE
+          IDBS,BMG COMM,SMPID T,JMP T,HOLD CYCL,WAIT
+          20;
+          A,R6 ALUF,MASKDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,WAIT
+          1300;
+          A,R6 ALUF,MASKDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          3561;
+          A,R5 ALUF,ORDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,WAIT
+          1300;
+          A,R5 ALUF,MASKDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,WAIT
+          1300;
+          A,R6 ALUF,ORDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,WAIT
+          1300;
+          A,X ALUD,NONE
+          IDBS,BMG COMM,SMPID T,JMP T,HOLD CYCL,WAIT
+          20;
+          A,R6 ALUF,ORDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          3562;
+          A,X ALUD,NONE
+          IDBS,BMG COMM,SMPID T,JMP T,HOLD CYCL,WAIT
+          20;
+          A,X ALUD,NONE
+          IDBS,BMG COMM,SMPID T,JMP T,HOLD CYCL,WAIT
+          20;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1111;
+          A,R2 ALUF,D+1
+          IDBS,AARG T,JMP T,HOLD CYCL,SLOW
+          1303;
+          A,R2 ALUF,D+1
+          IDBS,AARG T,JMP T,HOLD CYCL,SLOW
+          1306;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1366;
+          B,A ALUF,PASSD ALUD,B
+          IDBS,STS T,RETURN T,HOLD CYCL,SLOW;
+          AB,OPR A,R6 B,R1 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          1362;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1375;
+          AB,PVL A,R7 B,R5 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          1363;
+          PIC,RSTS B,R5 ALUF,PASSD ALUD,B
+          IDBS,PIC COMM,EPIC T,JMP T,HOLD CYCL,SLOW
+          1343;
+          PIC,RMSK B,R1 ALUF,PASSD ALUD,B
+          IDBS,DSABL COMM,EPIC T,JMP T,HOLD CYCL,SLOW
+          1320;
+          AB,PIE A,R7 B,R3 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          1362;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1401;
+          A,PIL B,A ALUF,PASSD ALUD,B
+          IDBS,BMG T,RETURN T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1364;
+          B,A ALUF,INVD ALUD,B
+          IDBS,PES T,RETURN T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1367;
+          B,A ALUF,INVD ALUD,B
+          IDBS,PEA T,RETURN T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1366;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1366;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1443;
+          ALUF,PASSQ ALUD,NONE STS,LO
+          T,RETURN T,HOLD CYCL,SLOW;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1435;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1373;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1436;
+          A,A
+          T,JMP T,HOLD CYCL,SLOW
+          1407;
+          AB,PID A,R7 B,R4 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          1431;
+          AB,PIE A,R7 B,R3 ALUF,PASSQ ALUD,NONE
+          COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          1422;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1436;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1436;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1436;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1436;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1436;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,SLOW
+          1440;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1436;
+          ALUD,NONE
+          T,JMP T,HOLD CYCL,WAIT
+          1436;
+          A,Z ALUF,PASSD
+          IDBS,IOR T,JMP T,HOLD CYCL,SLOW
+          1133;
+          ALUD,NONE
+          T,RETURN T,POP CYCL,SLOW;
+          A,Z B,A ALUF,PASSD ALUD,B
+          IDBS,IOR T,JMP T,HOLD CYCL,SLOW
+          1136;
+          A,A B,R2 ALUF,INVA ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1156;
+          B,A ALUF,ZERO ALUD,B
+          T,RETURN T,POP CYCL,SLOW;
+          A,A ALUF,PASSA ALUD,NONE
+          COMM,TBSTR T,RETURN T,POP CYCL,SLOW;
+          B,A ALUF,ZERO ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1165;
+          AB,STATUS A,R6 B,R7 ALUF,PASSD
+          IDBS,REG T,JMP T,HOLD CYCL,SLOW
+          1172;
+          A,A ALUF,ZERO ALUD,B
+          T,RETURN T,POP CYCL,SLOW;
+          A,X ALUF,ORDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1175;
+          B,A ALUF,ANDDQ ALUD,B
+          IDBS,ARG T,RETURN T,POP CYCL,SLOW
+          11;
+          A,Z ALUF,ORDQ
+          IDBS,BMG T,JMP T,HOLD CYCL,SLOW
+          1177;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,IRDRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          3671;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,IRDRQ T,JMP MIS,APT T,HOLD CYCL,SLOW
+          3671;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,IRDRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          3670;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,IRDRQ T,JMP MIS,APT T,HOLD CYCL,SLOW
+          3670;
+          A,P B,P ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+          A,B B,P ALUF,A+Q+1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+          A,P B,R1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          3654;
+          A,B B,R1 ALUF,A+Q+1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          3655;
+          A,X B,P ALUF,A+Q+1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+          A,X B,P ALUF,A+Q+1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          3672;
+          A,P B,R1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          3656;
+          A,B B,R1 ALUF,A+Q+1 ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          3657;
+          A,X B,P ALUF,D+A ALUD,B
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          20;
+          B,P ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          20;
+          A,B B,P ALUF,A+B ALUD,B
+          T,JMP T,HOLD CYCL,WAIT
+          20;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,WRRQ T,RETURN T,RETURN MIS,APT T,POP CYCL,SLOW;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,RDRQ T,RETURN T,RETURN MIS,APT T,POP CYCL,SLOW;
+          B,R1 ALUF,B+1 ALUD,B
+          COMM,RDRQ T,RETURN T,RETURN MIS,HOLD T,POP CYCL,SLOW;
+          A,P B,R1 ALUF,A-B ALUD,NONE
+          COMM,ESRP T,NEXT T,HOLD CYCL,WAIT;
+          B,R1 ALUF,B+1 ALUD,B
+          COMM,WRRQ T,RETURN T,RETURN MIS,HOLD T,POP CYCL,SLOW;
+          A,P B,R1 ALUF,A+B ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3717;
+          A,B B,R1 ALUF,A+B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3673;
+          A,P B,R1 ALUF,A+B ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3710;
+          A,B B,R1 ALUF,A+B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3711;
+          A,X B,R1 ALUF,A+B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3673;
+          A,X B,R1 ALUF,A+B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3716;
+          A,P B,R1 ALUF,A+B ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3713;
+          A,B B,R1 ALUF,A+B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3714;
+          B,R1 ALUF,PASSB ALUD,NONE
+          COMM,IRDRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          3712;
+          B,R1 ALUF,PASSB ALUD,NONE
+          COMM,IRDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,R1 ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          3673;
+          B,R1 ALUF,PASSB ALUD,NONE
+          COMM,IRDRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          3715;
+          B,R1 ALUF,PASSB ALUD,NONE
+          COMM,IRDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          A,X B,R1 ALUF,D+A ALUD,B
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          3673;
+          A,B B,R1 ALUF,A+B ALUD,B
+          COMM,WRRQ T,RETURN T,RETURN MIS,APT T,POP CYCL,SLOW;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,WRRQ T,RETURN T,RETURN MIS,PT T,POP CYCL,SLOW;
+          A,P B,R1 ALUF,A+B ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3737;
+          A,B B,R1 ALUF,A+B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3674;
+          A,P B,R1 ALUF,A+B ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3730;
+          A,B B,R1 ALUF,A+B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3731;
+          A,X B,R1 ALUF,A+B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3674;
+          A,X B,R1 ALUF,A+B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3736;
+          A,P B,R1 ALUF,A+B ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3733;
+          A,B B,R1 ALUF,A+B+1 ALUD,B
+          IDBS,DBR COMM,LDGPR T,JMP T,HOLD CYCL,WAIT
+          3734;
+          B,R1 ALUF,PASSB ALUD,NONE
+          COMM,IRDRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          3732;
+          B,R1 ALUF,PASSB ALUD,NONE
+          COMM,IRDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          B,R1 ALUF,PASSD ALUD,B
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          3674;
+          B,R1 ALUF,PASSB ALUD,NONE
+          COMM,IRDRQ T,JMP MIS,PT T,HOLD CYCL,SLOW
+          3735;
+          B,R1 ALUF,PASSB ALUD,NONE
+          COMM,IRDRQ T,NEXT T,NEXT MIS,APT T,HOLD CYCL,SLOW;
+          A,X B,R1 ALUF,D+A ALUD,B
+          IDBS,DBR T,JMP T,HOLD CYCL,WAIT
+          3674;
+          A,B B,R1 ALUF,A+B ALUD,B
+          COMM,RDRQ T,RETURN T,RETURN MIS,APT T,POP CYCL,SLOW;
+          A,R1 ALUF,PASSA ALUD,NONE
+          COMM,RDRQ T,RETURN T,RETURN MIS,PT T,POP CYCL,SLOW;
+          B,R2 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1501;
+          B,R3 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1501;
+          B,R4 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1501;
+          B,R5 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1501;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R6 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1476;
+          B,R7 ALUF,PASSD
+          IDBS,BARG T,JMP T,HOLD CYCL,SLOW
+          1501;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1707;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2026;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2034;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2405;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1747;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1751;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1736;
+          AB,MACL A,R4 B,R1 ALUD,NONE
+          IDBS,ARG COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          1543;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1707;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2026;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2034;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          2405;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1747;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1751;
+          B,P ALUF,B-1 ALUD,B
+          T,JMP T,HOLD CYCL,SLOW
+          1736;
+          AB,MACL A,R4 B,R1 ALUD,NONE
+          IDBS,ARG COMM,EWRF T,JMP T,HOLD CYCL,SLOW
+          1543;

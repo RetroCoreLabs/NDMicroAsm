@@ -32,8 +32,9 @@ tables right.
 
 ## What you can use it for
 
-- **Assemble ND-100 micro code** from the sources recovered from the factory PROMs of the 3033S and
-  3033E-CX cards; the images equal the PROM dumps byte for byte.
+- **Assemble ND-100 micro code** from the sources of the 3033S and 3033E-CX cards (the printed Norsk Data
+  listing, with its labels and comments, written back from the scan); the images equal the PROM dumps
+  byte for byte. The 32 bit floating point listing is there too.
 - **Assemble ND-110 and ND-120 micro code** from the `.uc` sources of the RASK and DELILAH
   micro programs in this repository, for example to build the control store an emulator loads.
 - **Read a micro program as a listing**, with every mnemonic's meaning from the manual beside
@@ -50,7 +51,7 @@ No tagged release yet; `VersionPrefix` is 0.1.0.
 | CPU | Micro word | Assembler | Disassembler | Proof |
 |---|---|---|---|---|
 | NORD-10, NORD-10/CE | 32 bits | yes | yes | both real PROM dumps (1k and 4k) round-trip bit-exact; the checked-in sources assemble to them byte for byte |
-| ND-100 | 64 bits (48 used) | yes | no (in the nd-microcode-meta tools) | the recovered 3033S and 3033E-CX sources assemble to the PROM images byte for byte, and split back to the chips with 0 differences (checked 19 October 2026); the sources are recovered by disassembly, not original |
+| ND-100 | 64 bits (48 used) | yes | no (in the nd-microcode-meta tools) | the 3033S and 3033E-CX sources (written back from the printed listing, instruction words from the chips) assemble to the PROM images byte for byte and split back to the chips with 0 differences (checked 19 October 2026); the 32 bit floating point listing assembles but has no chip dump to be compared with |
 | ND-110 | 64 bits | yes | no | the RASK micro program assembles; its listing and symbol files are in the repository |
 | ND-120 | 64 bits | yes (versions K and L) | no | the DELILAH-L source assembles to the same image, byte for byte, that the NDMicroCpu emulator runs (checked 18 October 2026); the L EPROM dump itself is not in this repository, so that comparison is not repeated here |
 | ND-500 | 144 bits, 9 parts | yes | yes | CONT-STORE-10611, the only preserved ND-500 control store, round-trips byte for byte |

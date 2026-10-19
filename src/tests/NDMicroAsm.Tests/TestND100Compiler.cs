@@ -18,8 +18,10 @@ namespace NDMicroAsm.Tests
     /// bits 22-27 on write, the 12-bit branch address, and the proof against the factory PROMs.
     ///
     /// The PROM proof: the sources microcode/ND-100/ND-100-3033S.uc and ND-100-3033E-CX.uc are
-    /// the disassembly of the 16-chip (3033S) and 32-chip (3033E-CX base and extension bank) PROM
-    /// sets. The reference images microcode/ND-100/REFERENCE/*.CODE are the chips combined by
+    /// the printed Norsk Data listing (labels, comments, operand names) written back from the
+    /// scan, with the instruction words of the 16-chip (3033S) and 32-chip (3033E-CX base and
+    /// extension bank) PROM sets; the plain chip decoding is in the DISASSEMBLY folder. The
+    /// reference images microcode/ND-100/REFERENCE/*.CODE are the chips combined by
     /// tools/nd100-combine.py of nd-microcode-meta, a program that shares no code with this
     /// assembler. The assembled images must equal them byte for byte.
     /// </summary>
@@ -90,7 +92,7 @@ namespace NDMicroAsm.Tests
         // ------------------------------------------------------------------
 
         [Test]
-        public void Tokens_Has299Mnemonics()
+        public void Tokens_Has300Mnemonics()
         {
             var tokens = new ND100Tokens();
             tokens.InitializeTokens();
@@ -99,9 +101,21 @@ namespace NDMicroAsm.Tests
             {
                 if (line.Contains(" [0x")) found++;
             }
-            Assert.That(found, Is.EqualTo(299), "TOKENS.TXT dump of the ND-100 table");
+            Assert.That(found, Is.EqualTo(300), "TOKENS.TXT dump of the ND-100 table");
             Assert.That(tokens.LookupToken("A,Z"), Is.Not.Null);
             Assert.That(tokens.LookupToken("COND,FETCH"), Is.Not.Null);
+        }
+
+        [Test]
+        public void Tokens_NamesOfThePrintedListing()
+        {
+            // The printed listing writes bit 50 as XRF (145 times) and the A operand taken from
+            // the macro instruction register as A,SRCE (the old table had the misreading A,SHCE).
+            Assert.That(Token("XRF"), Is.EqualTo(Token("EN_EXT")), "same bit 50");
+            Assert.That(Token("A,SRCE"), Is.EqualTo(0x14000000000000UL));
+            var tokens = new ND100Tokens();
+            tokens.InitializeTokens();
+            Assert.That(tokens.LookupToken("A,SHCE"), Is.Null);
         }
 
         [Test]
@@ -160,6 +174,15 @@ namespace NDMicroAsm.Tests
         }
 
         [Test]
+        public void Assemble_LabelAndInstructionOnOneLine()
+        {
+            // The printout writes "LABEL: tokens ... operand;" on one line for many instructions.
+            var words = Assemble("0/\nONE: ALUF,PASSD ALUD,Q IDBS,ARG T,RETURN T,POP CYCL,SLOW 1560;\nTWO: B,1 T,JMP ONE CONDENABL;\n");
+            Assert.That(words[0] & 0xFFF, Is.EqualTo(0x370UL), "1560 octal");
+            Assert.That(words[1] & 0xFFF, Is.EqualTo(0UL), "ONE is at address 0");
+        }
+
+        [Test]
         public void Prom3033S_AssemblesToTheChipImage()
         {
             AssertSameAsReference("ND-100-3033S.uc", "3033S-microcode.CODE");
@@ -169,6 +192,41 @@ namespace NDMicroAsm.Tests
         public void Prom3033ECX_BothBanksAssembleToTheChipImages()
         {
             AssertSameAsReference("ND-100-3033E-CX.uc", "3033E-CX-microcode.CODE", "3033E-CX-microcode_ext.CODE");
+        }
+
+        [Test]
+        public void Disassembly3033S_AssemblesToTheChipImage()
+        {
+            AssertSameAsReference(Path.Combine("DISASSEMBLY", "ND-100-3033S.disasm.uc"), "3033S-microcode.CODE");
+        }
+
+        [Test]
+        public void Disassembly3033ECX_AssemblesToTheChipImages()
+        {
+            AssertSameAsReference(Path.Combine("DISASSEMBLY", "ND-100-3033E-CX.disasm.uc"), "3033E-CX-microcode.CODE", "3033E-CX-microcode_ext.CODE");
+        }
+
+        [Test]
+        public void Float32_OnlyTheReplacedWordsDifferFromTheChips()
+        {
+            // The 32 bit floating point PROMs (026XX) replace the words 0o517 - 0o1105 of the
+            // 3033S program. There is no chip dump of them. What can be proved: the file
+            // assembles, and all 1801 words outside the replaced part are the words of the chips.
+            string dir = MicrocodeDir();
+            var assembled = Assemble(File.ReadAllText(Path.Combine(dir, "ND-100-3033S-32BIT-FLOAT.uc")));
+            var chips = ReadCode(File.ReadAllBytes(Path.Combine(dir, "REFERENCE", "3033S-microcode.CODE")));
+            Assert.That(assembled.Count, Is.EqualTo(2048));
+            int different = 0;
+            var outside = new List<string>();
+            foreach (var kv in chips)
+            {
+                bool inside = kv.Key >= System.Convert.ToInt32("517", 8) && kv.Key <= System.Convert.ToInt32("1105", 8);
+                if (assembled[kv.Key] == kv.Value) continue;
+                if (inside) different++;
+                else outside.Add(System.Convert.ToString(kv.Key, 8));
+            }
+            Assert.That(outside, Is.Empty, "words outside 0517-1105 that differ from the chips");
+            Assert.That(different, Is.GreaterThan(200), "the 32 bit routines are other code");
         }
     }
 }

@@ -42,7 +42,7 @@ namespace NDMicroAsm.ND1X0
             AddToken("A,R7", "000000", "000000", "000000", "170000", @"A-OP. IS 17. SCRATCH", Constants.IsA);
             AddToken("A,PIL", "000010", "000000", "000000", "000000", @"A-OP. IS THE 'PIL'-REGISTER, LOADED BY COMM,LDPIL", Constants.IsA);
             AddToken("A,REG", "000020", "000000", "000000", "000000", @"A-OP. IS MACRO-IR BITS 3-6 (loaded by last T,MAPJ)", Constants.IsA);
-            AddToken("A,SHCE", "000024", "000000", "000000", "000000", @"A-OP. IS MACRO-IR BITS 3-5 (loaded by last T,MAPJ)", Constants.IsA);
+            AddToken("A,SRCE", "000024", "000000", "000000", "000000", @"A-OP. IS MACRO-IR BITS 3-5 (loaded by last T,MAPJ)", Constants.IsA);
             AddToken("A,LC", "000030", "000000", "000000", "000000", @"A-OP. IS THE LOOP COUNTER (value from 2 uinstructions ago)", Constants.IsA);
             AddToken("PIC,RSTS", "000000", "000000", "000000", "060000", @"A-OP. IS 6. 'READ STATUS' COMMAND TO INTERRUPT HARDWARE", Constants.IsPIC);
             AddToken("PIC,MCL", "000000", "000000", "000000", "000000", @"A-OP. IS 0. 'MASTER CLEAR' COMMAND TO INTERRUPT HARDWARE", Constants.IsPIC);
@@ -228,7 +228,8 @@ namespace NDMicroAsm.ND1X0
             AddToken("IDBS,DSABL", "000000", "000740", "000000", "000000", @"Disable sources to IDB (used to read PIC-info except PIC status).", Constants.IsIDBS);
             AddToken("IDBS,GPR,SEXT", "000000", "001100", "000000", "000000", @"GPR bits 0-7 (with bits 8-15 equal to bit 7) -> IDB. Sign-extension via SEXT bit 41.", Constants.IsIDBS);
             AddToken("SEXT", "000000", "001000", "000000", "000000", @"Standalone sign-extend modifier (bit 41). Normally combined with IDBS,GPR as the IDBS,GPR,SEXT composite; appears standalone on ND-100 microwords that use SEXT with a non-GPR IDBS source or with IDBS disabled.");
-            AddToken("EN_EXT", "000004", "000000", "000000", "000000", @"Standalone XRF / Enable Extended Register File (bit 50). Normally bit 50 is embedded in composite A_REG tokens such as A,SHCE; this token exists for microwords where bit 50 is asserted but no composite A-operand token matches.");
+            AddToken("EN_EXT", "000004", "000000", "000000", "000000", @"Standalone XRF / Enable Extended Register File (bit 50). Normally bit 50 is embedded in composite A_REG tokens such as A,SRCE; this token exists for microwords where bit 50 is asserted but no composite A-operand token matches.");
+            AddToken("XRF", "000004", "000000", "000000", "000000", @"Enable the extended register file (bit 50). The name used in the printed ND-100 microcode listing; the same bit as EN_EXT.");
             AddToken("COMM,ESRP", "000000", "000010", "000000", "000000", @"Set 'R=P' flip-flop if 'F=0' is true. Detects store into prefetched next location.");
             AddToken("COMM,EPIC", "000000", "000011", "000000", "000000", @"A-operand is an instruction to PIC (Priority Interrupt Controller).");
             AddToken("COMM,SMPID", "000000", "000012", "000000", "000000", @"Set Micro-PID. PID positions where IDB has 1 are forced high (can only set, not clear).");
