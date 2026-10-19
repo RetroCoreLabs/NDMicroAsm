@@ -27,6 +27,12 @@ namespace NDMicroAsm.ND1X0
         bool ND120Compiler = false;
 
         /// <summary>
+        /// True while assembling ND-100 micro code. The ND-100 word has a 12-bit branch address
+        /// (bit 20 is the timing bit TC0, not an address bit) and its own token table.
+        /// </summary>
+        bool ND100Compiler = false;
+
+        /// <summary>
         /// Assembles an ND-110 or ND-120 micro code source file to a control store image.
         /// </summary>
         /// <remarks>
@@ -51,7 +57,36 @@ namespace NDMicroAsm.ND1X0
         /// </returns>
         public Target? AssembleFile(string ucTextFile, bool isND120 = false, string microcodeVersion = "K")
         {
+            return AssembleFileCore(ucTextFile, isND120, false, microcodeVersion);
+        }
+
+        /// <summary>
+        /// Assembles an ND-100 micro code source file to a control store image.
+        /// </summary>
+        /// <remarks>
+        /// Uses the ND-100 token table (ND-06.018.01 EN, NORD-100 Microprogramming Description).
+        /// Like the ND-110, the assembler inverts bits 22-27 of every word when it writes it
+        /// ("bits 22 - 27 are inverted after the word is assembled"), so the .CODE image holds
+        /// the words in the form of the PROMs. Writes NAME.CODE, NAME.LISTING.TXT,
+        /// NAME.SYMBOLS.TXT and NAME.DETAILS.TXT next to the source, and a TOKENS.TXT dump of the
+        /// token table.
+        /// </remarks>
+        /// <param name="ucTextFile">
+        /// Path of the .uc source file.
+        /// </param>
+        /// <returns>
+        /// The assembled image and its source map, or null when the source could not be read or
+        /// had errors.
+        /// </returns>
+        public Target? AssembleFileND100(string ucTextFile)
+        {
+            return AssembleFileCore(ucTextFile, false, true, "K");
+        }
+
+        Target? AssembleFileCore(string ucTextFile, bool isND120, bool isND100, string microcodeVersion)
+        {
             ND120Compiler = isND120;
+            ND100Compiler = isND100;
 
             if (!InitializeFiles(ucTextFile))
             {
@@ -65,7 +100,12 @@ namespace NDMicroAsm.ND1X0
 
             // now we can initialize tokens
 
-            if (isND120)
+            if (isND100)
+            {
+                ndTokens = new ND100Tokens();
+                ndTokens.InitializeTokens();
+            }
+            else if (isND120)
             {
                 var nd120Tokens = new ND120Tokens();
                 nd120Tokens.InitializeTokens();
@@ -356,9 +396,20 @@ namespace NDMicroAsm.ND1X0
                     {
                         // Console.Write("!");
                     }
-                    // Ok, a known Label (use bits 0-11 and bit 20)
+                    // Ok, a known Label (use bits 0-11 and bit 20; ND-100: bits 0-11 only,
+                    // bit 20 is the timing bit TC0 there)
                     l |= (ulong)((ushort)(labelAddress & 0xFFF));
-                    l |= (ulong)((labelAddress >> 12) & 0x01) << 20;
+                    if (ND100Compiler)
+                    {
+                        if (labelAddress > 0xFFF)
+                        {
+                            Console.WriteLine($"Label {strToken} = {Int2Oct(labelAddress)} does not fit the 12-bit ND-100 branch address in {Int2Oct(instruction.Address)}");
+                        }
+                    }
+                    else
+                    {
+                        l |= (ulong)((labelAddress >> 12) & 0x01) << 20;
+                    }
 
                     LogDetailCompile($"{strToken.PadRight(17)} => Token address {Int2Oct(labelAddress)}");
                     continue;
@@ -367,7 +418,13 @@ namespace NDMicroAsm.ND1X0
                 int numeric = ParseIntValue(strToken);
                 if (numeric >= 0)
                 {
-                    if (splitNumericsAsAddress && numeric <= 0x1FFF)
+                    if (splitNumericsAsAddress && ND100Compiler && numeric <= 0xFFF)
+                    {
+                        // ND-100: a 12-bit branch target, bits 11:0 only.
+                        l |= (ulong)((ushort)(numeric & 0xFFF));
+                        LogDetailCompile($"{strToken.PadRight(17)} => Address {Int2Oct(numeric)} (12-bit)");
+                    }
+                    else if (splitNumericsAsAddress && !ND100Compiler && numeric <= 0x1FFF)
                     {
                         // Treat as 13-bit branch target - split bit 12
                         // out to bit 20 the same way a label is handled.
@@ -392,7 +449,8 @@ namespace NDMicroAsm.ND1X0
 
             if (ND120Compiler == false)
             {
-                // Convert to ND-110 token
+                // Convert to ND-110 / ND-100 token form: bits 22-27 are stored inverted.
+                // ND-06.031.1 chapter 4 (ND-110) and ND-06.018.01 "Writing the Microprogram" (ND-100).
                 l = l ^ 0x000000000FC00000; // Invert bit 22-27
             }
 

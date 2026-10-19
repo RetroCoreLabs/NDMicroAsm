@@ -13,4 +13,9 @@
     <None Remove="microcode\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- The ND-1x0 assembler (Compiler) and its token tables are internal; the tests of the ND-100 assembler call them. -->
+    <InternalsVisibleTo Include="NDMicroAsm.Tests" />
+  </ItemGroup>
+
 </Project>

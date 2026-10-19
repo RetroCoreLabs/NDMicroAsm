@@ -64,6 +64,19 @@ switch (args[0])
         return asm.AssembleFile(args[1], isND120: true, microcodeVersion: version) != null ? 0 : 1;
     }
 
+    // ------------------------------------------------------------ ND-100 (64-bit micro word, 48 bits used)
+
+    // nd100-asm <source.uc>: assemble ND-100 micro code (mnemonics of the NORD-100
+    // Microprogramming Description, ND-06.018.01 EN) to <source>.CODE. Bits 22-27 of each
+    // word are written inverted, like the ND-110 ("bits 22 - 27 are inverted after the word
+    // is assembled"), so the image is in the form of the PROMs.
+    case "nd100-asm":
+    {
+        if (!ExpectArgs(2, "nd100-asm <source.uc>")) return 1;
+        using Compiler asm = new Compiler();
+        return asm.AssembleFileND100(args[1]) != null ? 0 : 1;
+    }
+
     // ------------------------------------------------------------ NORD-10 (32-bit micro word)
 
     // nd10-asm <source.uc>: assemble NORD-10 MICMAC source to a ROM image
@@ -235,6 +248,9 @@ static void PrintUsage()
     Console.WriteLine("  NORD-10 (32-bit micro word, MICMAC mnemonics of ND-06.010.01)");
     Console.WriteLine("    nd10-asm      <source.uc>                      -> <source>.hex, <source>.CODE, listing, symbols");
     Console.WriteLine("    nd10-disasm   <prom.hex> <output.uc>            lossless disassembly of a PROM dump");
+    Console.WriteLine();
+    Console.WriteLine("  ND-100 (64-bit micro word with 48 bits used, ND-06.018.01 EN)");
+    Console.WriteLine("    nd100-asm     <source.uc>                      -> <source>.CODE (bits 22-27 inverted, PROM form), listing, symbols, details");
     Console.WriteLine();
     Console.WriteLine("  ND-110 and ND-120 (64-bit micro word, ND-06.031.1 EN)");
     Console.WriteLine("    nd110-asm     <source.uc>                      -> <source>.CODE, listing, symbols, details");

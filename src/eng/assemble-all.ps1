@@ -41,6 +41,8 @@ if (-not (Test-Path $exe)) {
 $sources = @(
     @('nd10-asm',   'NORD-10\NORD-10.uc'),                 # NORD-10 1k micro program, equals NORD-10\REFERENCE\NORD-10-1K-prom.hex
     @('nd10-asm',   'NORD-10\NORD-10-CE.uc'),              # NORD-10/CE 4k micro program, equals NORD-10\REFERENCE\NORD-10-CE-4K-prom4k.hex
+    @('nd100-asm',  'ND-100\ND-100-3033S.uc'),            # ND-100 3033S, recovered from the PROMs, equals ND-100\REFERENCE\3033S-microcode.CODE
+    @('nd100-asm',  'ND-100\ND-100-3033E-CX.uc'),         # ND-100 3033E-CX (both banks), equals the two files of ND-100\REFERENCE
     @('nd110-asm',  'ND-110\ND-110-RASK.uc'),              # ND-110 RASK
     @('nd120-asm',  'ND-120\ND-120-DELILAH-K.uc', 'K'),    # ND-120 DELILAH version K, from the printed listing
     @('nd120-asm',  'ND-120\ND-120-DELILAH-L.uc', 'L'),    # ND-120 DELILAH version L, bit-exact against the L EPROM dump

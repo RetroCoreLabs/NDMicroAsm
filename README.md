@@ -5,7 +5,7 @@
 [![licence](https://img.shields.io/github/license/RetroCoreLabs/NDMicroAsm)](LICENSE)
 [![downloads](https://img.shields.io/github/downloads/RetroCoreLabs/NDMicroAsm/total)](https://github.com/RetroCoreLabs/NDMicroAsm/releases)
 
-**NDMicroAsm is a command-line tool that assembles and disassembles the micro code of five generations of Norsk Data CPUs, from the NORD-10 of the 1970s to the ND-5000.**
+**NDMicroAsm is a command-line tool that assembles and disassembles the micro code of six generations of Norsk Data CPUs, from the NORD-10 of the 1970s to the ND-5000.**
 
 **[Documentation site](https://retrocorelabs.github.io/NDMicroAsm/)** - the guides and the API reference, built by `.github/workflows/docs.yml`.
 
@@ -32,6 +32,8 @@ tables right.
 
 ## What you can use it for
 
+- **Assemble ND-100 micro code** from the sources recovered from the factory PROMs of the 3033S and
+  3033E-CX cards; the images equal the PROM dumps byte for byte.
 - **Assemble ND-110 and ND-120 micro code** from the `.uc` sources of the RASK and DELILAH
   micro programs in this repository, for example to build the control store an emulator loads.
 - **Read a micro program as a listing**, with every mnemonic's meaning from the manual beside
@@ -48,12 +50,13 @@ No tagged release yet; `VersionPrefix` is 0.1.0.
 | CPU | Micro word | Assembler | Disassembler | Proof |
 |---|---|---|---|---|
 | NORD-10, NORD-10/CE | 32 bits | yes | yes | both real PROM dumps (1k and 4k) round-trip bit-exact; the checked-in sources assemble to them byte for byte |
+| ND-100 | 64 bits (48 used) | yes | no (in the nd-microcode-meta tools) | the recovered 3033S and 3033E-CX sources assemble to the PROM images byte for byte, and split back to the chips with 0 differences (checked 19 October 2026); the sources are recovered by disassembly, not original |
 | ND-110 | 64 bits | yes | no | the RASK micro program assembles; its listing and symbol files are in the repository |
 | ND-120 | 64 bits | yes (versions K and L) | no | the DELILAH-L source assembles to the same image, byte for byte, that the NDMicroCpu emulator runs (checked 18 October 2026); the L EPROM dump itself is not in this repository, so that comparison is not repeated here |
 | ND-500 | 144 bits, 9 parts | yes | yes | CONT-STORE-10611, the only preserved ND-500 control store, round-trips byte for byte |
 | ND-5000 | 128 bits, 8 parts | yes | yes | all 13 preserved micro code images (212,992 words) round-trip with 0 mismatches |
 
-Test suite: 111 tests, all passing (measured 18 October 2026, with the external dumps present).
+Test suite: 113 tests, all passing (measured 19 October 2026).
 
 ## Prerequisites
 
@@ -78,6 +81,7 @@ Test suite: 111 tests, all passing (measured 18 October 2026, with the external 
 |---|---|
 | `nd10-asm <source.uc>` | NORD-10 MICMAC source to `.hex` (prom.hex format) and `.CODE` |
 | `nd10-disasm <prom.hex> <out.uc>` | lossless disassembly of a NORD-10 PROM dump |
+| `nd100-asm <source.uc>` | ND-100 source to `.CODE` (bits 22-27 inverted, as the PROMs hold them), listing, symbols, details |
 | `nd110-asm <source.uc>` | ND-110 source to `.CODE`, listing, symbols, details |
 | `nd120-asm <source.uc> [K\|L]` | the same with the ND-120 token table; `L` applies the version-L fixup |
 | `nd500-asm <source.uc>` | ND-500 source to an 8K-word PACKED18 image |
