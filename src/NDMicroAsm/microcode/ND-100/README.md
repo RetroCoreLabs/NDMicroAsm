@@ -8,6 +8,7 @@
 | `DISASSEMBLY/` | The plain decoding of the chips (names `L<address>` for the decode PLA entry points, no comments), for the 3033S and the 3033E-CX. |
 | `*.CODE`, `*.LISTING.TXT`, `*.SYMBOLS.TXT`, `*.DETAILS.TXT`, `TOKENS.TXT` | Written by `ndmicroasm nd100-asm`, see below. |
 | `REFERENCE/` | The PROM images the sources must reproduce, see `REFERENCE/README.md`. |
+| `ND-100-MAPPING.md` | The mapping PROM (decode PLA, 3 x 82S185 per card) that turns the machine instruction in IR into the first microcode address: how the hardware uses it, the full table for the 3033S and 3033E-CX, and the checks against the sources and the ND-110. Written by `src/eng/nd100-mapping-table.py` from the chip dumps in `REFERENCE/DECODE/`. |
 
 ## Where the text comes from
 
