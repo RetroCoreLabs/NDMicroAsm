@@ -35,6 +35,20 @@ How it was made, and how each part was checked:
    It does not prove the spelling of a label that nothing jumps to, of the comments, or of the register
    operand spelling; those were checked against the page images only. 153 places carry a reader's doubt
    (mostly letter O against digit 0); the choice made is the one the reader judged more likely.
+5. Letter O against digit 0 in the 467 label definitions that contain one of them (206 different names) was then
+   measured on the page images, because the exact match above cannot tell them apart for a label that no
+   jump uses. In this print the digit 0 is a narrow, tall oval and the letter O is wider and rounder (the
+   address column on every line is the reference for the digit). A linear classifier on height, width and
+   ink of the glyph (97 % right on single glyphs) was trained on certain zeros (octal operands such as
+   `177700;` in the code columns) and certain letter O (long English words in the comments), and applied
+   to every label definition (found by its printed address) and every jump operand that spells the label.
+   It found `REX00`, `REX01`, `REX02` and `REX03` wrong: the print has a letter O as 4th character,
+   `REXO0` `REXO1` `REXO2` `REXO3` (checked by eye on page 97). The 24 labels with weak or no measurement
+   (`BWLOO COMD COMME DMP10 MEMOT MM0 MM00 MVW0 PMODX SW0 TOPWD TRM0 TRM20 BSET0 MOVB0 RAD10 RADD0 RAND0
+   SETK0 IOF2` and the four REX labels) were each looked at on the image by eye; all others agree with the
+   measurement. The ND-110 and ND-120 sources cannot settle this: they disagree with each other on the same
+   names (for example `BSET0` in ND-110 RASK, `BSETO` in ND-120 DELILAH K and L). Not covered by this check:
+   O against 0 in comment text, and other look-alike pairs (I and 1, S and 5, B and 8).
 
 ### What the PROMs hold that the print does not say
 
