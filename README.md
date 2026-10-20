@@ -51,7 +51,7 @@ No tagged release yet; `VersionPrefix` is 0.1.0.
 | CPU | Micro word | Assembler | Disassembler | Proof |
 |---|---|---|---|---|
 | NORD-10, NORD-10/CE | 32 bits | yes | yes | both real PROM dumps (1k and 4k) round-trip bit-exact; the checked-in sources assemble to them byte for byte |
-| ND-100 | 64 bits (48 used) | yes | no (in the nd-microcode-meta tools) | the 3033S and 3033E-CX sources (written back from the printed listing, instruction words from the chips) assemble to the PROM images byte for byte and split back to the chips with 0 differences (checked 19 October 2026); the 32 bit floating point listing assembles but has no chip dump to be compared with |
+| ND-100 | 64 bits (48 used) | yes | no (the VS Code extension and the nd100uc web page disassemble it) | the 3033S and 3033E-CX sources (written back from the printed listing, instruction words from the chips) assemble to the PROM images byte for byte and split back to the chips with 0 differences (checked 19 October 2026); the 32 bit floating point listing assembles but has no chip dump to be compared with |
 | ND-110 | 64 bits | yes | no | the RASK micro program assembles; its listing and symbol files are in the repository |
 | ND-120 | 64 bits | yes (versions K and L) | no | the DELILAH-L source assembles to the same image, byte for byte, that the NDMicroCpu emulator runs (checked 18 October 2026); the L EPROM dump itself is not in this repository, so that comparison is not repeated here |
 | ND-500 | 144 bits, 9 parts | yes | yes | CONT-STORE-10611, the only preserved ND-500 control store, round-trips byte for byte |
@@ -150,8 +150,11 @@ platform means no release at all.
 
 - [Documentation site](https://retrocorelabs.github.io/NDMicroAsm/) - the guides below and the
   API reference, generated from the XML comments
-- [ND-500 and ND-5000 assemblers](src/docs/ND500-ND5000-Assemblers.md) - the source dialects,
-  where the token values come from, the output formats and how the round trips are validated
+- [Microcode assemblers](src/docs/Microcode-Assemblers.md) - the six CPUs side by side and the files an
+  assembler writes, with one page each for NORD-10, ND-100, ND-110, ND-120, ND-500 and ND-5000: the source
+  dialect, where the token values come from, the output format and the proof
+- [ND-100 micro code](src/NDMicroAsm/microcode/ND-100/README.md) - how the sources were written back from
+  the printed listing, and [the ND-100 mapping PROM](src/NDMicroAsm/microcode/ND-100/ND-100-MAPPING.md)
 - [NORD-10 reference PROM dumps](src/NDMicroAsm/microcode/NORD-10/REFERENCE/README.md) - the two
   real images the NORD-10 sources are checked against
 - [DocFX site](src/docfx/README.md) - how the API reference is built

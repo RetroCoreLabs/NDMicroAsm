@@ -20,9 +20,21 @@ All notable changes to NDMicroAsm are recorded here. The format follows
 - `microcode/ND-100/ND-100-3033S-32BIT-FLOAT.uc`: the 3033S program with the printed 32 bit floating
   point listing (PROM 026XX) in place of the words 0o517-0o1105. No chip dump exists; the words outside
   the replaced part equal the 3033S chips.
+- `microcode/ND-100/ND-100-MAPPING.md` and `eng/nd100-mapping-table.py`: the ND-100 mapping PROM (decode PLA,
+  three 82S185 chips per card) decoded from the chip dumps in `microcode/ND-100/REFERENCE/DECODE/`, with how
+  the hardware uses it and checks against the sources and the ND-110.
+- Documentation: the page `docs/Microcode-Assemblers.md` covers all six CPUs, with one detail page each in
+  `docs/Microcode-Assemblers/` (NORD-10, ND-100, ND-110, ND-120, ND-500, ND-5000) and one for the round-trip
+  validation. It replaces `docs/ND500-ND5000-Assemblers.md`. `docfx/gen_toc.py` lists a page's sub pages under it.
+
 - The ND-100 token table has the printed names `XRF` (same bit as `EN_EXT`) and `A,SRCE`; the table's
   earlier `A,SHCE` was a misreading of the dot matrix print of the manual.
 
 - Repository created from the `ND110Compile` project of the original ND-110 emulator
   repository: the micro code assemblers and disassemblers for NORD-10, ND-110, ND-120,
   ND-500 and ND-5000, their micro code sources, reference PROM dumps and tests.
+
+### Changed
+
+- ND-100 labels `REX00`..`REX03` are spelled `REXO0`..`REXO3` (letter O), as the print has them. The words
+  do not change.

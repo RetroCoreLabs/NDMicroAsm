@@ -20,8 +20,12 @@ The CPUs it covers:
 
 Start here:
 
-- [The assemblers in detail](../docs/ND500-ND5000-Assemblers.md) - the source dialect, the
-  output formats and the round-trip proof of each assembler.
+- [Microcode assemblers](../docs/Microcode-Assemblers.md) - the six CPUs side by side, the output files,
+  and one page each for the source dialect, output format and proof of NORD-10, ND-100, ND-110, ND-120,
+  ND-500 and ND-5000.
+- [ND-100 micro code](../NDMicroAsm/microcode/ND-100/README.md) and
+  [the ND-100 mapping PROM](../NDMicroAsm/microcode/ND-100/ND-100-MAPPING.md) - the sources written back
+  from the printed listing, and how the instruction decoder PROM works.
 - [NORD-10 reference PROM dumps](../NDMicroAsm/microcode/NORD-10/REFERENCE/README.md) - the two
   real ROM dumps the NORD-10 assembler must reproduce, and where they come from.
 - [API reference](api/index.md) - every namespace, class and member.
