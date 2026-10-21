@@ -12834,57 +12834,23 @@ SZCB:   AB,CMBNK                                ALUD,NONE
  5740/
 
 MVWVC:
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        MVWO;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        MVW1;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        MVW2;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        MVW3;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        MVW4;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        MVW5;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        MVW6;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        MVW7;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        MVW8;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        ILLIN;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        ILLIN;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        ILLIN;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        ILLIN;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        ILLIN;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        ILLIN;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        ILLIN;
-                                                ALUD,NONE
-        IDBS,ALU                                T,JMP       T,HOLD
-        ILLIN;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  MVWO;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  MVW1;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  MVW2;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  MVW3;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  MVW4;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  MVW5;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  MVW6;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  MVW7;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  MVW8;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  ILLIN;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  ILLIN;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  ILLIN;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  ILLIN;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  ILLIN;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  ILLIN;
+        ALUD,NONE IDBS,ALU   T,JMP       T,HOLD  ILLIN;        
+       
 %
 
 
@@ -12893,8 +12859,7 @@ MVWVC:
 % VECTOR TO SELECT BETWEEN INSTRUCTIONS IN THE 1403XX-GROUP
 %
 
-
- 5760/
+5760/
 
 SETPT:  A,13 B,R7           ALUF,PASSD          ALUD,B
         IDBS,BMG                                T,JMP       T,HOLD

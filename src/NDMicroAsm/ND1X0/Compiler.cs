@@ -125,8 +125,8 @@ namespace NDMicroAsm.ND1X0
 
             // Suffix the dump per version so compiling K and L from the same
             // directory doesn't overwrite one table with the other.
-            string strTokensFile = Path.GetDirectoryName(ucTextFile) +
-                ((isND120 && microcodeVersion == "L") ? "/TOKENS-L.TXT" : "/TOKENS.TXT");
+            string strTokensFile = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(ucTextFile))!,
+                (isND120 && microcodeVersion == "L") ? "TOKENS-L.TXT" : "TOKENS.TXT");
             ndTokens.DumpAllTokensToFile(strTokensFile);
 
 

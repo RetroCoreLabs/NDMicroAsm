@@ -47,7 +47,6 @@ $sources = @(
     @('nd110-asm',  'ND-110\ND-110-RASK.uc'),              # ND-110 RASK
     @('nd120-asm',  'ND-120\ND-120-DELILAH-K.uc', 'K'),    # ND-120 DELILAH version K, from the printed listing
     @('nd120-asm',  'ND-120\ND-120-DELILAH-L.uc', 'L'),    # ND-120 DELILAH version L, bit-exact against the L EPROM dump
-    @('nd120-asm',  'ND-120\ND-120-DELILAH-L-PATCH.uc', 'L'), # version L plus COMM,LDIRV in IOXG word 2 (see the source header)
     @('nd500-asm',  'ND-500\ND-500-EXAMPLE.uc'),           # ND-500 example (word 0 carries the assembly date)
     @('nd500-asm',  'ND-500\CONT-STORE-10611.uc')          # the real ND-500 control store, disassembled and reassembled bit-exact
 )

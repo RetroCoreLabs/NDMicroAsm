@@ -101,7 +101,7 @@ namespace NDMicroAsm.ND5000
             ndTokens = new ND5000Tokens();
             ndTokens.InitializeTokens();
 
-            string strTokensFile = Path.GetDirectoryName(ucTextFile) + "/TOKENS-ND5000.TXT";
+            string strTokensFile = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(ucTextFile))!, "TOKENS-ND5000.TXT");
             ndTokens.DumpAllTokensToFile(strTokensFile);
 
             Target? result = null;

@@ -57,7 +57,7 @@ No tagged release yet; `VersionPrefix` is 0.1.0.
 | ND-500 | 144 bits, 9 parts | yes | yes | CONT-STORE-10611, the only preserved ND-500 control store, round-trips byte for byte |
 | ND-5000 | 128 bits, 8 parts | yes | yes | all 13 preserved micro code images (212,992 words) round-trip with 0 mismatches |
 
-Test suite: 122 tests, all passing; 4 of them skip themselves unless `ND500UC_MC_DIR` and `ND5000UC_MC_DIR` are set (measured 21 October 2026).
+Test suite: 121 tests, all passing; 4 of them skip themselves unless `ND500UC_MC_DIR` and `ND5000UC_MC_DIR` are set (measured 21 October 2026).
 
 ## Prerequisites
 

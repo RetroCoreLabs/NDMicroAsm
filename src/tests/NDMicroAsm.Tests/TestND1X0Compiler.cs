@@ -112,18 +112,6 @@ namespace NDMicroAsm.Tests
         }
 
         [Test]
-        public void ND120_DelilahLPatch_DiffersFromTheEpromInOneWord()
-        {
-            // ND-120-DELILAH-L-PATCH.uc is version L plus COMM,LDIRV in one word; the chips do not
-            // have that change, so exactly that word (0o500) differs.
-            var words = AssembleFile("ND-120", "ND-120-DELILAH-L-PATCH.uc", true, "L");
-            ulong[] rom = ReadChips("ND-120", "AM27256_45132L.bin", "AM27256_45133L.bin");
-
-            var wrong = words.Where(w => rom[w.Key] != w.Value).Select(w => w.Key).ToList();
-            Assert.That(wrong, Is.EqualTo(new List<int> { 0x140 }), "0o500 is 0x140");
-        }
-
-        [Test]
         public void ND120_VersionL_RemovesDly1FromTheRegisterSelectTokens()
         {
             // Version K and L differ in B,P / B,B / B,X: version L has no DLY1 (word 2, 004000

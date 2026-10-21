@@ -41,3 +41,6 @@ All notable changes to NDMicroAsm are recorded here. The format follows
 
 - ND-100 labels `REX00`..`REX03` are spelled `REXO0`..`REXO3` (letter O), as the print has them. The words
   do not change.
+- `ND-120-DELILAH-L-PATCH` (source, outputs, test) is removed; its origin was unknown and nothing used it.
+- A source file given without a folder (for example `ndmicroasm nd100-asm r100.uc`) no longer fails on writing the
+  TOKENS dump to the root of the drive; the dump goes next to the source, as for a path with a folder.
