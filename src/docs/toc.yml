@@ -22,6 +22,10 @@
   href: ../NDMicroAsm/microcode/ND-100/README.md
 - name: ND-100 reference PROM images
   href: ../NDMicroAsm/microcode/ND-100/REFERENCE/README.md
+- name: ND-110 micro code
+  href: ../NDMicroAsm/microcode/ND-110/README.md
+- name: ND-120 micro code
+  href: ../NDMicroAsm/microcode/ND-120/README.md
 - name: NORD-10 micro code reference dumps
   href: ../NDMicroAsm/microcode/NORD-10/REFERENCE/README.md
 - name: Changelog

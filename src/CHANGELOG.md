@@ -23,6 +23,9 @@ All notable changes to NDMicroAsm are recorded here. The format follows
 - `microcode/ND-100/ND-100-MAPPING.md` and `eng/nd100-mapping-table.py`: the ND-100 mapping PROM (decode PLA,
   three 82S185 chips per card) decoded from the chip dumps in `microcode/ND-100/REFERENCE/DECODE/`, with how
   the hardware uses it and checks against the sources and the ND-110.
+- Reference EPROM images of the ND-110 3095 card and the ND-120 card in `microcode/ND-110/REFERENCE/` and
+  `microcode/ND-120/REFERENCE/`, READMEs for both folders, and `TestND1X0Compiler`: all 4886 words of
+  `ND-120-DELILAH-L.uc` equal the ND-120 chips; 4257 of the 4865 RASK words equal the ND-110 chips.
 - Documentation: the page `docs/Microcode-Assemblers.md` covers all six CPUs, with one detail page each in
   `docs/Microcode-Assemblers/` (NORD-10, ND-100, ND-110, ND-120, ND-500, ND-5000) and one for the round-trip
   validation. It replaces `docs/ND500-ND5000-Assemblers.md`. `docfx/gen_toc.py` lists a page's sub pages under it.

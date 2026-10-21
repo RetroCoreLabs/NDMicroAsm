@@ -52,12 +52,12 @@ No tagged release yet; `VersionPrefix` is 0.1.0.
 |---|---|---|---|---|
 | NORD-10, NORD-10/CE | 32 bits | yes | yes | both real PROM dumps (1k and 4k) round-trip bit-exact; the checked-in sources assemble to them byte for byte |
 | ND-100 | 64 bits (48 used) | yes | no (the VS Code extension and the nd100uc web page disassemble it) | the 3033S and 3033E-CX sources (written back from the printed listing, instruction words from the chips) assemble to the PROM images byte for byte and split back to the chips with 0 differences (checked 19 October 2026); the 32 bit floating point listing assembles but has no chip dump to be compared with |
-| ND-110 | 64 bits | yes | no | the RASK micro program assembles; its listing and symbol files are in the repository |
-| ND-120 | 64 bits | yes (versions K and L) | no | the DELILAH-L source assembles to the same image, byte for byte, that the NDMicroCpu emulator runs (checked 18 October 2026); the L EPROM dump itself is not in this repository, so that comparison is not repeated here |
+| ND-110 | 64 bits | yes | no (the VS Code extension and the nd100uc web page disassemble it) | the RASK source (version 0o13) assembles; 4257 of its 4865 words equal the words of the real 3095 EPROMs (version 0o14), the other 608 are the version change |
+| ND-120 | 64 bits | yes (versions K and L) | no (the VS Code extension and the nd100uc web page disassemble it) | all 4886 words of the DELILAH-L source equal the words of the real ND-120 EPROM pair in `src/NDMicroAsm/microcode/ND-120/REFERENCE/` |
 | ND-500 | 144 bits, 9 parts | yes | yes | CONT-STORE-10611, the only preserved ND-500 control store, round-trips byte for byte |
 | ND-5000 | 128 bits, 8 parts | yes | yes | all 13 preserved micro code images (212,992 words) round-trip with 0 mismatches |
 
-Test suite: 113 tests, all passing (measured 19 October 2026).
+Test suite: 122 tests, all passing; 4 of them skip themselves unless `ND500UC_MC_DIR` and `ND5000UC_MC_DIR` are set (measured 21 October 2026).
 
 ## Prerequisites
 
